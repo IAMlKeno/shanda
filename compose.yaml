@@ -3,21 +3,6 @@ networks:
     driver: bridge
 
 services:
-  # app:
-  #   container_name: mindgames_ng
-  #   build:
-  #     context: ./app
-  #     dockerfile: app.Dockerfile
-  #   ports:
-  #     - 4201:5173
-  #   expose:
-  #     - 4201
-  #     - 5173
-  #   volumes:
-  #     - ./app:/project
-  #     - ./app/node_modules:/project/node_modules
-  #   networks:
-  #     - shanda-network
   cms:
     container_name: shanda_cms
     build:
