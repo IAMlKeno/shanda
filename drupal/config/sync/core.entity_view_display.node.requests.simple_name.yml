@@ -1,0 +1,94 @@
+uuid: 897100e2-20cf-4855-a838-0a24134e6af5
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.simple_name
+    - field.field.node.requests.field_bids_made
+    - field.field.node.requests.layout_builder__layout
+    - node.type.requests
+  module:
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          22da0954-24b5-4524-8e34-41be136b98a3:
+            uuid: 22da0954-24b5-4524-8e34-41be136b98a3
+            region: content
+            configuration:
+              id: 'field_block:node:requests:title'
+              label: Title
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          952e038b-ac6a-4305-ba74-052abace3ab8:
+            uuid: 952e038b-ac6a-4305-ba74-052abace3ab8
+            region: content
+            configuration:
+              id: 'field_block:node:requests:created'
+              label: Created
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: timestamp
+                label: inline
+                settings:
+                  date_format: olivero_medium
+                  custom_date_format: ''
+                  timezone: ''
+                  tooltip:
+                    date_format: long
+                    custom_date_format: ''
+                  time_diff:
+                    enabled: false
+                    future_format: '@interval hence'
+                    past_format: '@interval ago'
+                    granularity: 2
+                    refresh: 60
+                    description: ''
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+        third_party_settings: {  }
+id: node.requests.simple_name
+targetEntityType: node
+bundle: requests
+mode: simple_name
+content:
+  field_bids_made:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  layout_builder__layout: true

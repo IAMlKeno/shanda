@@ -1,0 +1,66 @@
+uuid: 0356c77b-684d-4605-9b60-8ba02d4373f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.customer_dashboard
+    - views.view.available_requests
+    - views.view.whoami
+  module:
+    - layout_builder
+    - layout_discovery
+    - user
+    - views
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: Heading
+          context_mapping: {  }
+        components: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: ''
+          context_mapping: {  }
+          column_widths: 25-75
+        components:
+          e73d9232-ca4e-4eb8-b170-2df34bca0bcb:
+            uuid: e73d9232-ca4e-4eb8-b170-2df34bca0bcb
+            region: first
+            configuration:
+              id: 'views_block:whoami-block_1'
+              label: ''
+              label_display: visible
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+            weight: 0
+            additional: {  }
+          3988593c-8efd-4843-9c96-ce3f3b6cd956:
+            uuid: 3988593c-8efd-4843-9c96-ce3f3b6cd956
+            region: second
+            configuration:
+              id: 'views_block:available_requests-block_2'
+              label: ''
+              label_display: visible
+              provider: views
+              context_mapping: {  }
+              views_label: ''
+              items_per_page: none
+            weight: 0
+            additional: {  }
+        third_party_settings: {  }
+id: node.customer_dashboard.default
+targetEntityType: node
+bundle: customer_dashboard
+mode: default
+content: {  }
+hidden:
+  links: true

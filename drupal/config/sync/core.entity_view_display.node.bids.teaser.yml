@@ -1,0 +1,143 @@
+uuid: e90af00e-f1a4-4766-b376-ff3085e1fd87
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.bids.body
+    - field.field.node.bids.field_amount
+    - field.field.node.bids.field_customer_request
+    - field.field.node.bids.field_status
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_last_name
+    - node.type.bids
+  module:
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          b47bcde4-4a5d-4bf6-b18a-6cf39787ee70:
+            uuid: b47bcde4-4a5d-4bf6-b18a-6cf39787ee70
+            region: content
+            configuration:
+              id: 'field_block:node:bids:field_amount'
+              label: 'Bid:'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: number_decimal
+                label: inline
+                settings:
+                  thousand_separator: ','
+                  decimal_separator: .
+                  scale: 2
+                  prefix_suffix: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          5bba88b5-fbeb-4e3e-9d96-0158100397b3:
+            uuid: 5bba88b5-fbeb-4e3e-9d96-0158100397b3
+            region: content
+            configuration:
+              id: 'field_block:node:bids:field_status'
+              label: Status
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: inline
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: 'made by'
+          context_mapping: {  }
+          column_widths: 50-50
+        components:
+          9b848dd3-b0f2-4de2-95ca-ee5916e173ad:
+            uuid: 9b848dd3-b0f2-4de2-95ca-ee5916e173ad
+            region: first
+            configuration:
+              id: 'field_block:user:user:field_first_name'
+              label: 'Made by'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: '@user.current_user_context:current_user'
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: inline
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          fef91fdb-7131-4463-9429-8835fde16158:
+            uuid: fef91fdb-7131-4463-9429-8835fde16158
+            region: second
+            configuration:
+              id: 'field_block:user:user:field_last_name'
+              label: 'Last Name'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: '@user.current_user_context:current_user'
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+        third_party_settings: {  }
+id: node.bids.teaser
+targetEntityType: node
+bundle: bids
+mode: teaser
+content:
+  field_amount:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_status:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  body: true
+  field_customer_request: true
+  links: true

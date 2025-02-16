@@ -1,0 +1,22 @@
+uuid: 850f2c80-75bf-4c06-900a-ee76ce434b03
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: service_provider_dashboard
+label: 'Service Provider Dashboard'
+type: 'canonical_entities:node'
+pattern: 'provider/[node:title]'
+selection_criteria:
+  01b5994f-c27f-48e9-8174-2c883f856b76:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 01b5994f-c27f-48e9-8174-2c883f856b76
+    context_mapping:
+      node: node
+    bundles:
+      service_provider_dashboard: service_provider_dashboard
+selection_logic: and
+weight: -5
+relationships: {  }

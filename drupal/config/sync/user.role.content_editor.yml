@@ -1,0 +1,52 @@
+uuid: 00fbb141-8cd5-4ecf-b778-e55de2976bd4
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.article
+    - node.type.bids
+    - node.type.job
+    - node.type.page
+    - taxonomy.vocabulary.tags
+  module:
+    - comment
+    - contextual
+    - file
+    - node
+    - path
+    - system
+    - taxonomy
+    - toolbar
+_core:
+  default_config_hash: e_wG1u7SrGaJbY2-Szgbgl-c8T3kdirU3uTNq2c_QJQ
+id: content_editor
+label: 'Service Provider'
+weight: 2
+is_admin: false
+permissions:
+  - 'access administration pages'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access files overview'
+  - 'access toolbar'
+  - 'administer url aliases'
+  - 'create article content'
+  - 'create bids content'
+  - 'create job content'
+  - 'create page content'
+  - 'create terms in tags'
+  - 'create url aliases'
+  - 'delete own article content'
+  - 'delete own bids content'
+  - 'delete own files'
+  - 'delete own page content'
+  - 'edit own article content'
+  - 'edit own bids content'
+  - 'edit own comments'
+  - 'edit own job content'
+  - 'edit own page content'
+  - 'edit terms in tags'
+  - 'view bids revisions'
+  - 'view job revisions'
+  - 'view own unpublished content'
+  - 'view the administration theme'

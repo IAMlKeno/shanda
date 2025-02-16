@@ -1,0 +1,18 @@
+uuid: f840e782-3bcc-4291-803e-2fad8ba07d8b
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Requests
+type: requests
+description: 'Requests made by customers. Can be bid on'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

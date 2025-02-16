@@ -1,0 +1,20 @@
+uuid: 76131f93-33d5-4f03-acec-dbf9b7cea94e
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.customer_dashboard
+  module:
+    - user
+id: node.customer_dashboard.teaser
+targetEntityType: node
+bundle: customer_dashboard
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

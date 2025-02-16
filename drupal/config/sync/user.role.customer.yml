@@ -1,0 +1,22 @@
+uuid: 1f61817f-6331-4c11-bc13-f546ccd3e5dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.requests
+    - node.type.vehicle
+  module:
+    - node
+id: customer
+label: Customer
+weight: 4
+is_admin: null
+permissions:
+  - 'create requests content'
+  - 'create vehicle content'
+  - 'delete own requests content'
+  - 'delete own vehicle content'
+  - 'edit own requests content'
+  - 'edit own vehicle content'
+  - 'view requests revisions'
+  - 'view vehicle revisions'
