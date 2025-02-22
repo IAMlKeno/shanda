@@ -21,7 +21,7 @@ services:
       - shanda-network
   db:
     container_name: shanda_db
-    image: arm64v8/mysql
+    image: mysql:latest
     environment:
       MYSQL_DATABASE: 'shanda'
       MYSQL_USER: 'user'
