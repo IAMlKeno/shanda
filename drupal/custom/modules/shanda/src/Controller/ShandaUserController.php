@@ -41,25 +41,25 @@ final class ShandaUserController extends ControllerBase {
     return $build;
   }
 
+  /**
+   * Provides an endpoint for to redirect user's homepage
+   * base on their role (or lack thereof).
+   *
+   * @return RedirectResponse
+   */
   public function user() {
     $url;
     $userRoles = $this->currentUser->getRoles();
 
     if (in_array('service_provider', $userRoles)) {
-      // $url = '/customer/dashboard';
       $url = 'shanda.provider_dashboard';
-      \Drupal::logger('DEBUG')->info('PROVIDER');
     }
     else if (in_array('requester', $userRoles)) {
       $url = 'shanda.requester_dashboard';
-      // $url = '/service/dashboard';
     }
     else {
-      \Drupal::logger('DEBUG')->info('NO ROLE');
       $url = 'shanda.welcome';
     }
-    \Drupal::logger('DEBUG')->info('URL: '. $url);
-    // \Drupal::logger('DEBUG')->info('NO ROLE');
 
     return $this->redirect($url);
   }
