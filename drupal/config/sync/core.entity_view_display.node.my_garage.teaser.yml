@@ -1,17 +1,16 @@
-uuid: ce2caacc-53ce-4124-bfa7-b648f06276ee
+uuid: 56562b22-ed43-4a1c-8136-2a60d8d1c679
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.vehicle.field_details
-    - field.field.node.vehicle.field_mileage
-    - node.type.vehicle
+    - field.field.node.my_garage.field_my_vehicles
+    - node.type.my_garage
   module:
     - user
-id: node.vehicle.teaser
+id: node.my_garage.teaser
 targetEntityType: node
-bundle: vehicle
+bundle: my_garage
 mode: teaser
 content:
   links:
@@ -20,5 +19,4 @@ content:
     weight: 100
     region: content
 hidden:
-  field_details: true
-  field_mileage: true
+  field_my_vehicles: true

@@ -1,40 +1,36 @@
-uuid: 4035ac28-4096-4823-bd89-ff7d0409ceb2
+uuid: f62d5368-4895-44eb-966e-4759f4ae6282
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.vehicle.field_details
-    - field.field.node.vehicle.field_mileage
-    - node.type.vehicle
+    - field.field.node.my_garage.field_my_vehicles
+    - node.type.my_garage
   module:
     - field_layout
+    - inline_entity_form
     - layout_discovery
 third_party_settings:
   field_layout:
     id: layout_onecol
     settings:
       label: ''
-id: node.vehicle.default
+id: node.my_garage.default
 targetEntityType: node
-bundle: vehicle
+bundle: my_garage
 mode: default
 content:
-  field_details:
-    type: entity_reference_autocomplete
-    weight: 2
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_mileage:
-    type: number
+  field_my_vehicles:
+    type: inline_entity_form_simple
     weight: 1
     region: content
     settings:
-      placeholder: ''
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      collapsible: false
+      collapsed: false
+      revision: false
     third_party_settings: {  }
   title:
     type: string_textfield

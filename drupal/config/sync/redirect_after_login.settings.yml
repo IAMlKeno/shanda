@@ -1,0 +1,9 @@
+login_redirection:
+  anonymous: null
+  authenticated: /shanda/user
+  content_editor: /shanda/user
+  administrator: /
+  customer: /shanda/user
+  service_provider: /shanda/user
+  requester: /shanda/user
+exclude_urls: ''

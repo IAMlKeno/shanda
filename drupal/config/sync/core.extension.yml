@@ -29,6 +29,7 @@ module:
   help: 0
   history: 0
   image: 0
+  inline_entity_form: 0
   layout_builder: 0
   layout_discovery: 0
   link: 0
@@ -40,6 +41,7 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  redirect_after_login: 0
   search: 0
   shanda: 0
   shortcut: 0

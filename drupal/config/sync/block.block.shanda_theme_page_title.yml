@@ -1,6 +1,6 @@
 uuid: 9d72e0db-2d11-43a2-b001-193452ba2ff6
 langcode: en
-status: true
+status: false
 dependencies:
   theme:
     - shanda_theme

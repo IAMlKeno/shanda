@@ -1,0 +1,29 @@
+uuid: 951e2ea0-9779-457b-a390-3feb6edf8d92
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_my_vehicles
+    - node.type.my_garage
+    - node.type.vehicle
+id: node.my_garage.field_my_vehicles
+field_name: field_my_vehicles
+entity_type: node
+bundle: my_garage
+label: 'My Vehicles'
+description: 'List of vehicles in the garage'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      vehicle: vehicle
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

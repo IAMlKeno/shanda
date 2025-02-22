@@ -1,0 +1,23 @@
+uuid: b4ebf642-9f15-4b8c-942a-b3f690a3c479
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_year
+    - taxonomy.vocabulary.vehicle
+id: taxonomy_term.vehicle.field_year
+field_name: field_year
+entity_type: taxonomy_term
+bundle: vehicle
+label: Year
+description: 'Year of the vehicle'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1970
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
