@@ -1,0 +1,5 @@
+name: 'Shanda'
+type: module
+description: 'Shanda drupal customizations'
+package: Custom
+core_version_requirement: ^10 || ^11
