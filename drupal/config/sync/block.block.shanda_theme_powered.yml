@@ -1,0 +1,22 @@
+uuid: 6da03690-3e01-4022-a5e3-a3d88441707c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - shanda_theme
+_core:
+  default_config_hash: vK88Ik0dx1ZlqJUSOrj8c_VBXp6zs3ziIy9D62S0LCA
+id: shanda_theme_powered
+theme: shanda_theme
+region: header
+weight: -12
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

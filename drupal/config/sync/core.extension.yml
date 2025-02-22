@@ -15,6 +15,9 @@ module:
   contextual: 0
   datetime: 0
   dblog: 0
+  devel: 0
+  devel_kint_extras: 0
+  devel_php: 0
   dynamic_page_cache: 0
   editor: 0
   field: 0
@@ -38,6 +41,7 @@ module:
   path: 0
   path_alias: 0
   search: 0
+  shanda: 0
   shortcut: 0
   system: 0
   taxonomy: 0
@@ -61,4 +65,5 @@ theme:
   claro: 0
   stable9: 0
   kart: 0
+  shanda_theme: 0
 profile: standard

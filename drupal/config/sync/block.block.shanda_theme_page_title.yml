@@ -1,0 +1,20 @@
+uuid: 9d72e0db-2d11-43a2-b001-193452ba2ff6
+langcode: en
+status: true
+dependencies:
+  theme:
+    - shanda_theme
+_core:
+  default_config_hash: 8ZF0x9jM4poipRW4RLq3_YTmJdJSC_cNgS6KY4ETmv8
+id: shanda_theme_page_title
+theme: shanda_theme
+region: header
+weight: -11
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

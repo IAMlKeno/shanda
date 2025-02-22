@@ -1,0 +1,22 @@
+uuid: 7d82388c-6853-4b6c-8b86-e1ae488c2e72
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - shanda_theme
+_core:
+  default_config_hash: v3ZiUY0Uoig8LMdG6l1KNwFZpC-DRvf5ZjBdZ5HdhUQ
+id: shanda_theme_breadcrumbs
+theme: shanda_theme
+region: header
+weight: -12
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

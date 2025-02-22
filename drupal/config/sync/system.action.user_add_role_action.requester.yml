@@ -1,0 +1,14 @@
+uuid: 37e91045-e392-4bc1-a5e6-ff8d820f28d5
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.requester
+  module:
+    - user
+id: user_add_role_action.requester
+label: 'Add the Requester role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: requester

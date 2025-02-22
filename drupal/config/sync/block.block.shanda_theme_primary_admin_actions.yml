@@ -1,0 +1,20 @@
+uuid: 7987d50c-a5e4-4754-867f-5be3511d9d5b
+langcode: en
+status: true
+dependencies:
+  theme:
+    - shanda_theme
+_core:
+  default_config_hash: jYuXEzagcc6YQqcnFOy1bCK2rJ39zKTRV0oshnqfL7I
+id: shanda_theme_primary_admin_actions
+theme: shanda_theme
+region: content
+weight: -13
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

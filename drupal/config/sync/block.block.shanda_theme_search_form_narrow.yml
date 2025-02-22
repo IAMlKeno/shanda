@@ -1,0 +1,23 @@
+uuid: d4a727f4-cfb6-41e9-828c-f0af6789c5ed
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - shanda_theme
+_core:
+  default_config_hash: BnFs8x--6Pa9dm-X-VDXPQFjC21l_DD7gRjSzf17xLs
+id: shanda_theme_search_form_narrow
+theme: shanda_theme
+region: header
+weight: -14
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (narrow)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }
