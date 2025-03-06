@@ -1,8 +1,0 @@
-uuid: 60294833-bc11-4369-8e0b-29eb8525d95f
-langcode: en
-status: true
-dependencies: {  }
-name: 'Bid Status'
-vid: bid_status
-description: 'Bid status'
-weight: 0

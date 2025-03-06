@@ -1,9 +1,0 @@
-uuid: 22545187-512a-4b6f-97c0-e229df08b9af
-langcode: en
-status: true
-dependencies: {  }
-id: service_provider
-label: 'Service Provider'
-weight: 5
-is_admin: null
-permissions: {  }

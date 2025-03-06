@@ -1,8 +1,0 @@
-uuid: f5e420ad-4180-4382-865f-db25d2d206be
-langcode: en
-status: true
-dependencies: {  }
-name: Vehicle
-vid: vehicle
-description: ''
-weight: 0
