@@ -4,22 +4,23 @@ networks:
 
 services:
   # start a react-native server
-  # app:
-  #   container_name: shanda_frontend
-  #   build:
-  #     context: ./frontend
-  #     args:
-  #       - NODE_ENV=development
-  #     dockerfile: app.Dockerfile
-  #   environment:
-  #     - NODE_ENV=development
-  #   ports:
-  #     - 4200:4200
-  #   volumes:
-  #     - ./frontend:/app
-  #     - ./frontend/app/node_modules:/app/node_modules
-  #   networks:
-  #     - shanda-network
+  app:
+    container_name: shanda_frontend
+    build:
+      context: ./frontend
+      args:
+        - NODE_ENV=development
+        - PORT=4200
+      dockerfile: app.Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend:/app
+      - ./frontend/node_modules:/app/node_modules
+    networks:
+      - shanda-network
   # start a nestjs server
   server:
     container_name: shanda_backend
@@ -32,9 +33,10 @@ services:
       - 4201
     volumes:
       - ./backend:/app
-      - ./backend/app/node_modules:/app/node_modules
+      - ./backend/node_modules:/app/node_modules
     networks:
       - shanda-network
+
   # start a postgresql db server
   # db:
   #   container_name: shanda_db
