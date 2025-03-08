@@ -19,9 +19,11 @@ Project structure:
 ├── README.md
 ├── backend
     ├── server.Dockerfile
+    ├── docker-entrypoint.sh
     └── ...
 ├── frontend
     ├── app.Dockerfile
+    ├── docker-entrypoint.sh
     └── ...
 └── data
 ```
@@ -34,6 +36,7 @@ networks:
   shanda-network:
     driver: bridge
 
+# https://docs.docker.com/reference/compose-file/services/
 services:
   # Start a react-native server.
   app:
