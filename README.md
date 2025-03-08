@@ -64,7 +64,6 @@ services:
     # @see https://docs.docker.com/reference/compose-file/services/#volumes
     volumes:
       - ./frontend:/app
-      - ./frontend/node_modules:/app/node_modules
     # Defines the networks that containers are attached to
     # referencing entries under the networks top-level element.
     # @see https://docs.docker.com/reference/compose-file/services/#networks
@@ -85,7 +84,6 @@ services:
       - 4201
     volumes:
       - ./backend:/app
-      - ./backend/node_modules:/app/node_modules
     networks:
       - shanda-network
   # Start a postgresql db server.
@@ -115,23 +113,24 @@ services:
 ## Expected result
 
 Listing containers must show one container running and the port mapping as below:
-```
+```bash
+
 $ docker ps
-CONTAINER ID   IMAGE               COMMAND                  CREATED             STATUS             PORTS                    NAMES
-f6bfe9f6dabb   red-canyon-server   "docker-entrypoint.s…"   About an hour ago   Up About an hour   0.0.0.0:4200->4200/tcp   places-api
-07a0da09e9a2   red-canyon-web      "docker-entrypoint.s…"   2 hours ago         Up About an hour   0.0.0.0:5173->5173/tcp   vue-web
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+1211d8b6f206   shanda-app      "/docker-entrypoint.…"   2 minutes ago   Up 2 minutes   0.0.0.0:4200->4200/tcp, 19001-19002/tcp   shanda_frontend
+48bf9ddef24c   postgres        "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:5432->5432/tcp                    shanda_db
+e3ab15866cea   shanda-server   "/docker-entrypoint.…"   2 minutes ago   Up 2 minutes   0.0.0.0:4201->4201/tcp                    shanda_backend
 ```
 
-After the application starts, navigate to `http://localhost:5173` in your web browser.
-
-![page](output.jpg)
+After the application starts, navigate to `http://localhost:4200` in a browser for the frontend or `http://localhost:4201` for the backend.
 
 #### Stop and remove the containers
 If the server was run in detached mode:
 
 ```
 $ docker compose down
-[+] Stopping 2/2
- ✔ Container red-canyon-server-1  Stopped
- ✔ Container red-canyon-web-1     Stopped
+[+] Stopping 3/3
+ ✔ Container shanda_backend   Stopped                        10.2s
+ ✔ Container shanda_frontend  Stopped                        10.3s
+ ✔ Container shanda_db        Stopped                         0.1s
 ```
