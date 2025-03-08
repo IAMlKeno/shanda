@@ -17,7 +17,6 @@ services:
       - 4200:4200
     volumes:
       - ./frontend:/app
-      - ./frontend/node_modules:/app/node_modules
     networks:
       - shanda-network
   server:
@@ -31,7 +30,6 @@ services:
       - 4201
     volumes:
       - ./backend:/app
-      - ./backend/node_modules:/app/node_modules
     networks:
       - shanda-network
   db:
