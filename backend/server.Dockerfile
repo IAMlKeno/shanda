@@ -10,4 +10,7 @@ COPY . .
 RUN npm install
 RUN npm run build
 
-CMD [ "npm", "run", "start:dev" ]
+COPY ./docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT [ "/docker-entrypoint.sh" ]

@@ -15,12 +15,17 @@ ENV PATH=/home/node/.npm-global/bin:$PATH
 # The expo cli will need to be replaced as its deprecated.
 RUN npm i --unsafe-perm --allow-root -g npm@latest typescript expo-cli@latest expo@latest
 
+RUN mkdir /app
 WORKDIR /app
 ENV PATH=/app/.bin:$PATH
+
 COPY package*.json ./
-COPY . .
 
 RUN npm install
+COPY . .
+
+COPY ./docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 
 ##++++++++DEBUG+++++++++####
 # keeps container running if it is in a bad state
@@ -28,5 +33,4 @@ RUN npm install
 # CMD ["-f","/dev/null"]
 ##++++++++DEBUG+++++++++####
 
-ENTRYPOINT ["npm", "run"]
-CMD ["web"]
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
