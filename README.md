@@ -1,13 +1,137 @@
-# Shanda 
+# Shanda
 
 ## Description
-Docker implementation of the Shanda organization. Currectly uses Drupal.
-
-## Start Local Development
+Docker implementation of the Shanda organization. The current tech stack is:
+* Nestjs
+* React Native
+* Postgresql
 
 ### Requirements
 
 * Docker compose
 
-1. In a terminal, navigate to the shanda directory and execute the command `docker compose up`
- 
+### Docker Compose Application
+
+Project structure:
+```
+.
+├── compose.yaml
+├── README.md
+├── backend
+    ├── server.Dockerfile
+    └── ...
+├── frontend
+    ├── app.Dockerfile
+    └── ...
+└── data
+```
+
+[_compose.yaml_](compose.yaml)
+```yaml
+# Networks let services communicate with each other.
+# @see https://docs.docker.com/reference/compose-file/networks/
+networks:
+  shanda-network:
+    driver: bridge
+
+services:
+  # Start a react-native server.
+  app:
+    # Defines the name of the container.
+    container_name: shanda_frontend
+    # Specifies the build configuration for creating a
+    # container image from source.
+    # @see https://docs.docker.com/reference/compose-file/build/
+    build:
+      context: ./frontend
+      args:
+        - NODE_ENV=development
+        - PORT=4200
+      dockerfile: app.Dockerfile
+    # Define environment variables for the container.
+    # @see https://docs.docker.com/reference/compose-file/services/#environment
+    environment:
+      - NODE_ENV=development
+    # The maps container's ports to the host's ports.
+    # ex. {host-port}:{container-port}
+    # @see https://docs.docker.com/reference/compose-file/services/#ports
+    ports:
+      - 4200:4200
+    # Binds the host's volumes to the containers'
+    # ex. {path/to/host/dir}:{/path/to/container/dir}
+    # This acts as a way to persist data and allow
+    # local development to be easier
+    # @see https://docs.docker.com/reference/compose-file/services/#volumes
+    volumes:
+      - ./frontend:/app
+      - ./frontend/node_modules:/app/node_modules
+    # Defines the networks that containers are attached to
+    # referencing entries under the networks top-level element.
+    # @see https://docs.docker.com/reference/compose-file/services/#networks
+    networks:
+      - shanda-network
+  # Start a nestjs server.
+  server:
+    container_name: shanda_backend
+    build:
+      context: ./backend
+      dockerfile: server.Dockerfile
+    ports:
+      - 4201:4201
+    # Exposes the container's ports to any other
+    # containers defined in this compose orchestration.
+    # @see https://docs.docker.com/reference/compose-file/services/#expose
+    expose:
+      - 4201
+    volumes:
+      - ./backend:/app
+      - ./backend/node_modules:/app/node_modules
+    networks:
+      - shanda-network
+  # Start a postgresql db server.
+  db:
+    container_name: shanda_db
+    image: postgres
+    environment:
+      POSTGRES_USER: 'shanda'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'shanda'
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    restart: unless-stopped
+    volumes:
+      - ./data/database/data:/var/lib/postgresql/data
+    networks:
+      - shanda-network
+```
+
+## Local Development
+### Running the application with docker compose
+
+1. In the root directory, use `docker compose up -d` to run the application. The `-d` flag prompts the services to run in detached mode.
+
+## Expected result
+
+Listing containers must show one container running and the port mapping as below:
+```
+$ docker ps
+CONTAINER ID   IMAGE               COMMAND                  CREATED             STATUS             PORTS                    NAMES
+f6bfe9f6dabb   red-canyon-server   "docker-entrypoint.s…"   About an hour ago   Up About an hour   0.0.0.0:4200->4200/tcp   places-api
+07a0da09e9a2   red-canyon-web      "docker-entrypoint.s…"   2 hours ago         Up About an hour   0.0.0.0:5173->5173/tcp   vue-web
+```
+
+After the application starts, navigate to `http://localhost:5173` in your web browser.
+
+![page](output.jpg)
+
+#### Stop and remove the containers
+If the server was run in detached mode:
+
+```
+$ docker compose down
+[+] Stopping 2/2
+ ✔ Container red-canyon-server-1  Stopped
+ ✔ Container red-canyon-web-1     Stopped
+```

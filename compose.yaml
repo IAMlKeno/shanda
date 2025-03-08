@@ -3,7 +3,6 @@ networks:
     driver: bridge
 
 services:
-  # start a react-native server
   app:
     container_name: shanda_frontend
     build:
@@ -21,7 +20,6 @@ services:
       - ./frontend/node_modules:/app/node_modules
     networks:
       - shanda-network
-  # start a nestjs server
   server:
     container_name: shanda_backend
     build:
@@ -36,7 +34,6 @@ services:
       - ./backend/node_modules:/app/node_modules
     networks:
       - shanda-network
-  # start a postgresql db server
   db:
     container_name: shanda_db
     image: postgres
