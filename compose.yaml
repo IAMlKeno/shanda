@@ -46,5 +46,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./data/database/data:/var/lib/postgresql/data
+      - ./data/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - shanda-network
