@@ -58,7 +58,6 @@ CREATE TABLE IF NOT EXISTS "companyInformation" (
 
 CREATE TABLE IF NOT EXISTS "vehicleGarage" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
-	"vehicles" uuid NOT NULL,
 	PRIMARY KEY ("id")
 );
 
@@ -91,13 +90,14 @@ CREATE TABLE IF NOT EXISTS "vehicle" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
 	"vin" varchar(17) NOT NULL,
 	"vehicleInformation" jsonb NOT NULL,
+	"garageId" uuid,
 	"vehicleLog" uuid NOT NULL,
 	PRIMARY KEY ("id")
 );
 
 CREATE TABLE IF NOT EXISTS "maintenanceLog" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
-	"details" jsonb NOT NULL DEFAULT {},
+	"details" jsonb NOT NULL DEFAULT '{}',
 	PRIMARY KEY ("id")
 );
 
@@ -146,45 +146,47 @@ CREATE TABLE IF NOT EXISTS "garageOwner" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
 	"user" uuid,
 	"garage" uuid NOT NULL,
+	"contactInfo" uuid NOT NULL,
 	PRIMARY KEY ("id")
 );
 
 
 
-ALTER TABLE "serviceProvider" ADD CONSTRAINT "serviceProvider_fk1" FOREIGN KEY ("userId") REFERENCES "user"("id");
+ALTER TABLE public."serviceProvider" ADD CONSTRAINT "serviceProvider_fk1" FOREIGN KEY ("userId") REFERENCES "user"("id");
 
-ALTER TABLE "serviceProvider" ADD CONSTRAINT "serviceProvider_fk2" FOREIGN KEY ("companyId") REFERENCES "companyInformation"("id");
+ALTER TABLE public."serviceProvider" ADD CONSTRAINT "serviceProvider_fk2" FOREIGN KEY ("companyId") REFERENCES "companyInformation"("id");
 
-ALTER TABLE "serviceProvider" ADD CONSTRAINT "serviceProvider_fk3" FOREIGN KEY ("contactInfoId") REFERENCES "contactInformation"("id");
-ALTER TABLE "requester" ADD CONSTRAINT "requester_fk1" FOREIGN KEY ("userId") REFERENCES "user"("id");
+ALTER TABLE public."serviceProvider" ADD CONSTRAINT "serviceProvider_fk3" FOREIGN KEY ("contactInfoId") REFERENCES "contactInformation"("id");
+ALTER TABLE public."requester" ADD CONSTRAINT "requester_fk1" FOREIGN KEY ("userId") REFERENCES "user"("id");
 
-ALTER TABLE "requester" ADD CONSTRAINT "requester_fk2" FOREIGN KEY ("contactInfoId") REFERENCES "contactInformation"("id");
+ALTER TABLE public."requester" ADD CONSTRAINT "requester_fk2" FOREIGN KEY ("contactInfoId") REFERENCES "contactInformation"("id");
 
-ALTER TABLE "requester" ADD CONSTRAINT "requester_fk3" FOREIGN KEY ("garageId") REFERENCES "vehicleGarage"("id");
-ALTER TABLE "companyInformation" ADD CONSTRAINT "companyInformation_fk2" FOREIGN KEY ("contactInformation") REFERENCES "contactInformation"("id");
-ALTER TABLE "vehicleGarage" ADD CONSTRAINT "vehicleGarage_fk1" FOREIGN KEY ("vehicles") REFERENCES "vehicle"("id");
-ALTER TABLE "request" ADD CONSTRAINT "request_fk4" FOREIGN KEY ("requesterId") REFERENCES "requester"("id");
-ALTER TABLE "bid" ADD CONSTRAINT "bid_fk1" FOREIGN KEY ("bidderId") REFERENCES "serviceProvider"("id");
+ALTER TABLE public."requester" ADD CONSTRAINT "requester_fk3" FOREIGN KEY ("garageId") REFERENCES "vehicleGarage"("id");
+ALTER TABLE public."companyInformation" ADD CONSTRAINT "companyInformation_fk2" FOREIGN KEY ("contactInformation") REFERENCES "contactInformation"("id");
+ALTER TABLE public."vehicle" ADD CONSTRAINT "vehicleGarage_fk1" FOREIGN KEY ("garageId") REFERENCES "vehicleGarage"("id");
+ALTER TABLE public."request" ADD CONSTRAINT "request_fk4" FOREIGN KEY ("requesterId") REFERENCES "requester"("id");
+ALTER TABLE public."bid" ADD CONSTRAINT "bid_fk1" FOREIGN KEY ("bidderId") REFERENCES "serviceProvider"("id");
 
-ALTER TABLE "bid" ADD CONSTRAINT "bid_fk2" FOREIGN KEY ("revisionId") REFERENCES "bidRevision"("id");
+ALTER TABLE public."bid" ADD CONSTRAINT "bid_fk2" FOREIGN KEY ("revisionId") REFERENCES "bidRevision"("id");
 
-ALTER TABLE "bid" ADD CONSTRAINT "bid_fk3" FOREIGN KEY ("requestId") REFERENCES "request"("id");
+ALTER TABLE public."bid" ADD CONSTRAINT "bid_fk3" FOREIGN KEY ("requestId") REFERENCES "request"("id");
 
-ALTER TABLE "vehicle" ADD CONSTRAINT "vehicle_fk3" FOREIGN KEY ("vehicleLog") REFERENCES "maintenanceLog"("id");
+ALTER TABLE public."vehicle" ADD CONSTRAINT "vehicle_fk3" FOREIGN KEY ("vehicleLog") REFERENCES "maintenanceLog"("id");
 
-ALTER TABLE "receipt" ADD CONSTRAINT "receipt_fk4" FOREIGN KEY ("bookingId") REFERENCES "booking"("id");
+ALTER TABLE public."receipt" ADD CONSTRAINT "receipt_fk4" FOREIGN KEY ("bookingId") REFERENCES "booking"("id");
 
-ALTER TABLE "receipt" ADD CONSTRAINT "receipt_fk6" FOREIGN KEY ("requesterId") REFERENCES "requester"("id");
-ALTER TABLE "job" ADD CONSTRAINT "job_fk1" FOREIGN KEY ("providerId") REFERENCES "serviceProvider"("id");
+ALTER TABLE public."receipt" ADD CONSTRAINT "receipt_fk6" FOREIGN KEY ("requesterId") REFERENCES "requester"("id");
+ALTER TABLE public."job" ADD CONSTRAINT "job_fk1" FOREIGN KEY ("providerId") REFERENCES "serviceProvider"("id");
 
-ALTER TABLE "job" ADD CONSTRAINT "job_fk2" FOREIGN KEY ("bookingId") REFERENCES "booking"("id");
-ALTER TABLE "booking" ADD CONSTRAINT "booking_fk5" FOREIGN KEY ("requestId") REFERENCES "request"("id");
+ALTER TABLE public."job" ADD CONSTRAINT "job_fk2" FOREIGN KEY ("bookingId") REFERENCES "booking"("id");
+ALTER TABLE public."booking" ADD CONSTRAINT "booking_fk5" FOREIGN KEY ("requestId") REFERENCES "request"("id");
 
-ALTER TABLE "booking" ADD CONSTRAINT "booking_fk6" FOREIGN KEY ("winningBidId") REFERENCES "bid"("id");
+ALTER TABLE public."booking" ADD CONSTRAINT "booking_fk6" FOREIGN KEY ("winningBidId") REFERENCES "bid"("id");
 
-ALTER TABLE "booking" ADD CONSTRAINT "booking_fk8" FOREIGN KEY ("garageId") REFERENCES "garage"("id");
-ALTER TABLE "garage" ADD CONSTRAINT "garage_fk3" FOREIGN KEY ("ownerId") REFERENCES "garageOwner"("id");
-ALTER TABLE "garageOwner" ADD CONSTRAINT "garageOwner_fk1" FOREIGN KEY ("user") REFERENCES "user"("id");
+ALTER TABLE public."booking" ADD CONSTRAINT "booking_fk8" FOREIGN KEY ("garageId") REFERENCES "garage"("id");
+ALTER TABLE public."garage" ADD CONSTRAINT "garage_fk3" FOREIGN KEY ("ownerId") REFERENCES "garageOwner"("id");
+ALTER TABLE public."garageOwner" ADD CONSTRAINT "garageOwner_fk1" FOREIGN KEY ("user") REFERENCES "user"("id");
+ALTER TABLE public."garageOwner" ADD CONSTRAINT "garageOwner_fk2" FOREIGN KEY ("contactInfo") REFERENCES "contactInformation"("id");
 
-ALTER TABLE "ratings" ADD CONSTRAINT "ratings_user_fk" FOREIGN KEY ("createdBy") REFERENCES "user"("id");
+ALTER TABLE public."ratings" ADD CONSTRAINT "ratings_user_fk" FOREIGN KEY ("createdBy") REFERENCES "user"("id");
 
