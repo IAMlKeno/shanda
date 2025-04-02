@@ -1,12 +1,16 @@
 import { BaseHandler } from "src/mvc/base/handlers/base.handler";
 import { UsersService } from "../users.service";
-import { CreateUserDto } from "../dto/create-user.dto";
-import { UpdateUserDto } from "../dto/user.dto";
+import { UserDto } from "../dto/user.dto";
+import { IBaseHandler } from "src/mvc/base/base.controller";
 
-export class UserHandler extends BaseHandler<UsersService, CreateUserDto | UpdateUserDto> {
+export class UserHandler extends BaseHandler<UsersService, UserDto> implements IBaseHandler<UserDto> {
 
-  constructor(private userService: UsersService) {
-    super(userService); //
+  constructor(dbService: UsersService) {
+    super(dbService);
+  }
+
+  async getUserAndProfiles(userId: string): Promise<any> {
+    return await this.dbService.getUserAndProfiles(userId);
   }
 
 }

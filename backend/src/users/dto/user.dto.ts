@@ -1,5 +1,4 @@
-import { PartialType } from "@nestjs/mapped-types";
-import { UserStatus } from "src/mvc/enums/enum";
+import { convertStringToUserStatusEnum } from "src/mvc/enums/enum";
 import { userAttributes as User } from "src/mvc/models";
 
 export class UserDto {
@@ -12,7 +11,7 @@ export class UserDto {
     this.user.created = row.created;
     this.user.deleted = row.deleted;
     this.user.username = row.username;
-    this.user.status = row.status; // convert to enum val
+    this.user.status = convertStringToUserStatusEnum(row.status); // convert to enum val
   }
 }
 

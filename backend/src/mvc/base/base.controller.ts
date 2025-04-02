@@ -12,7 +12,7 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
   }
   abstract createDtoFromRequest(request: RequestType): DtoType;
   abstract createResponseFromDto(dto: DtoType): ResponseType;
-  abstract createResponseList(list: Array<DtoType>): ListResponseType;
+  abstract createResponseList(list: Array<DtoType>, total: number): ListResponseType;
   
     @Post('/')
     async create(@Body() body: RequestType): Promise<ResponseType | Error> {
@@ -47,8 +47,9 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
     ): Promise<ListResponseType | Error> {
       try {
         const params: any[] = this.convertQueryToArray(req.url);
+        // probably need that second query to get all results?
         const items: Array<DtoType> = await this.handler.getAll(page, size, params);
-        const response: ListResponseType = this.createResponseList(items);
+        const response: ListResponseType = this.createResponseList(items, items.length);
   
         return response;
       } catch (error) {
@@ -97,12 +98,12 @@ export interface IBaseHandler<DtoType> {
   get(id: string): Promise<DtoType>;
   create(req: DtoType): Promise<DtoType>;
   update(req: DtoType, id: string): Promise<DtoType>;
-  getAll(page: number, size: number, params: any[], orderBy?: Record<string, 'asc' | 'desc'>): any;
+  getAll(page: number, size: number, params: any[], orderBy?: Record<string, 'ASC' | 'DESC'>): any;
   getAllCustom<T extends new (item: any) => any>(
     page: number,
     size: number,
     params: Record<string, any>[],
     dtoConstructor: T,
-    orderBy?: Record<string, 'asc' | 'desc'>,
+    orderBy?: Record<string, 'ASC' | 'DESC'>,
   ): Promise<Array<T>>;
 }

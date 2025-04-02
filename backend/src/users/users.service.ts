@@ -4,12 +4,21 @@ import { BaseDbService } from 'src/mvc/base/data/base.service';
 import { user as User } from 'src/mvc/models';
 import { Optional } from 'sequelize';
 import { NullishPropertiesOf } from 'sequelize/types/utils';
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class UsersService extends BaseDbService<User, UserDto> {
 
-  constructor(model: typeof User) {
+  constructor(@InjectModel(User) model: typeof User) {
     super(model);
+  }
+
+  async getUserAndProfiles(userId: string): Promise<any> {
+    // await this.model.findByPk(userId);
+    // const [ providerId, requesterId ownerId ] = Promise.all([
+    //   // requesterser
+    // ])
+    return '';
   }
 
   mapToDto(model: any): UserDto {

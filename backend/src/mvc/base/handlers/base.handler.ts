@@ -1,6 +1,3 @@
-// import { ListResultset } from '../data/list-resultset';
-// import { IDtoWithId } from '../data/base-db.service';
-
 export abstract class BaseHandler<DbServiceType extends IDbService<DtoType>, DtoType> {
   constructor(protected dbService: DbServiceType) {}
 
@@ -12,7 +9,7 @@ export abstract class BaseHandler<DbServiceType extends IDbService<DtoType>, Dto
     return await this.dbService.update(request, id);
   }
 
-  async getAll(page: number, size: number, params: any[], orderBy?: Record<string, 'asc' | 'desc'>): Promise<Array<DtoType>> {
+  async getAll(page: number, size: number, params: any[], orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<Array<DtoType>> {
     return await this.dbService.getAll(page, size, params, orderBy);
   }
 
@@ -33,7 +30,7 @@ export abstract class BaseHandler<DbServiceType extends IDbService<DtoType>, Dto
     size: number,
     params: Record<string, any>[],
     dtoConstructor: T,
-    orderBy?: Record<string, 'asc' | 'desc'>,
+    orderBy?: Record<string, 'ASC' | 'DESC'>,
   ): Promise<Array<T>> {
     return await this.dbService.getAllCustom(page, size, params, dtoConstructor, orderBy);
   }

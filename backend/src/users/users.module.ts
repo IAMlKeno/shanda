@@ -3,10 +3,13 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { user } from 'src/mvc/models';
+import { UserHandler } from './handler/user.handler';
+import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
+import { ContactInformationHandler } from 'src/contact-information/handlers/contact-information.handler';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService],
-  imports: [SequelizeModule.forFeature([user])],
+  providers: [UsersService, UserHandler, ProfileHandler, ContactInformationHandler],
+  imports: [ SequelizeModule.forFeature([user])],
 })
 export class UsersModule {}
