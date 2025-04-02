@@ -18,7 +18,7 @@ import { receipt } from './receipt';
 export interface requesterAttributes {
   id?: string;
   userId: string;
-  contactInfoId: string;
+  contactInfoId?: string;
   garageId?: string;
 }
 
@@ -28,6 +28,7 @@ export class requester
   implements requesterAttributes
 {
   @ForeignKey(() => receipt)
+  @ForeignKey(() => request)
   @Column({
     primaryKey: true,
     type: DataType.UUID,

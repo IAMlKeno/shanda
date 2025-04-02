@@ -12,6 +12,7 @@ import { serviceProvider } from './serviceProvider';
 import { requester } from './requester';
 import { companyInformation } from './companyInformation';
 import { garageOwner } from './garageOwner';
+import { user } from './user';
 
 export interface contactInformationAttributes {
   id?: string;
@@ -25,6 +26,10 @@ export class contactInformation
   implements contactInformationAttributes
 {
   @ForeignKey(() => garageOwner)
+  @ForeignKey(() => requester)
+  @ForeignKey(() => serviceProvider)
+  @ForeignKey(() => companyInformation)
+  @ForeignKey(() => user)
   @Column({
     primaryKey: true,
     type: DataType.UUID,

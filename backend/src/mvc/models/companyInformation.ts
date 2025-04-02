@@ -45,6 +45,4 @@ export class companyInformation
   @BelongsTo(() => serviceProvider)
   serviceProvider?: serviceProvider;
 
-  @HasOne(() => contactInformation, { sourceKey: 'contactInformation' })
-  contactInformation?: contactInformation;
 }

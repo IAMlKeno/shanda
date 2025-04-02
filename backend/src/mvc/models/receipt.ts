@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { booking } from './booking';
 import { requester } from './requester';
+import { Payment_Status } from '../enums/enum';
 
 export interface receiptAttributes {
   id?: string;
@@ -17,7 +18,7 @@ export interface receiptAttributes {
   created: string;
   datePaid: string;
   bookingId: string;
-  paymentStatus?: any;
+  paymentStatus?: Payment_Status;
   requesterId: string;
 }
 
@@ -47,7 +48,7 @@ export class receipt
   bookingId!: string;
 
   @Column({ defaultValue: Sequelize.literal("'unpaid'::payment_status") })
-  paymentStatus?: any;
+  paymentStatus?: Payment_Status;
 
   @Column({ type: DataType.UUID })
   requesterId!: string;

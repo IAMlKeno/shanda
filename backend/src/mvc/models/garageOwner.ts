@@ -15,9 +15,9 @@ import { contactInformation } from './contactInformation';
 
 export interface garageOwnerAttributes {
   id?: string;
-  user?: string;
-  garage: string;
-  contactInfo: string;
+  user: string;
+  garage?: string;
+  contactInfo?: string;
 }
 
 @Table({ tableName: 'garageOwner', timestamps: false })
@@ -34,20 +34,16 @@ export class garageOwner
   @Index({ name: 'garageOwner_pkey', using: 'btree', unique: true })
   id?: string;
 
-  @Column({ allowNull: true, type: DataType.UUID })
-  user?: string;
+  @Column({ type: DataType.UUID })
+  // @HasOne(() => user, { sourceKey: 'user' })
+  user!: string;
 
   @Column({ type: DataType.UUID })
-  garage!: string;
+  // @BelongsTo(() => garage)
+  garage?: string;
 
   @Column({ type: DataType.UUID })
-  contactInfo!: string;
-
-  @BelongsTo(() => garage)
-  garage?: garage;
-
-  @HasOne(() => user, { sourceKey: 'user' })
-  user?: user;
+  contactInfo?: string;
 
   @HasOne(() => contactInformation, { sourceKey: 'contactInfo' })
   contactInformation?: contactInformation;

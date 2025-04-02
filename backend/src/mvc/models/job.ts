@@ -10,13 +10,14 @@ import {
 } from 'sequelize-typescript';
 import { serviceProvider } from './serviceProvider';
 import { booking } from './booking';
+import { JOB_STATUS } from '../enums/enum';
 
 export interface jobAttributes {
   id?: string;
   created?: Date;
   providerId: string;
   bookingId: string;
-  status?: any;
+  status?: JOB_STATUS;
 }
 
 @Table({ tableName: 'job', timestamps: false })
@@ -45,7 +46,7 @@ export class job
   bookingId!: string;
 
   @Column({ defaultValue: Sequelize.literal("'pending'::job_status") })
-  status?: any;
+  status?: JOB_STATUS;
 
   @HasOne(() => serviceProvider, { sourceKey: 'providerId' })
   serviceProvider?: serviceProvider;

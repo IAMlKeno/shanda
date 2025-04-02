@@ -19,7 +19,7 @@ export interface serviceProviderAttributes {
   id?: string;
   userId: string;
   companyId?: string;
-  contactInfoId: string;
+  contactInfoId?: string;
 }
 
 @Table({ tableName: 'serviceProvider', timestamps: false })
@@ -27,6 +27,7 @@ export class serviceProvider
   extends Model<serviceProviderAttributes, serviceProviderAttributes>
   implements serviceProviderAttributes
 {
+  @ForeignKey(() => bid)
   @ForeignKey(() => job)
   @Column({
     primaryKey: true,
@@ -42,17 +43,18 @@ export class serviceProvider
   @Column({ allowNull: true, type: DataType.UUID })
   companyId?: string;
 
-  @Column({ type: DataType.UUID })
-  contactInfoId!: string;
-
   @HasOne(() => user, { sourceKey: 'userId' })
   user?: user;
 
   @HasOne(() => companyInformation, { sourceKey: 'companyId' })
   companyInformation?: companyInformation;
 
+  @Column({ type: DataType.UUID })
+  contactInfoId?: string;
+
+  // @Column({ allowNull: true, type: DataType.UUID })
   @HasOne(() => contactInformation, { sourceKey: 'contactInfoId' })
-  contactInformation?: contactInformation;
+  contact?: contactInformation;
 
   @BelongsTo(() => bid)
   bid?: bid;

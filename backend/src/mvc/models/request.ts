@@ -27,6 +27,7 @@ export class request
   implements requestAttributes
 {
   @ForeignKey(() => booking)
+  @ForeignKey(() => bid)
   @Column({
     primaryKey: true,
     type: DataType.UUID,

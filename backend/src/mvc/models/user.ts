@@ -6,8 +6,10 @@ import {
   Index,
   Sequelize,
   ForeignKey,
+  HasOne,
   BelongsTo,
 } from 'sequelize-typescript';
+import { contactInformation } from './contactInformation';
 import { serviceProvider } from './serviceProvider';
 import { requester } from './requester';
 import { garageOwner } from './garageOwner';
@@ -20,6 +22,7 @@ export interface userAttributes {
   username: string;
   created?: Date;
   deleted?: Date;
+  contactInfoId: string;
   status?: UserStatus;
 }
 
@@ -29,6 +32,8 @@ export class user
   implements userAttributes
 {
   @ForeignKey(() => garageOwner)
+  @ForeignKey(() => serviceProvider)
+  @ForeignKey(() => requester)
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -57,7 +62,7 @@ export class user
   deleted?: Date;
 
   @Column({ defaultValue: Sequelize.literal("'pending'::user_status") })
-  status?: any;
+  status?: UserStatus;
 
   @BelongsTo(() => serviceProvider)
   serviceProvider?: serviceProvider;
@@ -67,4 +72,10 @@ export class user
 
   @BelongsTo(() => garageOwner)
   garageOwner?: garageOwner;
+
+  @Column({ type: DataType.UUID })
+  contactInfoId!: string;
+
+  @HasOne(() => contactInformation, { sourceKey: 'contactInfoId' })
+  contactInformation?: contactInformation;
 }

@@ -1,3 +1,4 @@
+1:1,contactInfoId,id,user,contactInformation
 1:1,userId,id,serviceProvider,user
 1:1,companyId,id,serviceProvider,companyInformation
 1:1,contactInfoId,id,serviceProvider,contactInformation

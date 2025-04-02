@@ -33,6 +33,7 @@ export class booking
   implements bookingAttributes
 {
   @ForeignKey(() => job)
+  @ForeignKey(() => receipt)
   @Column({
     primaryKey: true,
     type: DataType.UUID,

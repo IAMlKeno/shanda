@@ -21,6 +21,7 @@ export class vehicleGarage
   implements vehicleGarageAttributes
 {
   @ForeignKey(() => vehicle)
+  @ForeignKey(() => requester)
   @Column({
     primaryKey: true,
     type: DataType.UUID,
