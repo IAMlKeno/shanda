@@ -30,6 +30,7 @@
     "@prisma/client": "^5.22.0",
     "@prisma/instrumentation": "^6.5.0",
     "@transactional/prisma": "^1.1.2",
+    "@types/uuid": "^10.0.0",
     "pg": "^8.14.1",
     "pg-hstore": "^2.3.4",
     "prisma": "^6.5.0",
@@ -38,8 +39,10 @@
     "sequelize": "^6.37.7",
     "sequelize-typescript": "^2.1.6",
     "sequelize-typescript-generator": "^12.0.1",
+    "swagger-cli": "^4.0.4",
     "swagger-ui-express": "^5.0.1",
-    "typeorm": "^0.3.21"
+    "typeorm": "^0.3.21",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
