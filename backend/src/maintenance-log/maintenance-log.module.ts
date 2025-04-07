@@ -3,10 +3,11 @@ import { MaintenanceLogController } from './controllers/maintenance-log.controll
 import { MaintenanceLogService } from './services/maintenance-log.service';
 import { maintenanceLog } from 'src/mvc/models';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { MaintenanceLogHandler } from './handlers/maintenance-log.handler';
 
 @Module({
   controllers: [MaintenanceLogController],
-  providers: [MaintenanceLogService],
+  providers: [MaintenanceLogService, MaintenanceLogHandler],
   imports: [
     SequelizeModule.forFeature([maintenanceLog]),
   ],

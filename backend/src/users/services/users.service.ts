@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from '../dto/user.dto';
 import { BaseDbService } from 'src/mvc/base/data/base.service';
 import { user as User } from 'src/mvc/models';
 import { Optional } from 'sequelize';
