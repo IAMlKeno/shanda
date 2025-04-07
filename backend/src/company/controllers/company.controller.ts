@@ -13,13 +13,14 @@ export class CompanyController extends BaseController<CompanyHandler, CompanyReq
     return new CompanyDto(request);
   }
   createResponseFromDto(dto: CompanyDto): CompanyResponse {
-    return { ...dto.company, status: dto.company.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return { ...dto.company, statusCode: dto.company.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
   }
   createResponseList(list: CompanyDto[], total: number): CompanyListResponse {
     return {
       results: list.map((company) => company.company),
       totalCount: total,
       count: list.length,
+      statusCode: list.length == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK
     }
   }
 

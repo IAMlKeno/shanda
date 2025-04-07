@@ -1,8 +1,8 @@
 import { Body, Controller, Get, HttpStatus, Post, Req } from '@nestjs/common';
 import { BaseController } from 'src/mvc/base/base.controller';
-import { UserHandler } from './handler/user.handler';
-import { UserListResponse, UserRequest, UserResponse } from './entities/user.entity';
-import { UserDto } from './dto/user.dto';
+import { UserHandler } from '../handler/user.handler';
+import { UserListResponse, UserRequest, UserResponse } from '../entities/user.entity';
+import { UserDto } from '../dto/user.dto';
 import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
 import { GarageOwnerDto } from 'src/profiles/dto/garage-owner/garage-owner.dto';
 import { ProviderDto } from 'src/profiles/dto/provider/provider.dto';
@@ -24,7 +24,7 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     return new UserDto(request);
   }
   createResponseFromDto(dto: UserDto): UserResponse {
-    return { ...dto.user, status: dto.user.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return { ...dto.user, statusCode: dto.user.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
   }
   createResponseList(users: UserDto[], total: number): UserListResponse {
     return {

@@ -13,13 +13,14 @@ export class BiddingController extends BaseController<BiddingHandler, BidRequest
     return new BidDto(request);
   }
   createResponseFromDto(dto: BidDto): BidResponse {
-    return { ...dto.request, status: dto.request.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return { ...dto.request, statusCode: dto.request.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
   }
   createResponseList(list: BidDto[], total: number): BidListResponse {
     return {
       results: list.map((bid) => bid.request),
       totalCount: total,
       count: list.length,
+      statusCode: HttpStatus.OK,
     }
   }
 }

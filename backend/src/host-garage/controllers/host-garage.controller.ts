@@ -13,13 +13,14 @@ export class HostGarageController extends BaseController<HostGarageHandler, Host
     return new HostGarageDto(request);
   }
   createResponseFromDto(dto: HostGarageDto): HostGarageResponse {
-    return { ...dto.garage, status: dto.garage.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return { ...dto.garage, statusCode: dto.garage.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
   }
   createResponseList(list: HostGarageDto[], total: number): HostGarageListResponse {
     return {
       results: list.map((garage) => garage.garage),
       totalCount: total,
       count: list.length,
+      statusCode: list.length == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK,
      };
   }
   
