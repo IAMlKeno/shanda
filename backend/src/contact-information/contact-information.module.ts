@@ -7,7 +7,8 @@ import { ContactInformationHandler } from './handlers/contact-information.handle
 
 @Module({
   controllers: [ContactInformationController],
-  providers: [ContactInformationService, ContactInformationHandler],
+  providers: [
+    ContactInformationService, ContactInformationHandler],
   imports: [
     SequelizeModule.forFeature([contactInformation]),
   ],
