@@ -28,3 +28,22 @@ export class ContactInformationController extends BaseController<ContactInformat
   }
 
 }
+/*
+SAMPLE ADDING SWAGGER CONTEXT TO A CONTROLLER
+// src/users/users.controller.ts
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+
+@ApiTags('users') // Tag for grouping
+@Controller('users')
+export class UsersController {
+
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, type: UserEntity, isArray: true }) 
+  @Get()
+  findAll() { 
+    // ... your controller logic 
+  }
+
+  // Add decorators for other endpoints 
+}
+*/
