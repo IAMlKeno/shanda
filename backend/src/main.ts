@@ -4,6 +4,38 @@ import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const createMethodName = (controllerKey: string, methodKey: string): string => {
+    // Normalize keys: lowercase, remove special characters, and split into words
+    const controllerKeyWords = controllerKey
+      .replace(/[^a-zA-Z0-9]+/g, ' ')
+      .replace(/controller/i, '')
+      .toLowerCase()
+      .split(' ');
+
+    const methodKeyWords = methodKey
+      .replace(/[^a-zA-Z0-9]+/g, ' ')
+      .split(' ');
+
+    // Filter out duplicates, ignoring case and handling plurals
+    const filteredControllerKeyWords = controllerKeyWords.filter(controllerWord => {
+      return !methodKeyWords.some(methodWord => {
+        const controllerSingular = controllerWord.replace(/s$/, '').toLowerCase(); // Remove 's' for singular
+        const methodSingular = methodWord.replace(/s$/, '').toLowerCase(); // Remove 's' for singular
+        return controllerSingular === methodSingular;
+      });
+    });
+
+    // Combine filtered words and convert to camel case
+    const combinedWords = [...methodKeyWords, ...filteredControllerKeyWords ];
+
+    const camelCasedMethodName = combinedWords.reduce((result, word, index) => {
+      const normalizedWord = word.charAt(0).toUpperCase() + word.slice(1);
+      return index === 0 ? normalizedWord.charAt(0).toLowerCase() + normalizedWord.slice(1) : result + normalizedWord;
+    }, "");
+
+
+    return camelCasedMethodName;
+  }
 
   const config = new DocumentBuilder()
     .setTitle('Shanda API')
@@ -16,7 +48,7 @@ async function bootstrap() {
       operationIdFactory: (
         controllerKey: string,
         methodKey: string
-      ) => methodKey
+      ) => createMethodName(controllerKey, methodKey)
     };
   const documentFactory = () => SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, documentFactory);
