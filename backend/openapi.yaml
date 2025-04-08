@@ -1,0 +1,639 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: getHelloApp
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - App
+  /user/profiles:
+    get:
+      operationId: getUserProfiles
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+  /user:
+    post:
+      operationId: createUser
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Users
+  /user/{id}:
+    get:
+      operationId: getUser
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+    patch:
+      operationId: updateUser
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+  /profiles/requester/{id}:
+    get:
+      operationId: getRequesterProfile
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Requester
+  /profiles/requester/garage:
+    get:
+      operationId: getMyGarage
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Requester
+  /profiles/requester/request:
+    post:
+      operationId: createRequest
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Requester
+  /profiles/requester/request/{id}:
+    get:
+      operationId: getRequest
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Requester
+    patch:
+      operationId: updateRequest
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Requester
+    delete:
+      operationId: deleteRequest
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Requester
+  /profiles/requester/request/{id}/receipt:
+    get:
+      operationId: getRequestReceipt
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Requester
+  /profiles/requester/request/receipt/{id}:
+    get:
+      operationId: getReceiptById
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Requester
+  /contact-information:
+    post:
+      operationId: createContactInformation
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - ContactInformation
+    get:
+      operationId: getAllContactInformation
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - ContactInformation
+  /contact-information/{id}:
+    get:
+      operationId: getContactInformation
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - ContactInformation
+    patch:
+      operationId: updateContactInformation
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - ContactInformation
+  /host-garage:
+    post:
+      operationId: createHostGarage
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - HostGarage
+    get:
+      operationId: getAllHostGarage
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - HostGarage
+  /host-garage/{id}:
+    get:
+      operationId: getHostGarage
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - HostGarage
+    patch:
+      operationId: updateHostGarage
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - HostGarage
+  /requester-garage:
+    post:
+      operationId: createRequesterGarage
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - RequesterGarage
+    get:
+      operationId: getAllRequestergarage
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - RequesterGarage
+  /requester-garage/{id}:
+    get:
+      operationId: getRequesterGarage
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - RequesterGarage
+    patch:
+      operationId: updateRequesterGarage
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - RequesterGarage
+  /company:
+    post:
+      operationId: createCompany
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Company
+    get:
+      operationId: getAllCompany
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Company
+  /company/{id}:
+    get:
+      operationId: getCompany
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Company
+    patch:
+      operationId: updateCompany
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Company
+  /bookings:
+    post:
+      operationId: createBookings
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Bookings
+    get:
+      operationId: getAllBookings
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Bookings
+  /bookings/{id}:
+    get:
+      operationId: getBookings
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Bookings
+    patch:
+      operationId: updateBookings
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Bookings
+  /vehicle:
+    post:
+      operationId: createVehicle
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Vehicles
+    get:
+      operationId: getAllVehicles
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Vehicles
+  /vehicle/{id}:
+    get:
+      operationId: getVehicle
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Vehicles
+    patch:
+      operationId: updateVehicle
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Vehicles
+  /bidding:
+    post:
+      operationId: createBid
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Bidding
+    get:
+      operationId: getAllBids
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Bidding
+  /bidding/{id}:
+    get:
+      operationId: getBid
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Bidding
+    patch:
+      operationId: updateBid
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Bidding
+  /maintenance-log:
+    post:
+      operationId: createMaintenanceLog
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+        - MaintenanceLog
+    get:
+      operationId: getAllMaintenanceLog
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - MaintenanceLog
+  /maintenance-log/{id}:
+    get:
+      operationId: getMaintenanceLog
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - MaintenanceLog
+    patch:
+      operationId: updateMaintenanceLog
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - MaintenanceLog
+info:
+  title: Shanda API
+  description: Shanda API description
+  version: '1.0'
+  contact: {}
+tags:
+  - name: users
+    description: ''
+servers: []
+components:
+  schemas: {}
