@@ -4,7 +4,9 @@ import { ProviderService } from "../services/provider.service";
 import { RequesterService } from "../services/requester.service";
 import { RequesterGarageHandler } from "src/requester-garage/handlers/requester-garage.handler";
 import { RequesterGarageService } from "src/requester-garage/services/requester-garage.service";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ProfileHandler {
 
   constructor(
