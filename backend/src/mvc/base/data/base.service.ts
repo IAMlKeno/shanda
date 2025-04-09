@@ -79,7 +79,7 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
    * @returns 
    */
   convertToWhere(params: Record<string, any>): FindOptions<M> {
-    return { where: { attribute: params } };
+    return { where: params };
   }
 
 }

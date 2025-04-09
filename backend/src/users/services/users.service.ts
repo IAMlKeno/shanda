@@ -14,10 +14,6 @@ export class UsersService extends BaseDbService<User, UserDto> {
   }
 
   async getUserAndProfiles(userId: string): Promise<any> {
-    // await this.model.findByPk(userId);
-    // const [ providerId, requesterId ownerId ] = Promise.all([
-    //   // requesterser
-    // ])
     return '';
   }
 

@@ -32,7 +32,7 @@ export class RequesterService extends BaseDbService<Requester, RequesterDto> imp
   }
 
   async getUserProfile(userId: string): Promise<RequesterDto> {
-    const where = this.convertToWhere({ userId: userId })
+    const where = this.convertToWhere({ userId: userId });
     return this.mapToDto(await this.model.findOne(where));
   }
 

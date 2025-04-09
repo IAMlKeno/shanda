@@ -20,6 +20,7 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
   ) {
     super(userHandler);
   }
+
   createDtoFromRequest(request: UserRequest): UserDto {
     return new UserDto(request);
   }
@@ -31,7 +32,21 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
       results: users.map((user) => user.user),
       totalCount: total,
       count: users.length,
+      statusCode: users.length == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK,
     };
+  }
+
+  @Get('/me')
+  async getMyUser(@Req() req): Promise<any> {
+    const token = req.headers['user-token'];
+    console.log(token);
+    const userInfo = {};
+    userInfo['me'] = await this.handler.get(token);
+    userInfo['me']['contactInfo'] = await this.contactHandler.get(userInfo['me'].user.contactInfoId);
+    userInfo['profiles'] = [];
+    userInfo['profiles'].push(await this.profileHandler.requesterService.getUserProfile(userInfo['me'].user.id));
+
+    return userInfo;
   }
 
   @Get('/profiles')
