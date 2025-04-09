@@ -44,7 +44,7 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
     try {
       let where = this.convertToWhere(params);
       where['limit'] = size;
-      where['offset'] = page;
+      where['offset'] = page - 1;
       if (orderBy) {
         where['order'] = Object.entries(orderBy);
       }
