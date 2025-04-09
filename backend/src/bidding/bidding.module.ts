@@ -11,5 +11,8 @@ import { BiddingHandler } from './handlers/bidding.handler';
   imports: [
     SequelizeModule.forFeature([bid]),
   ],
+  exports: [
+    SequelizeModule,
+  ],
 })
 export class BiddingModule {}

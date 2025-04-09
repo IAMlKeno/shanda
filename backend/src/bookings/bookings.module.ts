@@ -11,5 +11,8 @@ import { BookingHandler } from './handlers/booking.handler';
   imports: [
     SequelizeModule.forFeature([booking]),
   ],
+  exports: [
+    SequelizeModule,
+  ],
 })
 export class BookingsModule {}

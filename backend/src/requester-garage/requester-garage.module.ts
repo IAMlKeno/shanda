@@ -7,9 +7,15 @@ import { RequesterGarageHandler } from './handlers/requester-garage.handler';
 
 @Module({
   controllers: [RequesterGarageController],
-  providers: [RequesterGarageService, RequesterGarageHandler],
+  providers: [
+    RequesterGarageService,
+    RequesterGarageHandler,
+  ],
   imports: [
     SequelizeModule.forFeature([vehicleGarage]),
+  ],
+  exports: [
+    SequelizeModule,
   ],
 })
 export class RequesterGarageModule {}
