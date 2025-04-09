@@ -37,7 +37,7 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
   }
 
   @Get('/me')
-  async getMyUser(@Req() req): Promise<any> {
+  async getMyUser(@Req() req: Request): Promise<any> {
     const token = req.headers['user-token'];
     console.log(token);
     const userInfo = {};
@@ -49,10 +49,29 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     return userInfo;
   }
 
-  @Get('/profiles')
-  async getUserProfiles(@Req() req): Promise<any> {
+  @Get('/requester')
+  async getRequesterProfile(@Req() req: Request): Promise<any> {
     // probably add some interceptor that can extract user token from the request
-    return 'hellow world';
+    const token = req.headers['user-token'];
+    const requester = await this.profileHandler.requesterService.getUserProfile(token);
+    const garageId = requester.requester.garageId;
+    const garage = await this.profileHandler.requesterService.getGarageById(garageId);
+
+    return { requester, garage };
+  }
+
+  @Get('/provider')
+  async getProviderProfile(@Req() req: Request): Promise<any> {
+    // probably add some interceptor that can extract user token from the request
+    return 'I\'m a service provider';
+    const validationToken: any = '';
+    this.handler.getUserAndProfiles(validationToken);
+  }
+
+  @Get('/owner')
+  async getOwnerProfile(@Req() req: Request): Promise<any> {
+    // probably add some interceptor that can extract user token from the request
+    return 'I\'m a garage ownder';
     const validationToken: any = '';
     this.handler.getUserAndProfiles(validationToken);
   }

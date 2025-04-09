@@ -11,4 +11,15 @@ export class RequesterGarageHandler extends BaseHandler<RequesterGarageService, 
     super(dbService);
   }
 
+  async getGarageByUserId(userId: string) {
+    return this.dbService.getAll(1, 1, { userId: userId });
+  }
+
+  async getGarageById(id: string) {
+    const garage = await this.dbService.get(id);
+    const vehicles = await this.dbService.getVehiclesByGarageId(garage.garage.id);
+
+    return { garage, vehicles };
+  }
+
 }

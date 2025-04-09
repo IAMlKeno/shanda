@@ -16,6 +16,8 @@ import { RequesterGarageHandler } from 'src/requester-garage/handlers/requester-
 import { RequesterGarageService } from 'src/requester-garage/services/requester-garage.service';
 import { RequesterGarageModule } from 'src/requester-garage/requester-garage.module';
 import { VehiclesModule } from 'src/vehicles/vehicles.module';
+import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
+import { VehiclesService } from 'src/vehicles/services/vehicles.service';
 
 @Module({
   controllers: [UsersController],
@@ -30,6 +32,8 @@ import { VehiclesModule } from 'src/vehicles/vehicles.module';
     ProviderService,
     RequesterGarageHandler,
     RequesterGarageService,
+    VehicleHandler,
+    VehiclesService,
   ],
   imports: [
     SequelizeModule.forFeature([user]),

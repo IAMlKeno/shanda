@@ -12,6 +12,9 @@ import { RequesterGarageHandler } from 'src/requester-garage/handlers/requester-
 import { ProfileHandler } from './handlers/profiles.handler';
 import { RequesterGarageModule } from 'src/requester-garage/requester-garage.module';
 import { RequesterGarageService } from 'src/requester-garage/services/requester-garage.service';
+import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
+import { VehiclesModule } from 'src/vehicles/vehicles.module';
+import { VehiclesService } from 'src/vehicles/services/vehicles.service';
 
 @Module({
   controllers: [
@@ -26,6 +29,8 @@ import { RequesterGarageService } from 'src/requester-garage/services/requester-
     GarageOwnerService,
     RequesterGarageHandler,
     RequesterGarageService,
+    VehicleHandler,
+    VehiclesService,
     ProfileHandler,
     RequesterController,
     ProviderController,
@@ -38,6 +43,7 @@ import { RequesterGarageService } from 'src/requester-garage/services/requester-
       serviceProvider,
     ]),
     forwardRef(() => RequesterGarageModule),
+    forwardRef(() => VehiclesModule),
   ],
   exports: [
     SequelizeModule,
