@@ -13,15 +13,10 @@ export class MaintenanceLogController extends BaseController<MaintenanceLogHandl
     return new VehicleLogDto(request);
   }
   createResponseFromDto(dto: VehicleLogDto): MaintenanceLogResponse {
-    return { ...dto.request, statusCode: dto.request.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return new MaintenanceLogResponse(dto);
   }
   createResponseList(list: VehicleLogDto[], total: number): MaintenanceLogListResponse {
-    return {
-      results: list.map((log) => log.request),
-      totalCount: total,
-      count: list.length,
-      statusCode: list.length == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK,
-     };
+    return new MaintenanceLogListResponse(list.map((log) => log.request), total);
   }
   
 }

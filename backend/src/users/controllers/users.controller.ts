@@ -9,6 +9,8 @@ import { ProviderDto } from 'src/profiles/dto/provider/provider.dto';
 import { RequesterDto } from 'src/profiles/dto/requester/requester.dto';
 import { ContactInformationHandler } from 'src/contact-information/handlers/contact-information.handler';
 import { ContactInformationDto } from 'src/contact-information/dto/contact-information.dto';
+import { ApiFoundResponse, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ErrorResponse } from 'src/mvc/base/http/entities';
 
 @Controller('users')
 export class UsersController extends BaseController<UserHandler, UserRequest, UserDto, UserResponse, UserListResponse> {
@@ -24,20 +26,19 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
   createDtoFromRequest(request: UserRequest): UserDto {
     return new UserDto(request);
   }
-  createResponseFromDto(dto: UserDto): UserResponse {
-    return { ...dto.user, statusCode: dto.user.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+  createResponseFromDto(dto: any): UserResponse {
+    return new UserResponse(dto);
   }
   createResponseList(users: UserDto[], total: number): UserListResponse {
-    return {
-      results: users.map((user) => user.user),
-      totalCount: total,
-      count: users.length,
-      statusCode: users.length == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK,
-    };
+    return new UserListResponse(users.map((user) => user.user), total);
   }
 
+  @ApiOperation({ summary: 'Get the successfully authenticated user and profiles.', operationId: 'loadUser'})
+  @ApiFoundResponse({ type: UserResponse, description: 'A full user object containing references to its profiles.' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Failed to find user.' })
+  @ApiHeader({ name: 'user-token', description: 'User auth token' })
   @Get('/me')
-  async getMyUser(@Req() req: Request): Promise<any> {
+  async getMyUser(@Req() req: Request): Promise<UserResponse | ErrorResponse> {
     const token = req.headers['user-token'];
     console.log(token);
     const userInfo = {};
@@ -46,7 +47,7 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     userInfo['profiles'] = [];
     userInfo['profiles'].push(await this.profileHandler.requesterService.getUserProfile(userInfo['me'].user.id));
 
-    return userInfo;
+    return this.createResponseFromDto(userInfo);
   }
 
   @Get('/requester')

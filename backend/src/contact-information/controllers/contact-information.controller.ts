@@ -17,15 +17,10 @@ export class ContactInformationController extends BaseController<ContactInformat
     return new ContactInformationDto(request);
   }
   createResponseFromDto(dto: ContactInformationDto): ContactInformationResponse {
-    return { ...dto.info, statusCode: dto.info.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return new ContactInformationResponse(dto);
   }
   createResponseList(list: ContactInformationDto[], total: number): ContactInformationListResponse {
-    return {
-      results: list.map((contact) => contact.info),
-      totalCount: total,
-      count: list.length,
-      statusCode: list.length == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK,
-    };
+    return new ContactInformationListResponse(list.map((contact) => contact.info), total);
   }
 
 }
