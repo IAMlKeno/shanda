@@ -5,6 +5,7 @@ Docker implementation of the Shanda organization. The current tech stack is:
 * Nestjs
 * React Native
 * Postgresql
+* OpenAPI
 
 ### Requirements
 
