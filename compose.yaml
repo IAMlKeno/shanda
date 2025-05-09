@@ -6,17 +6,18 @@ services:
   app:
     container_name: shanda_frontend
     build:
-      context: ./frontend
+      context: ./shanda-app
       args:
-        - NODE_ENV=development
-        - PORT=4200
+        - VITE_ENV=development
+        - VITE_PORT=5173
       dockerfile: app.Dockerfile
     environment:
-      - NODE_ENV=development
+      - VITE_ENV=development
+      - VITE_PORT=5173
     ports:
-      - 4200:4200
+      - 5173:5173
     volumes:
-      - ./frontend:/app
+      - ./shanda-app:/app
     networks:
       - shanda-network
   server:
