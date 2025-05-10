@@ -27,6 +27,8 @@ Project structure:
     └── ...
 └── data
 ```
+#### Note
+A BUILDPLATFORM arg is added in attempt to create some compatibility for windows, macos and linux machines.
 
 [_compose.yaml_](compose.yaml)
 ```yaml
@@ -50,6 +52,7 @@ services:
       args:
         - NODE_ENV=development
         - PORT=4200
+        - BUILDPLATFORM=windows/amd64
       dockerfile: app.Dockerfile
     # Define environment variables for the container.
     # @see https://docs.docker.com/reference/compose-file/services/#environment
@@ -78,6 +81,8 @@ services:
     build:
       context: ./backend
       dockerfile: server.Dockerfile
+      args:
+        - BUILDPLATFORM=windows/amd64
     ports:
       - 4201:4201
     # Exposes the container's ports to any other
