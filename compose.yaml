@@ -10,6 +10,9 @@ services:
       args:
         - VITE_ENV=development
         - VITE_PORT=5173
+        # - BUILDPLATFORM=linux/amd64
+        # - BUILDPLATFORM=linux/arm64
+        - BUILDPLATFORM=windows/amd64
       dockerfile: app.Dockerfile
     environment:
       - VITE_ENV=development
@@ -25,6 +28,10 @@ services:
     build:
       context: ./backend
       dockerfile: server.Dockerfile
+      args:
+        # - BUILDPLATFORM=linux/amd64
+        # - BUILDPLATFORM=linux/arm64
+        - BUILDPLATFORM=windows/amd64
     ports:
       - 4201:4201
       - 9229:9229

@@ -1,4 +1,4 @@
-FROM node:22-bookworm-slim
+FROM --platform=$BUILDPLATFORM node:22-bookworm-slim
 
 # set our node environment, either development or production
 # defaults to dev, compose overrides this to development on build and run
