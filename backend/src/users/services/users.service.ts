@@ -17,6 +17,11 @@ export class UsersService extends BaseDbService<User, UserDto> {
     return '';
   }
 
+  async getUserByUsername(username: string): Promise<UserDto> {
+    const where = this.convertToWhere({ username: username });
+    return this.mapToDto(await this.model.findOne(where))
+  }
+
   mapToDto(model: any): UserDto {
     return new UserDto(model);
   }

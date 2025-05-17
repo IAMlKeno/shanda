@@ -36,6 +36,9 @@ import { CompanyHandler } from './company/handlers/company.handler';
 import { BookingHandler } from './bookings/handlers/booking.handler';
 import { BiddingHandler } from './bidding/handlers/bidding.handler';
 import { RequesterService } from './profiles/services/requester.service';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
@@ -79,6 +82,7 @@ import { RequesterService } from './profiles/services/requester.service';
     VehiclesModule,
     BiddingModule,
     MaintenanceLogModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -103,6 +107,10 @@ import { RequesterService } from './profiles/services/requester.service';
     BiddingService,
     BiddingHandler,
     RequesterService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthService,
+    },
   ],
 })
 export class AppModule {}

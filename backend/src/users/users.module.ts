@@ -18,9 +18,10 @@ import { RequesterGarageModule } from 'src/requester-garage/requester-garage.mod
 import { VehiclesModule } from 'src/vehicles/vehicles.module';
 import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
 import { VehiclesService } from 'src/vehicles/services/vehicles.service';
+import { RegistrationController } from './controllers/registration/registration.controller';
 
 @Module({
-  controllers: [UsersController],
+  controllers: [UsersController, RegistrationController],
   providers: [
     UsersService,
     UserHandler,
@@ -45,6 +46,7 @@ import { VehiclesService } from 'src/vehicles/services/vehicles.service';
   exports: [
     SequelizeModule,
     UserHandler,
+    UsersService,
   ]
 })
 export class UsersModule {}
