@@ -3,6 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { fetchSomeData } from './api/api-client'
+import LoginButton from './components/auth0/Auth0Login'
+import LogoutButton from './components/auth0/Auth0Logout'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +29,13 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
+      </div>
+      <div>
+        <LoginButton />
+      </div>
+      <hr />
+      <div>
+        <LogoutButton />
       </div>
       <div>
         <h2>Data from api</h2>
