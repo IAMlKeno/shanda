@@ -22,6 +22,11 @@ export class UsersService extends BaseDbService<User, UserDto> {
     return this.mapToDto(await this.model.findOne(where))
   }
 
+  async getUserByAuthId(ssoid: string): Promise<any> {
+    const where = this.convertToWhere({ ssoid: ssoid });
+    return this.mapToDto(await this.model.findOne(where));
+  }
+
   mapToDto(model: any): UserDto {
     return new UserDto(model);
   }

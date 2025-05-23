@@ -19,6 +19,7 @@ import { VehiclesModule } from 'src/vehicles/vehicles.module';
 import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
 import { VehiclesService } from 'src/vehicles/services/vehicles.service';
 import { RegistrationController } from './controllers/registration/registration.controller';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   controllers: [UsersController, RegistrationController],
@@ -35,6 +36,8 @@ import { RegistrationController } from './controllers/registration/registration.
     RequesterGarageService,
     VehicleHandler,
     VehiclesService,
+    JwtService,
+    UsersController,
   ],
   imports: [
     SequelizeModule.forFeature([user]),

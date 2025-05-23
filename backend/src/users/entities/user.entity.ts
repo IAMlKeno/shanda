@@ -13,6 +13,7 @@ export class UserRequest extends Request {
   username: string;
   @ApiProperty()
   contactInfo: {
+    id?: string,
     phone: string,
     email: string,
   };

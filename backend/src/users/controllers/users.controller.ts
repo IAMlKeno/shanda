@@ -79,9 +79,9 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
 
   @Post('/')
   async createUserAndProfiles(@Body() body: UserRequest, @Req() req): Promise<UserResponse> {
-    const dto = this.createDtoFromRequest(body);
-    const result = await this.handler.create(dto);
-    const contact = await this.contactHandler.create(new ContactInformationDto(body.contactInfo));
+    const dto: UserDto = this.createDtoFromRequest(body);
+    const result: UserDto = await this.handler.create(dto);
+    const contact: ContactInformationDto = await this.contactHandler.create(new ContactInformationDto(body.contactInfo));
 
     // create profiles
     Promise.all([
