@@ -67,5 +67,9 @@ INSERT INTO public."vehicle" ("id", "vin", "garageId", "vehicleInformation", "ve
 ('b5e2cf01-8bb6-4fcd-ad88-0efb611195da', '70YZ0XYGZ5H9ACXOK', '20354d7a-e4fe-47af-8ff6-187bca92f3f9', '{"make": "Honda", "model": "Accord", "trim": "LX", "year": "2022", "mileage": 100000, "color": "Black"}', '3ca13312-6ecc-4152-bbe8-c8fc1b3cd838'),
 ('b11c9be1-b619-4ef5-be1b-a1cd9ef265b7', 'WB6MASLNU96PHNHLG', 'bd2cbad1-6ccf-48e3-bb92-bc9961bc011e', '{"make": "Toyota", "model": "Corolla", "trim": "CE", "year": "2014", "mileage": 204000, "color": "White"}', '51f59d65-39a7-404e-aced-2d92d7f1545a');
 
+-- Insert test data for "accountmapping"
+INSERT INTO public."accountMappingId" ("id","userId","ssoid") VALUES
+('ebc4e06b-bfef-4de1-8644-e18c9723b2ef','00000000-0000-0000-0000-a00000000001','auth0|6827cca643f041dbcb249db0');
+
 -- Insert more test data as needed for other tables
 -- Following the same pattern and ensuring foreign key constraints are met.
