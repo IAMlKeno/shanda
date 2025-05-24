@@ -11,6 +11,7 @@ import { ContactInformationHandler } from 'src/contact-information/handlers/cont
 import { ContactInformationDto } from 'src/contact-information/dto/contact-information.dto';
 import { ApiFoundResponse, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ErrorResponse } from 'src/mvc/base/http/entities';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('users')
 export class UsersController extends BaseController<UserHandler, UserRequest, UserDto, UserResponse, UserListResponse> {
@@ -19,6 +20,7 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     userHandler: UserHandler,
     private readonly profileHandler: ProfileHandler,
     private readonly contactHandler: ContactInformationHandler,
+    private readonly jwtService: JwtService,
   ) {
     super(userHandler);
   }
@@ -39,10 +41,18 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
   @ApiHeader({ name: 'user-token', description: 'User auth token' })
   @Get('/me')
   async getMyUser(@Req() req: Request): Promise<UserResponse | ErrorResponse> {
-    const token = req.headers['user-token'];
+    // const token = req.headers['user-token'];
+    const accessToken: string = req.headers['authorization']?.split(' ')[1] ?? '';
+    console.log(accessToken);
+    const parsedToken: any = this.jwtService.decode(accessToken);
+    const token: string = parsedToken['sub'] ?? '';
+    if (!token) {
+      // throw error - no auth0 "sub" user id
+      throw new Error('Invalid user data');
+    }
     console.log(token);
     const userInfo = {};
-    userInfo['me'] = await this.handler.get(token);
+    userInfo['me'] = await this.handler.getUserByAuthId(token);
     userInfo['me']['contactInfo'] = await this.contactHandler.get(userInfo['me'].user.contactInfoId);
     userInfo['profiles'] = [];
     userInfo['profiles'].push(await this.profileHandler.requesterService.getUserProfile(userInfo['me'].user.id));

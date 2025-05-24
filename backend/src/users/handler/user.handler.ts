@@ -14,4 +14,8 @@ export class UserHandler extends BaseHandler<UsersService, UserDto> {
     return await this.dbService.getUserAndProfiles(userId);
   }
 
+  async getUserByAuthId(userId: string): Promise<UserDto | undefined> {
+    return await this.dbService.getUserByAuthId(userId);
+  }
+
 }

@@ -14,6 +14,7 @@ export class UsersService extends BaseDbService<User, UserDto> {
   }
 
   async getUserAndProfiles(userId: string): Promise<any> {
+
     return '';
   }
 
@@ -22,9 +23,17 @@ export class UsersService extends BaseDbService<User, UserDto> {
     return this.mapToDto(await this.model.findOne(where))
   }
 
-  async getUserByAuthId(ssoid: string): Promise<any> {
-    const where = this.convertToWhere({ ssoid: ssoid });
-    return this.mapToDto(await this.model.findOne(where));
+  async getUserByAuthId(ssoid: string): Promise<UserDto | undefined> {
+    const result = await this.model.sequelize.query(`
+    select u.id, u."firstName", u."lastName", u.username, u.created, u.deleted, u."contactInfoId", u.status
+    from public."accountMappingId" ami
+    join public."user" u on u.id = ami."userId"
+    where ami.ssoid = '${ssoid}'
+      `, {
+        mapToModel: true,
+        model: this.model,
+      });
+    return result?.length > 0 ? this.mapToDto(result[0]) : undefined;
   }
 
   mapToDto(model: any): UserDto {

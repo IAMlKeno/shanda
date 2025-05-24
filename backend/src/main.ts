@@ -53,6 +53,7 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, documentFactory);
 
+  app.enableCors();
   await app.listen(4201); // get from env..
 }
 bootstrap();
