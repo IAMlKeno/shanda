@@ -39,6 +39,7 @@ import { RequesterService } from './profiles/services/requester.service';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthService } from './auth/auth.service';
+import { FormsControllerController } from './common/forms-controller/forms-controller.controller';
 
 @Module({
   imports: [
@@ -84,7 +85,7 @@ import { AuthService } from './auth/auth.service';
     MaintenanceLogModule,
     AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, FormsControllerController],
   providers: [
     AppService,
     UsersService,
