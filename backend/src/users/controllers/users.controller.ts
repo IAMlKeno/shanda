@@ -87,30 +87,4 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     this.handler.getUserAndProfiles(validationToken);
   }
 
-  @Post('/')
-  async createUserAndProfiles(@Body() body: UserRequest, @Req() req): Promise<UserResponse> {
-    const dto: UserDto = this.createDtoFromRequest(body);
-    const result: UserDto = await this.handler.create(dto);
-    const contact: ContactInformationDto = await this.contactHandler.create(new ContactInformationDto(body.contactInfo));
-
-    // create profiles
-    Promise.all([
-      // need a garage owner dto where id, and garage are nullable
-      this.profileHandler.garageOwnerService.create(new GarageOwnerDto({
-        user: result.user.id,
-        contactInfoId: contact.info.id // contact infor should lbe on user
-      })),
-      this.profileHandler.providerService.create(new ProviderDto({
-        userId: result.user.id,
-        contactInfoId: contact.info.id,
-      })),
-      this.profileHandler.requesterService.create(new RequesterDto({
-        userId: result.user.id,
-        garageId: '',//probably initiate garage creation in that handler
-      })),
-    ]);
-
-    return this.createResponseFromDto(result);
-  }
-
 }

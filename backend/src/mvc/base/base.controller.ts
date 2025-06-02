@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
+import { ErrorResponse } from './http/entities';
 
 @Controller('base')
 export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, RequestType, DtoType extends object, ResponseType, ListResponseType> {
@@ -15,14 +16,14 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
   abstract createResponseList(list: Array<DtoType>, total: number): ListResponseType;
 
   @Post('/')
-  async create(@Body() body: RequestType): Promise<ResponseType | Error> {
+  async create(@Body() body: RequestType): Promise<ResponseType | ErrorResponse> {
     try {
       const dto: DtoType = this.createDtoFromRequest(body);
       const item: DtoType = await this.handler.create(dto);
       const response: ResponseType = this.createResponseFromDto(item);
       return response;
     } catch (error) {
-      return new Error(error);
+      return new ErrorResponse(error);
     }
   }
 

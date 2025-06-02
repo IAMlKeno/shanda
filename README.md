@@ -3,9 +3,12 @@
 ## Description
 Docker implementation of the Shanda organization. The current tech stack is:
 * Nestjs
-* React Native
+* React
 * Postgresql
 * OpenAPI
+
+#### Roadmap
+* React Native for mobile look and feel.
 
 ### Requirements
 
@@ -143,3 +146,9 @@ $ docker compose down
  ✔ Container shanda_frontend  Stopped                        10.3s
  ✔ Container shanda_db        Stopped                         0.1s
 ```
+
+## TO DO
+1. Add flag (maybe in a preferences table) to track (last/default profile).
+  a. Use with the /me endpoint
+2. Create acount mapping table for the ssoid
+3. Test registration
