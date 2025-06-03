@@ -1,11 +1,32 @@
-import { Response as ExpressResponse } from "express";
+import { ApiProperty } from "@nestjs/swagger";
+import { Response as ExpressResponse, Request as ExpressRequest } from "express";
 
-export interface Response extends Partial<ExpressResponse> {
+export class Response<T> implements Partial<ExpressResponse> {
+  statusCode?: number;
+  @ApiProperty()
+  data: T;
 
+  constructor(data: any) {
+    this.data = data;
+  }
+}
+export class ErrorResponse extends Response<any> {
+  statusCode?: number;
+  @ApiProperty()
+  msg?: string;
 }
 
-export interface ListResponse<T> extends Response {
+export class ListResponse<T> extends Response<Array<T>> {
+  @ApiProperty()
   count: number;
+  @ApiProperty()
   totalCount: number;
-  results: Array<T>;
+
+  constructor(data: Array<any>, total: number) {
+    super(data);
+    this.count = data.length;
+    this.totalCount = total;
+  }
 }
+
+export class Request implements Partial<ExpressRequest> {}

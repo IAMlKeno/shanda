@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
+import { ErrorResponse } from './http/entities';
 
 @Controller('base')
 export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, RequestType, DtoType extends object, ResponseType, ListResponseType> {
@@ -15,14 +16,14 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
   abstract createResponseList(list: Array<DtoType>, total: number): ListResponseType;
 
   @Post('/')
-  async create(@Body() body: RequestType): Promise<ResponseType | Error> {
+  async create(@Body() body: RequestType): Promise<ResponseType | ErrorResponse> {
     try {
       const dto: DtoType = this.createDtoFromRequest(body);
       const item: DtoType = await this.handler.create(dto);
       const response: ResponseType = this.createResponseFromDto(item);
       return response;
     } catch (error) {
-      return new Error(error);
+      return new ErrorResponse(error);
     }
   }
 
@@ -107,3 +108,23 @@ export interface IBaseHandler<DtoType> {
     orderBy?: Record<string, 'ASC' | 'DESC'>,
   ): Promise<Array<T>>;
 }
+
+/*
+SAMPLE ADDING SWAGGER CONTEXT TO A CONTROLLER
+// src/users/users.controller.ts
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+
+@ApiTags('users') // Tag for grouping
+@Controller('users')
+export class UsersController {
+
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, type: UserEntity, isArray: true }) 
+  @Get()
+  findAll() { 
+    // ... your controller logic 
+  }
+
+  // Add decorators for other endpoints 
+}
+*/

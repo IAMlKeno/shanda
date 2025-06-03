@@ -1,18 +1,43 @@
 import { convertStringToUserStatusEnum } from "src/mvc/enums/enum";
 import { userAttributes as User } from "src/mvc/models";
+import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
+import { InputType } from "src/common/form-map";
+import { Transform } from "class-transformer";
 
 export class UserDto {
   user: UserType;
 
   constructor(row: any) {
-    this.user.id = row.id;
-    this.user.firstName = row.firstName;
-    this.user.lastName = row.lastName;
-    this.user.created = row.created;
-    this.user.deleted = row.deleted;
-    this.user.username = row.username;
-    this.user.status = convertStringToUserStatusEnum(row.status); // convert to enum val
+    this.user = {
+      id: row.id,
+      firstName: row.firstName,
+      lastName: row.lastName,
+      created: row.created,
+      deleted: row.deleted,
+      username: row.username,
+      status: convertStringToUserStatusEnum(row.status),
+      contactInfoId: row.contactInfoId,
+    }; // convert to enum val
   }
+}
+
+export class UserRegistrationDto {
+  @IsString()
+  @IsNotEmpty()
+  @InputType({ type: 'text', additionalParams: { label: 'First Name' } })
+  @Transform(({ value }) => value || '')
+  firstName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @InputType({ type: 'text', additionalParams: { label: 'Last Name' } })
+  lastName: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  @InputType({ type:'text', subtype: 'email', additionalParams: { label: 'Email' } })
+  email: string;
+
 }
 
 export interface UserType extends User {}

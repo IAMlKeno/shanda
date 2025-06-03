@@ -1,3 +1,5 @@
+import { ApiProperty, ApiSchema } from "@nestjs/swagger";
+import { Request } from "src/mvc/base/http/entities";
 import { requestAttributes as VehicleRequest } from "src/mvc/models";
 
 export class VehicleRequestDto {
@@ -8,4 +10,15 @@ export class VehicleRequestDto {
   }
 }
 export interface VehicleRequestType extends VehicleRequest {}
-export interface VehicleRequestObject extends VehicleRequest {}
+
+@ApiSchema({ description: 'Vehicle request data' })
+export class VehicleRequestObject extends Request {
+  @ApiProperty()
+  summary: string;
+  @ApiProperty()
+  description?: string;
+  @ApiProperty()
+  vehicleId: string;
+  @ApiProperty()
+  requesterId: string;
+}

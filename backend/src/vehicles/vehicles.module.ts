@@ -11,5 +11,8 @@ import { VehicleHandler } from './handlers/vehicle.handler';
   imports: [
     SequelizeModule.forFeature([vehicle]),
   ],
+  exports: [
+    SequelizeModule,
+  ],
 })
 export class VehiclesModule {}

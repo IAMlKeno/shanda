@@ -13,14 +13,9 @@ export class BookingsController extends BaseController<BookingHandler, BookingRe
     return new BookingDto(request);
   }
   createResponseFromDto(dto: BookingDto): BookingResponse {
-    return { ...dto.request, statusCode: dto.request.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return new BookingResponse(dto);
   }
   createResponseList(list: BookingDto[], total: number): BookingListResponse {
-    return {
-      results: list.map((booking) => booking.request),
-      totalCount: total,
-      count: list.length,
-      statusCode: HttpStatus.OK,
-     } as BookingListResponse;
+    return new BookingListResponse(list.map((booking) => booking.request), total);
   }
 }

@@ -151,6 +151,12 @@ CREATE TABLE IF NOT EXISTS "garageOwner" (
 	PRIMARY KEY ("id")
 );
 
+CREATE TABLE IF NOT EXISTS "accountMappingId" (
+  "id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  "userId" uuid NOT NULL UNIQUE,
+  "ssoid" varchar(255) NOT NULL,
+  PRIMARY KEY ("id")
+);
 
 ALTER TABLE public."serviceProvider" ADD CONSTRAINT "serviceProvider_fk1" FOREIGN KEY ("userId") REFERENCES "user"("id");
 

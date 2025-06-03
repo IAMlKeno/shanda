@@ -17,34 +17,10 @@ export class ContactInformationController extends BaseController<ContactInformat
     return new ContactInformationDto(request);
   }
   createResponseFromDto(dto: ContactInformationDto): ContactInformationResponse {
-    return { ...dto.info, statusCode: dto.info.id ? HttpStatus.FOUND : HttpStatus.NOT_FOUND };
+    return new ContactInformationResponse(dto);
   }
   createResponseList(list: ContactInformationDto[], total: number): ContactInformationListResponse {
-    return {
-      results: list.map((contact) => contact.info),
-      totalCount: total,
-      count: list.length,
-      statusCode: list.length == 0 ? HttpStatus.NO_CONTENT : HttpStatus.OK,
-    };
+    return new ContactInformationListResponse(list.map((contact) => contact.info), total);
   }
 
 }
-/*
-SAMPLE ADDING SWAGGER CONTEXT TO A CONTROLLER
-// src/users/users.controller.ts
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-
-@ApiTags('users') // Tag for grouping
-@Controller('users')
-export class UsersController {
-
-  @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ status: 200, type: UserEntity, isArray: true }) 
-  @Get()
-  findAll() { 
-    // ... your controller logic 
-  }
-
-  // Add decorators for other endpoints 
-}
-*/

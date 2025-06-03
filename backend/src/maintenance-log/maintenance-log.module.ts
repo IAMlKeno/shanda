@@ -11,5 +11,8 @@ import { MaintenanceLogHandler } from './handlers/maintenance-log.handler';
   imports: [
     SequelizeModule.forFeature([maintenanceLog]),
   ],
+  exports: [
+    SequelizeModule,
+  ],
 })
 export class MaintenanceLogModule {}

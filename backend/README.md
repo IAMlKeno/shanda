@@ -1,3 +1,13 @@
+For database integration the following were used:
+* https://www.npmjs.com/package/sequelize-typescript
+* https://www.npmjs.com/package/sequelize-typescript-generator
+
+```bash
+# Creating entity models
+npx stg -D postgres -h localhost -p 5432 -d shanda -u shanda -x password --indices --case camel --out-dir src/mvc/models --associations-file static/_associations.csv --clean
+```
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>

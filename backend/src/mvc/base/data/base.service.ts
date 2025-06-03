@@ -44,13 +44,17 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
     try {
       let where = this.convertToWhere(params);
       where['limit'] = size;
-      where['offset'] = page;
-      where['order'] = Object.entries(orderBy);
+      where['offset'] = page - 1;
+      if (orderBy) {
+        where['order'] = Object.entries(orderBy);
+      }
       const rows: M[] = await this.model.findAll(where);
       rows.forEach((row: M) => {
         results.push(this.mapToDto(row));
       });
-    } catch(e) {}
+    } catch(e) {
+      console.log(`getall failed: ${e}`);
+    }
     finally { return results; };
   }
   deleteMany(conditions: { [key: string]: any; }): Promise<void> {
@@ -79,7 +83,7 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
    * @returns 
    */
   convertToWhere(params: Record<string, any>): FindOptions<M> {
-    return { where: { attribute: params } };
+    return { where: params };
   }
 
 }

@@ -1,9 +1,10 @@
 import { BaseHandler } from "src/mvc/base/handlers/base.handler";
 import { UsersService } from "../services/users.service";
 import { UserDto } from "../dto/user.dto";
-import { IBaseHandler } from "src/mvc/base/base.controller";
+import { Injectable } from "@nestjs/common";
 
-export class UserHandler extends BaseHandler<UsersService, UserDto> implements IBaseHandler<UserDto> {
+@Injectable()
+export class UserHandler extends BaseHandler<UsersService, UserDto> {
 
   constructor(dbService: UsersService) {
     super(dbService);
@@ -11,6 +12,10 @@ export class UserHandler extends BaseHandler<UsersService, UserDto> implements I
 
   async getUserAndProfiles(userId: string): Promise<any> {
     return await this.dbService.getUserAndProfiles(userId);
+  }
+
+  async getUserByAuthId(userId: string): Promise<UserDto | undefined> {
+    return await this.dbService.getUserByAuthId(userId);
   }
 
 }

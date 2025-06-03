@@ -1,10 +1,10 @@
 import { vehicleAttributes as Vehicle } from "src/mvc/models";
 
 export class VehicleDto {
-  request: VehicleType;
+  vehicle: VehicleType;
 
   constructor(row: any) {
-    this.request = row as Vehicle;
+    this.vehicle = row as Vehicle;
   }
 }
 export interface VehicleType extends Vehicle {}

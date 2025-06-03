@@ -11,5 +11,8 @@ import { CompanyHandler } from './handlers/company.handler';
   imports: [
     SequelizeModule.forFeature([companyInformation, contactInformation, serviceProvider]),
   ],
+  exports: [
+    SequelizeModule,
+  ],
 })
 export class CompanyModule {}

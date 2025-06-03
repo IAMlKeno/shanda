@@ -11,5 +11,8 @@ import { HostGarageHandler } from './handlers/host-garage.handler';
   imports: [
     SequelizeModule.forFeature([garageOwner, garage]),
   ],
+  exports: [
+    SequelizeModule,
+  ],
 })
 export class HostGarageModule {}

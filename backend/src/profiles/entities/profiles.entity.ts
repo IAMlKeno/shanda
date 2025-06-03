@@ -7,4 +7,4 @@ export interface Requester extends Profile { garage: any; }
 export interface GarageOwner extends Profile {}
 export interface ProfileRequest {}
 
-export interface ProfileListResponse extends ListResponse<Profile> { }
+export class ProfileListResponse extends ListResponse<Profile> { }

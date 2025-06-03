@@ -4,10 +4,12 @@ export class RequesterDto {
   requester: RequesterType;
 
   constructor(row: any) {
-    this.requester.id = row.id;
-    this.requester.userId = row.userId;
-    this.requester.garageId = row.garageId;
-    this.requester.contactInfoId = row.contactInfoId;
+    this.requester = {
+      id: row.id,
+      userId: row.userId,
+      garageId: row.garageId,
+      contactInfoId: 'row.contactInfoId'
+    }
   }
 }
 export interface RequesterType extends Requester {}

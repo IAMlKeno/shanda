@@ -8,9 +8,16 @@ import { ContactInformationHandler } from './handlers/contact-information.handle
 @Module({
   controllers: [ContactInformationController],
   providers: [
-    ContactInformationService, ContactInformationHandler],
+    ContactInformationService,
+    ContactInformationHandler,
+    ContactInformationController,
+  ],
   imports: [
     SequelizeModule.forFeature([contactInformation]),
+  ],
+  exports: [
+    SequelizeModule,
+    ContactInformationController,
   ],
 })
 export class ContactInformationModule {}

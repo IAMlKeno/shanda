@@ -15,24 +15,24 @@ export class RequesterService extends BaseDbService<Requester, RequesterDto> imp
     super(model);
   }
 
-  async create(request: RequesterDto): Promise<RequesterDto> {
-    if (!request.requester.userId) throw new Error(' missing user id');
+  // async create(request: RequesterDto): Promise<RequesterDto> {
+  //   if (!request.requester.userId) throw new Error(' missing user id');
 
-    const row = this.mapToModel(request);
-    // create their garage first;
-    const garage = await this.garageHandler.create({ garage: {
-      nickname: 'WILD NAME',
-      location: {},
-      ownerId: row.id,
-    }} as RequesterGarageDto)
-    row.garageId = garage.garage.id;
-    const createdRow = await this.model.create(row);
+  //   const row = this.mapToModel(request);
+  //   // create their garage first;
+  //   const garage = await this.garageHandler.create({ garage: {
+  //     nickname: 'WILD NAME',
+  //     location: {},
+  //     ownerId: row.id,
+  //   }} as RequesterGarageDto)
+  //   row.garageId = garage.garage.id;
+  //   const createdRow = await this.model.create(row);
 
-    return this.mapToDto(createdRow);
-  }
+  //   return this.mapToDto(createdRow);
+  // }
 
   async getUserProfile(userId: string): Promise<RequesterDto> {
-    const where = this.convertToWhere({ userId: userId })
+    const where = this.convertToWhere({ userId: userId });
     return this.mapToDto(await this.model.findOne(where));
   }
 
@@ -43,7 +43,12 @@ export class RequesterService extends BaseDbService<Requester, RequesterDto> imp
   async deleteRequest(id: string) {}
   async getRequestReceipt(id: string) {}
   async getReceiptById(id: string) {}
-  async getMyGarage(userId: string) {}
+  async getMyGarage(userId: string) {
+    return this.garageHandler.getGarageByUserId(userId);
+  }
+  async getGarageById(id: string) {
+    return this.garageHandler.getGarageById(id);
+  }
 
 
 
