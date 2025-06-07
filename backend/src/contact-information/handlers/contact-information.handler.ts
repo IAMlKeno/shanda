@@ -5,6 +5,7 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class ContactInformationHandler extends BaseHandler<ContactInformationService, ContactInformationDto> {
+
   constructor(dbService: ContactInformationService) {
     super(dbService);
   }

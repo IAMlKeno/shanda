@@ -1,15 +1,21 @@
 import { requesterAttributes as Requester } from "src/mvc/models";
 
-export class RequesterDto {
-  requester: RequesterType;
+export class RequesterDto implements Requester {
+
+  info: Requester;
 
   constructor(row: any) {
-    this.requester = {
-      id: row.id,
-      userId: row.userId,
-      garageId: row.garageId,
-      contactInfoId: 'row.contactInfoId'
+    this.id = row?.id;
+    this.userId = row?.userId;
+    this.garageId = row?.garageId;
+    this.contactInfoId = row?.contactInfoId;
+    this.info = {
+      userId: row?.userId,
+      contactInfoId: row?.contactInfoId,
     }
   }
+  id?: string;
+  userId: string;
+  contactInfoId?: string;
+  garageId?: string;
 }
-export interface RequesterType extends Requester {}

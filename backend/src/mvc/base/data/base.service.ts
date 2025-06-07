@@ -9,18 +9,22 @@ import { FindOptions } from 'sequelize';
 //https://stackoverflow.com/questions/69051499/typescript-repository-pattern-with-sequelize
 @Injectable()
 export abstract class BaseDbService<M extends Model, DtoType> implements IDbService<DtoType> {
-  // export abstract class BaseDbService<M extends Model, DtoType> implements IDbService<DtoType> {
 
   constructor(protected readonly model: ModelCtor<M>) { }
 
-  async create(request: DtoType): Promise<DtoType> {
+  async create(request: DtoType, transactionHost?: any): Promise<DtoType> {
     const row = this.mapToModel(request);
-    const createdRow = await this.model.create(row);
+    let createdRow: any;
+    if (transactionHost) {
+      createdRow = await this.model.create(row.dataValues, { transaction: transactionHost});
+    } else {
+      createdRow = await this.model.create(row.dataValues);
+    }
 
     return this.mapToDto(createdRow);
   }
 
-  async update(request: DtoType, id: string): Promise<DtoType> {
+  async update(request: DtoType, id: string, transactionHost?: any): Promise<DtoType> {
     const record = await this.model.findByPk(id);
     if (!record) {
       return null;
@@ -30,7 +34,7 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
     return this.mapToDto(updatedRow);
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string, transactionHost?: any): Promise<void> {
     const rowsRemoved = this.model.destroy(this.convertToWhere({ id: id }));
   }
 
@@ -57,7 +61,7 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
     }
     finally { return results; };
   }
-  deleteMany(conditions: { [key: string]: any; }): Promise<void> {
+  deleteMany(conditions: { [key: string]: any; }, transactionHost?: any): Promise<void> {
     throw new Error("Method not implemented.");
   }
   getCustom<T extends new (item: any) => any>(paramsArray: Record<string, any>[], dtoConstructor?: T): Promise<InstanceType<T>> {
@@ -66,10 +70,10 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
   getAllCustom<T>(page: number, size: number, params: Record<string, any>[], dtoConstructor: new (item: any) => T, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<T[]> {
     throw new Error("Method not implemented.");
   }
-  deleteCustom(params: Record<string, any>[]): Promise<void> {
+  deleteCustom(params: Record<string, any>[], transactionHost?: any): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  updateMany(request: any, ids: Array<string>): Promise<DtoType> {
+  updateMany(request: any, ids: Array<string>, transactionHost?: any): Promise<DtoType> {
     throw new Error("Method not implemented.");
   }
 

@@ -22,6 +22,6 @@ export class ProviderService extends BaseDbService<ServiceProvider, ProviderDto>
     return new ProviderDto(model);
   }
   mapToModel(dto: ProviderDto): MakeNullishOptional<ServiceProvider> {
-    return new ServiceProvider(dto.provider);
+    return new ServiceProvider(dto.info);
   }
 }

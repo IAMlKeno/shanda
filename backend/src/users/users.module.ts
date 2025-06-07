@@ -2,7 +2,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { UsersService } from './services/users.service';
 import { UsersController } from './controllers/users.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { user } from 'src/mvc/models';
+import { contactInformation, user } from 'src/mvc/models';
 import { UserHandler } from './handler/user.handler';
 import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
 import { ContactInformationHandler } from 'src/contact-information/handlers/contact-information.handler';
@@ -20,6 +20,10 @@ import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
 import { VehiclesService } from 'src/vehicles/services/vehicles.service';
 import { RegistrationController } from './controllers/registration/registration.controller';
 import { JwtService } from '@nestjs/jwt';
+import { accountMapping } from 'src/mvc/models/accountMapping';
+import { AccountMappingHandler } from './handler/account-mapping.handler';
+import { AccountMappingService } from './services/account-mapping.service';
+import { accountMappingProviders } from './providers/account-mapping.provider';
 
 @Module({
   controllers: [UsersController, RegistrationController],
@@ -38,9 +42,16 @@ import { JwtService } from '@nestjs/jwt';
     VehiclesService,
     JwtService,
     UsersController,
+    AccountMappingHandler,
+    AccountMappingService,
+    ...accountMappingProviders,
   ],
   imports: [
-    SequelizeModule.forFeature([user]),
+    SequelizeModule.forFeature([
+      user,
+      contactInformation,
+      accountMapping,
+    ]),
     forwardRef(() => ProfilesModule),
     forwardRef(() => ContactInformationModule),
     forwardRef(() => RequesterGarageModule),
@@ -50,6 +61,8 @@ import { JwtService } from '@nestjs/jwt';
     SequelizeModule,
     UserHandler,
     UsersService,
+    AccountMappingHandler,
+    AccountMappingService,
   ]
 })
 export class UsersModule {}

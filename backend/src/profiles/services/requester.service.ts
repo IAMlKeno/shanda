@@ -56,6 +56,6 @@ export class RequesterService extends BaseDbService<Requester, RequesterDto> imp
     return new RequesterDto(model);
   }
   mapToModel(dto: RequesterDto): MakeNullishOptional<Requester> {
-    return new Requester(dto.requester);
+    return new Requester(dto.info);
   }
 }

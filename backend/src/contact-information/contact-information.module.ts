@@ -4,6 +4,7 @@ import { ContactInformationController } from './controllers/contact-information.
 import { SequelizeModule } from '@nestjs/sequelize';
 import { contactInformation } from 'src/mvc/models';
 import { ContactInformationHandler } from './handlers/contact-information.handler';
+import { contactInfoProviders } from './providers/contact-information.provider';
 
 @Module({
   controllers: [ContactInformationController],
@@ -11,6 +12,7 @@ import { ContactInformationHandler } from './handlers/contact-information.handle
     ContactInformationService,
     ContactInformationHandler,
     ContactInformationController,
+    ...contactInfoProviders,
   ],
   imports: [
     SequelizeModule.forFeature([contactInformation]),
@@ -18,6 +20,8 @@ import { ContactInformationHandler } from './handlers/contact-information.handle
   exports: [
     SequelizeModule,
     ContactInformationController,
+    ContactInformationHandler,
+    ContactInformationService,
   ],
 })
 export class ContactInformationModule {}

@@ -41,6 +41,6 @@ export class UsersService extends BaseDbService<User, UserDto> {
   }
 
   mapToModel(dto: UserDto): Optional<User, NullishPropertiesOf<User>> {
-    return new User(dto);
+    return new User(dto.user);
   }
 }

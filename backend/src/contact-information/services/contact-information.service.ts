@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ContactInformationDto } from '../dto/contact-information.dto';
 import { BaseDbService } from 'src/mvc/base/data/base.service';
 import { contactInformation } from 'src/mvc/models';
@@ -9,7 +9,11 @@ import { InjectModel } from '@nestjs/sequelize';
 @Injectable()
 export class ContactInformationService extends BaseDbService<contactInformation, ContactInformationDto> {
 
-  constructor(@InjectModel(contactInformation) model: typeof contactInformation) { super(model); }
+  constructor(
+    @InjectModel(contactInformation)
+    @Inject('CONTACT_INFO_REPOSITORY')
+    model: typeof contactInformation,
+  ) { super(model); }
 
   mapToDto(model: contactInformation): ContactInformationDto {
     return new ContactInformationDto(model);

@@ -15,7 +15,8 @@ export class UserDto {
       created: row.created,
       deleted: row.deleted,
       username: row.username,
-      status: convertStringToUserStatusEnum(row.status),
+      // status: convertStringToUserStatusEnum(row.status ?? 'pending'),
+      status: row?.status ?? 'pending',
       contactInfoId: row.contactInfoId,
     }; // convert to enum val
   }
