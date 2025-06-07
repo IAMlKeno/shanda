@@ -40,6 +40,7 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthService } from './auth/auth.service';
 import { FormsControllerController } from './common/forms-controller/forms-controller.controller';
+import { accountMapping } from './mvc/models/accountMapping';
 
 @Module({
   imports: [
@@ -51,8 +52,8 @@ import { FormsControllerController } from './common/forms-controller/forms-contr
       username: process.env.NODE_DB_USERNAME,
       password: process.env.NODE_DB_PASSWORD,
       database: process.env.NODE_DB,
-      repositoryMode: true,
       models: [
+        accountMapping,
         bid,
         bidRevision,
         booking,
