@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Response } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Response } from '@nestjs/common';
 import { formDtoMap } from '../form-map';
 import { ApiOperation, ApiFoundResponse, ApiNotFoundResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ErrorResponse } from 'src/mvc/base/http/entities';
@@ -22,8 +22,8 @@ export class FormsControllerController {
       }
 
       return dtoClass;
-    } catch (error) {
-      return new ErrorResponse(error);
+    } catch (error: any) {
+      return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

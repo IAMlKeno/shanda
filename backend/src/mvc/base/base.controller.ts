@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req, HttpStatus } from '@nestjs/common';
 import { ErrorResponse } from './http/entities';
 
 @Controller('base')
@@ -22,8 +22,8 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
       const item: DtoType = await this.handler.create(dto);
       const response: ResponseType = this.createResponseFromDto(item);
       return response;
-    } catch (error) {
-      return new ErrorResponse(error);
+    } catch (error: any) {
+      return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

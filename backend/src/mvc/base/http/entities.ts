@@ -11,6 +11,12 @@ export class Response<T> implements Partial<ExpressResponse> {
   }
 }
 export class ErrorResponse extends Response<any> {
+
+  constructor(message: string, statusCode: HttpStatus) {
+    super(message);
+    this.statusCode = Number(statusCode.toFixed(0));
+  }
+
   statusCode?: number;
   @ApiProperty()
   msg?: string;
