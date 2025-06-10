@@ -2,6 +2,7 @@
 CREATE TYPE USER_STATUS as enum ('active', 'pending', 'inactive');
 CREATE TYPE JOB_STATUS as enum ('pending', 'in_progress', 'complete');
 CREATE TYPE PAYMENT_STATUS as enum ('unpaid', 'paid', 'partially_paid');
+CREATE TYPE PROFILE_TYPE as enum ('owner', 'provider', 'requester');
 
 CREATE TABLE IF NOT EXISTS "contactInformation" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
@@ -199,3 +200,4 @@ ALTER TABLE public."garageOwner" ADD CONSTRAINT "garageOwner_fk2" FOREIGN KEY ("
 ALTER TABLE public."ratings" ADD CONSTRAINT "ratings_user_fk" FOREIGN KEY ("createdBy") REFERENCES "user"("id");
 
 ALTER TABLE public."garageOwner" ALTER COLUMN garage DROP NOT NULL;
+ALTER TABLE public."user" ADD lastprofileloaded public."profile_type" NULL;
