@@ -2,6 +2,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { fetchUserData } from "../../api/api-client";
 
+const AUTH0_AUDIENCE = import.meta.env.AUTH0_AUDIENCE;
+const AUTH0_DOMAIN = import.meta.env.VITE_AUTH0_DOMAIN;
+const AUTH0_CLIENT_ID = import.meta.env.AUTH0_CLIENT_ID;
+
 const LoginButton = () => {
   const { loginWithRedirect, getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [user, setUser] = useState({});
@@ -10,7 +14,7 @@ const LoginButton = () => {
     const setAccessToken = async () => {
       if (!isAuthenticated) return;
 
-      const domain = "dev-shandaauto.ca.auth0.com";
+      const domain = AUTH0_DOMAIN;
       try {
         const accessToken = await getAccessTokenSilently({
           authorizationParams: {
