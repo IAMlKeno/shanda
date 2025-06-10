@@ -198,3 +198,4 @@ ALTER TABLE public."garageOwner" ADD CONSTRAINT "garageOwner_fk2" FOREIGN KEY ("
 
 ALTER TABLE public."ratings" ADD CONSTRAINT "ratings_user_fk" FOREIGN KEY ("createdBy") REFERENCES "user"("id");
 
+ALTER TABLE public."garageOwner" ALTER COLUMN garage DROP NOT NULL;
