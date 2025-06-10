@@ -1,6 +1,6 @@
 import { Body, Controller, forwardRef, HttpStatus, Inject, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiHeader, ApiOperation } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserRequest, UserResponse } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { UserHandler } from 'src/users/handler/user.handler';
@@ -37,6 +37,8 @@ export class RegistrationController {
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Creates a user entry using ssoid from Auth0', operationId: 'registerUser'})
   @ApiHeader({ name: AUTH_HEADER_TOKEN, description: 'auth0 authentation token (jwt)'})
+  @ApiResponse({ status: 201, description: 'User created', type: UserResponse })
+  @ApiResponse({ status: 500, description: 'Failed to create user and profiles', type: ErrorResponse })
   @Post('/')
   async register(@Req() req: Request, @Body() user: UserRequest): Promise<UserResponse | ErrorResponse> {
     try {
@@ -58,8 +60,8 @@ export class RegistrationController {
 
         await this.accountMappingHandler.create(new AccountMappingDto({ userId: createdUser.user.id, ssoid: authId }), t);
 
-      // create profiles
-      await this.profileHandler.garageOwnerService.create(new GarageOwnerDto({
+        // create profiles
+        await this.profileHandler.garageOwnerService.create(new GarageOwnerDto({
           user: createdUser.user.id,
           contactInfo: createdUser.user.contactInfoId,
         }), t);

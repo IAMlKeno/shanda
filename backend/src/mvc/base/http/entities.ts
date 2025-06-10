@@ -4,7 +4,6 @@ import { Response as ExpressResponse, Request as ExpressRequest } from "express"
 
 export class Response<T> implements Partial<ExpressResponse> {
   statusCode?: number;
-  @ApiProperty()
   data: T;
 
   constructor(data: any) {
