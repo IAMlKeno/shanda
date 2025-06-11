@@ -81,7 +81,7 @@ export class RequesterController {
         return new ErrorResponse('Request not found', HttpStatus.NOT_FOUND);
       }
 
-      return new RequestResponse(response, HttpStatus.FOUND);
+      return new RequestResponse(response.info, HttpStatus.FOUND);
     } catch (error: any) {
       return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
