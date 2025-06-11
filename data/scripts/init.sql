@@ -3,6 +3,9 @@ CREATE TYPE USER_STATUS as enum ('active', 'pending', 'inactive');
 CREATE TYPE JOB_STATUS as enum ('pending', 'in_progress', 'complete');
 CREATE TYPE PAYMENT_STATUS as enum ('unpaid', 'paid', 'partially_paid');
 CREATE TYPE PROFILE_TYPE as enum ('owner', 'provider', 'requester');
+CREATE TYPE REQUEST_STATUS as enum ('open', 'closed', 'pending');
+CREATE TYPE BID_STATUS as enum ('accepted', 'rejected', 'open');
+CREATE TYPE BOOKING_STATUS as enum ('pending', 'complete');
 
 CREATE TABLE IF NOT EXISTS "contactInformation" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
@@ -66,9 +69,10 @@ CREATE TABLE IF NOT EXISTS "vehicleGarage" (
 CREATE TABLE IF NOT EXISTS "request" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
 	"summary" varchar(255) NOT NULL,
-	"description" varchar(255) NOT NULL,
+	"description" text NOT NULL,
 	"vehicleId" uuid NOT NULL,
 	"requesterId" uuid NOT NULL,
+	"status" REQUEST_STATUS DEFAULT 'open',
 	PRIMARY KEY ("id")
 );
 
@@ -77,6 +81,7 @@ CREATE TABLE IF NOT EXISTS "bid" (
 	"bidderId" uuid NOT NULL,
 	"revisionId" uuid NOT NULL,
 	"requestId" uuid NOT NULL,
+	"status" BID_STATUS DEFAULT 'open',
 	PRIMARY KEY ("id")
 );
 
@@ -133,6 +138,7 @@ CREATE TABLE IF NOT EXISTS "booking" (
 	"winningBidId" uuid,
 	"expectedCompletionDate" date NOT NULL,
 	"garageId" uuid,
+	"status" BOOKING_STATUS DEFAULT 'pending',
 	PRIMARY KEY ("id")
 );
 
@@ -201,3 +207,5 @@ ALTER TABLE public."ratings" ADD CONSTRAINT "ratings_user_fk" FOREIGN KEY ("crea
 
 ALTER TABLE public."garageOwner" ALTER COLUMN garage DROP NOT NULL;
 ALTER TABLE public."user" ADD lastprofileloaded public."profile_type" NULL;
+/* ALTER TABLE public.request ALTER COLUMN description TYPE text USING description::text; */
+

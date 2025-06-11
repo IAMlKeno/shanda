@@ -39,7 +39,7 @@ export class request
   @Column({ type: DataType.STRING(255) })
   summary!: string;
 
-  @Column({ type: DataType.STRING(255) })
+  @Column({ type: DataType.TEXT })
   description!: string;
 
   @Column({ type: DataType.UUID })

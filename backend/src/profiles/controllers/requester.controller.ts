@@ -4,13 +4,15 @@ import { RequesterDto } from '../dto/requester/requester.dto';
 import { VehicleRequestDto } from '../dto/requester/request.dto';
 import { RequestsHandler } from 'src/requests-service/handlers/requests.handler';
 import { RequestListReponse, RequestResponse } from 'src/requests-service/entities/request-response.entity';
-import { ErrorResponse, Request } from 'src/mvc/base/http/entities';
+import { ErrorResponse } from 'src/mvc/base/http/entities';
 import { RequestDto } from 'src/requests-service/dtos/requests.dto';
 import { CreateRequest, UpdateRequest } from 'src/requests-service/entities/request.entities';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Sequelize } from 'sequelize-typescript';
 import { Transaction } from 'sequelize';
+import { UserAndProfileIdsDto } from 'src/users/dto/user.dto';
+import { Request } from 'express';
 
 @ApiTags('profiles')
 @Controller('profiles/requester')
@@ -37,11 +39,12 @@ export class RequesterController {
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Failed to create a request', type: ErrorResponse })
   @ApiTags('requests')
   @Post('/request')
-  async createRequest(@Body() body: CreateRequest, @Req() req): Promise<RequestResponse | ErrorResponse> {
+  async createRequest(@Body() body: CreateRequest, @Req() req: any): Promise<RequestResponse | ErrorResponse> {
     try {
-      const requestDto: RequestDto = await this.requestsHandler.create(body as any as RequestDto);
+      const requesterId: string = (req?.user as UserAndProfileIdsDto)?.requesterId;
+      const requestDto: RequestDto = await this.requestsHandler.create(new RequestDto({ ...body, requesterId: requesterId }));
 
-      return new RequestResponse(requestDto, HttpStatus.CREATED);
+      return new RequestResponse(requestDto.info, HttpStatus.CREATED);
     } catch (error: any) {
       return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -97,6 +100,7 @@ export class RequesterController {
     @Query('query') query: string,
   ): Promise<RequestListReponse | ErrorResponse> {
     try {
+      const requesterId: string = (req?.user as UserAndProfileIdsDto)?.requesterId;
       const response: RequestDto[] = await this.requestsHandler.getAll(page, size, [query]);
       return RequestListReponse.mapToListResponse(response);
     } catch (error: any) {
