@@ -37,9 +37,7 @@ export class RequesterService extends BaseDbService<Requester, RequesterDto> imp
   }
 
 
-  async createRequest(req: any) {}
   async getRequest(id: string) {}
-  async updateRequest(id: string, req: any) {}
   async deleteRequest(id: string) {}
   async getRequestReceipt(id: string) {}
   async getReceiptById(id: string) {}

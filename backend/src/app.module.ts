@@ -41,6 +41,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthService } from './auth/auth.service';
 import { FormsControllerController } from './common/forms-controller/forms-controller.controller';
 import { accountMapping } from './mvc/models/accountMapping';
+import { RequestsService } from './requests-service/requests.service';
 
 @Module({
   imports: [
@@ -113,6 +114,7 @@ import { accountMapping } from './mvc/models/accountMapping';
       provide: APP_GUARD,
       useClass: AuthService,
     },
+    RequestsService,
   ],
 })
 export class AppModule {}

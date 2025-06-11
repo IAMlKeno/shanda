@@ -7,7 +7,7 @@ import { RequesterController } from './controllers/requester.controller';
 import { ProviderController } from './controllers/provider.controller';
 import { GarageOwnerController } from './controllers/garage-owner.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { garageOwner, requester, serviceProvider } from 'src/mvc/models';
+import { garageOwner, request, requester, serviceProvider } from 'src/mvc/models';
 import { RequesterGarageHandler } from 'src/requester-garage/handlers/requester-garage.handler';
 import { ProfileHandler } from './handlers/profiles.handler';
 import { RequesterGarageModule } from 'src/requester-garage/requester-garage.module';
@@ -15,6 +15,8 @@ import { RequesterGarageService } from 'src/requester-garage/services/requester-
 import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
 import { VehiclesModule } from 'src/vehicles/vehicles.module';
 import { VehiclesService } from 'src/vehicles/services/vehicles.service';
+import { RequestsHandler } from 'src/requests-service/handlers/requests.handler';
+import { RequestsService } from 'src/requests-service/requests.service';
 
 @Module({
   controllers: [
@@ -29,6 +31,8 @@ import { VehiclesService } from 'src/vehicles/services/vehicles.service';
     GarageOwnerService,
     RequesterGarageHandler,
     RequesterGarageService,
+    RequestsHandler,
+    RequestsService,
     VehicleHandler,
     VehiclesService,
     ProfileHandler,
@@ -41,6 +45,7 @@ import { VehiclesService } from 'src/vehicles/services/vehicles.service';
       requester,
       garageOwner,
       serviceProvider,
+      request,
     ]),
     forwardRef(() => RequesterGarageModule),
     forwardRef(() => VehiclesModule),
