@@ -14,7 +14,7 @@ export class UserRequest extends Request {
   username: string;
   @ApiProperty({ description: 'phone, email', required: true })
   contactInfo: ContactInformationCreateDto;
- }
+}
 
 @ApiSchema({ name: 'UserResponse' })
 export class UserResponse extends Response<Omit<User, 'contactInfoId'>> {
