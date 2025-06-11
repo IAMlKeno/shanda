@@ -3,6 +3,8 @@ import { userAttributes as User } from "src/mvc/models";
 import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
 import { InputType } from "src/common/form-map";
 import { Transform } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
+import { API_DESCRIPTION_OWNER_ID, API_DESCRIPTION_PROVIDER_ID, API_DESCRIPTION_REQUESTER_ID } from "src/constants";
 
 export class UserDto {
   user: UserType;
@@ -42,3 +44,27 @@ export class UserRegistrationDto {
 }
 
 export interface UserType extends User {}
+
+export class UserAndProfileIdsDto {
+  @ApiProperty()
+  id: string;
+  @ApiProperty()
+  username: string;
+  @ApiProperty({ description: API_DESCRIPTION_REQUESTER_ID })
+  requesterId?: string;
+  @ApiProperty({ description: API_DESCRIPTION_PROVIDER_ID })
+  providerId?: string;
+  @ApiProperty({ description: API_DESCRIPTION_OWNER_ID })
+  ownerId?: string;
+  @ApiProperty()
+  status: string;
+
+  constructor(row: any) {
+    this.id = row.id;
+    this.username = row.username;
+    this.requesterId = row.requesterid;
+    this.providerId = row.providerid;
+    this.ownerId = row.ownerid;
+    this.status = row.id;
+  }
+}

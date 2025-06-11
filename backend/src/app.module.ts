@@ -37,11 +37,13 @@ import { BookingHandler } from './bookings/handlers/booking.handler';
 import { BiddingHandler } from './bidding/handlers/bidding.handler';
 import { RequesterService } from './profiles/services/requester.service';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthService } from './auth/auth.service';
 import { FormsControllerController } from './common/forms-controller/forms-controller.controller';
 import { accountMapping } from './mvc/models/accountMapping';
 import { RequestsService } from './requests-service/requests.service';
+import { TokenInterceptor } from './token/token.interceptor';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -110,11 +112,16 @@ import { RequestsService } from './requests-service/requests.service';
     BiddingService,
     BiddingHandler,
     RequesterService,
+    RequestsService,
+    JwtService,
     {
       provide: APP_GUARD,
       useClass: AuthService,
     },
-    RequestsService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TokenInterceptor,
+    },
   ],
 })
 export class AppModule {}
