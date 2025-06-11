@@ -29,9 +29,14 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
     if (!record) {
       return null;
     }
-    const updatedRow = await record.update(this.mapToModel(request));
+    const data: any = {
+      ...(request as any)?.info
+    };
+    record.set(data);
+    await record.save({ transaction: transactionHost });
+    await record.reload({ transaction: transactionHost });
 
-    return this.mapToDto(updatedRow);
+    return this.mapToDto(record);
   }
 
   async delete(id: string, transactionHost?: any): Promise<void> {

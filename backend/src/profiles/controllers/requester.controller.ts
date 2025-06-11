@@ -59,9 +59,9 @@ export class RequesterController {
   async updateRequest(@Param('id') id: string, @Body() body: UpdateRequest): Promise<RequestResponse | ErrorResponse> {
     try {
       const response: RequestDto = await this.sequelize.transaction(async (t: Transaction) => {
-        return await this.requestsHandler.update(body as any as RequestDto, id, t);
+        return await this.requestsHandler.update(new RequestDto(body), id, t);
       });
-      return new RequestResponse(response, HttpStatus.OK);
+      return new RequestResponse(response.info, HttpStatus.OK);
     } catch (error: any) {
       return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
