@@ -1,4 +1,4 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 import { UserAndProfileIdsDto } from 'src/users/dto/user.dto';
@@ -15,30 +15,27 @@ export class TokenInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const token = request.headers['user-token'];
 
-    if (token) {
-      try {
-        const decoded = this.jwtService.decode(token);
-        const ssoId = decoded?.sub; // Extract the 'sub' property
+    if (!token) {
+      throw new UnauthorizedException();
+    }
 
-        if (ssoId) {
-          // Call AccountMappingHandler's getUserBySsoid to get the user
-          const user: UserAndProfileIdsDto = await this.accountMappingHandler.getUserBySsoid(ssoId);
+    try {
+      const decoded = this.jwtService.decode(token);
+      const ssoId = decoded?.sub; // Extract the 'sub' property
 
-          if (user && user.id) {
-            request.user = user; // Add userId to the request
-          } else {
-            console.warn('User not found for the given ssoId:', ssoId);
-            // Handle the case where the user is not found, possibly by throwing an error or setting a default user ID
-          }
-        } else {
-          console.warn('No "sub" claim found in the token.');
-          // Handle the case where the token doesn't have a "sub" claim
-        }
-      } catch (err) {
-        // Handle token verification failure
-        console.error('Token verification failed', err);
-        // You might want to throw an UnauthorizedException or handle it differently
+      if (!ssoId) {
+        throw new UnauthorizedException();
       }
+
+      const user: UserAndProfileIdsDto = await this.accountMappingHandler.getUserBySsoid(ssoId);
+
+      if (user && user.id) {
+        request.user = user; // Add userId to the request
+      } else {
+        throw new UnauthorizedException();
+      }
+    } catch (err) {
+      throw new UnauthorizedException();
     }
 
     return next.handle();
