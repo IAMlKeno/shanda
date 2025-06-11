@@ -42,7 +42,7 @@ import { AuthService } from './auth/auth.service';
 import { FormsControllerController } from './common/forms-controller/forms-controller.controller';
 import { accountMapping } from './mvc/models/accountMapping';
 import { RequestsService } from './requests-service/requests.service';
-import { TokenInterceptor } from './token/token.interceptor';
+import { TokenInterceptor } from './interceptors/token/token.interceptor';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
