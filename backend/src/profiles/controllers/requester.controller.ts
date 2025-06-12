@@ -7,12 +7,14 @@ import { RequestListReponse, RequestResponse } from 'src/requests-service/entiti
 import { ErrorResponse } from 'src/mvc/base/http/entities';
 import { RequestDto } from 'src/requests-service/dtos/requests.dto';
 import { CreateRequest, UpdateRequest } from 'src/requests-service/entities/request.entities';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Sequelize } from 'sequelize-typescript';
 import { Transaction } from 'sequelize';
 import { UserAndProfileIdsDto } from 'src/users/dto/user.dto';
 import { Request } from 'express';
+import { REQUEST_STATUS } from 'src/mvc/enums/enum';
+import { Op } from 'sequelize';
 
 @ApiTags('profiles')
 @Controller('profiles/requester')
@@ -91,18 +93,22 @@ export class RequesterController {
   @ApiOperation({ summary: 'Get all requests for the user', operationId: 'getRequests'})
   @ApiResponse({ status: HttpStatus.OK, description: 'Got requests', type: RequestListReponse })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Failed to get list of requests', type: ErrorResponse })
+  @ApiQuery({ name: 'status', description: 'One of the statuses "open", "closed", or "pending"', required: false })
+  @ApiQuery({ name: 'query', description: 'A text to use to search for a request (fields: description, summary)', required: false })
+  @ApiQuery({ name: 'vehicle', description: 'The id of the vehicle', required: false })
   @ApiTags('requests')
   @Get('/requests')
   async getRequests(
     @Req() req: Request,
     @Query('page') page: number,
     @Query('size') size: number,
-    @Query('query') query: string,
+    @Query('status') _status: REQUEST_STATUS | undefined = REQUEST_STATUS.open,
   ): Promise<RequestListReponse | ErrorResponse> {
     try {
       const requesterId: string = (req?.user as UserAndProfileIdsDto)?.requesterId;
-      const params: Record<string, any> = {};
-      params['requesterId'] = requesterId;
+      let params: Record<string, any> = { 'requesterId': requesterId };
+      params = this.convertQueryToRecord(req.query, params);
+
       const response: RequestDto[] = await this.requestsHandler.getAll(page, size, params);
       return RequestListReponse.mapToListResponse(response);
     } catch (error: any) {
@@ -132,5 +138,32 @@ export class RequesterController {
   @Get('/request/receipt/:id')
   async getReceiptById(@Param('id') id: string) {
     this.profileHandler.requesterService.getReceiptById(id);
+  }
+
+  protected convertQueryToRecord(url: any, params: Record<string | symbol, any>) {
+    if (!url || url.length < 1) return params;
+
+    const skipQ = ['size', 'page']
+    const fields = ['summary', 'description'];
+    let queryOp = {};
+    Object.entries(url).forEach(([key, value]) => {
+      if (skipQ.includes(key)) return;
+      switch(key) {
+        case 'query':
+          fields.forEach((field: string) => {
+            queryOp[field] = { [Op.iLike]: `%${value}%` };
+          })
+
+          params = { ...params, [Op.and]: { [Op.or]: queryOp } };
+          break;
+        case 'vehicle':
+          params = { ...params, "vehicleId": value }
+          break
+        default:
+          params[key] = value;
+      }
+    });
+
+    return params;
   }
 }
