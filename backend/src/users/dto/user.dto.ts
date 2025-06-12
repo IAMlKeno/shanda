@@ -1,10 +1,10 @@
-import { convertStringToUserStatusEnum } from "src/mvc/enums/enum";
 import { userAttributes as User } from "src/mvc/models";
 import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
 import { InputType } from "src/common/form-map";
 import { Transform } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
 import { API_DESCRIPTION_OWNER_ID, API_DESCRIPTION_PROVIDER_ID, API_DESCRIPTION_REQUESTER_ID } from "src/constants";
+import { convertStrToEnum, UserStatus } from "src/mvc/enums/enum";
 
 export class UserDto {
   user: UserType;
@@ -17,8 +17,7 @@ export class UserDto {
       created: row.created,
       deleted: row.deleted,
       username: row.username,
-      // status: convertStringToUserStatusEnum(row.status ?? 'pending'),
-      status: row?.status ?? 'pending',
+      status: row?.status ? convertStrToEnum<UserStatus>(UserStatus, row.status) : UserStatus.pending,
       contactInfoId: row.contactInfoId,
     }; // convert to enum val
   }

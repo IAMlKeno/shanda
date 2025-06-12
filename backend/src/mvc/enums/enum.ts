@@ -7,11 +7,12 @@ export enum REQUEST_STATUS { open = 'open', closed = 'closed', pending = 'pendin
 export enum BID_STATUS { accepted = 'accepted', rejected = 'rejected', open = 'open' };
 export enum BOOKING_STATUS { pending = 'pending', complete = 'complete' };
 
-
-export const convertStringToUserStatusEnum = (value: string) => value.toLowerCase() as unknown as UserStatus;
-export const convertStringToJobStatusEnum = (value: string) => value.toLowerCase() as unknown as JOB_STATUS;
-export const convertStringToPaymentStatusEnum = (value: string) => Payment_Status[value.toLowerCase()];
-
+/**
+ * Attempts to convert a string to a passed in enum type.
+ * @param enumObj The enum to attampt to convert to
+ * @param value The string value to convert
+ * @returns
+ */
 export const convertStrToEnum = <T>(enumObj: { [key: string]: T }, value: string): T | undefined => {
     // Check if the value exists in the enum (handling both string keys and values)
     const enumValues = Object.values(enumObj);
