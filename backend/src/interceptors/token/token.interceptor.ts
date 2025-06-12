@@ -6,14 +6,26 @@ import { AccountMappingHandler } from 'src/users/handler/account-mapping.handler
 
 @Injectable()
 export class TokenInterceptor implements NestInterceptor {
+
+  readonly bypassTokenCheck: string[] = [
+    '/forms',
+  ];
   constructor(
     private readonly jwtService: JwtService,
     private readonly accountMappingHandler: AccountMappingHandler,
   ) {}
 
+  private canBypass(url: string): boolean {
+    return this.bypassTokenCheck.some((path) => url.includes(path));
+  }
+
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
     const token = request.headers['user-token'];
+    // If bypass endpoint
+    if (this.canBypass(request?.url)) {
+      return next.handle();
+    }
 
     if (!token) {
       throw new UnauthorizedException();
