@@ -1,4 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
+import { REQUEST_CATEGORY, REQUEST_TAGS } from 'src/mvc/enums/enum';
 
 export const INPUT_TYPE_KEY = 'inputType';
 
@@ -11,7 +12,19 @@ export const formDtoMap: Record<string, { formProperties?: {}, formFields: formA
     formFields: [
       { name: 'firstName', type: 'text', additionalParams: { label: 'First Name' } },
       { name: 'lastName', type: 'text', additionalParams: { label: 'Last Name' } },
-      { name: 'email', type:'text', subtype: 'email', additionalParams: { label: 'Email' } }
+      { name: 'username', type: 'text', additionalParams: { label: 'Username' } },
+      { name: 'email', type:'text', subtype: 'email', additionalParams: { label: 'Email' } },
+      { name: 'phone', type:'text', subtype: 'phone', additionalParams: { label: 'Phone' } },
+    ]
+  },
+  'request': {
+    formProperties: {},
+    formFields: [
+      { name: 'summary', type: 'text', additionalParams: { label: 'Summary' } },
+      { name: 'description', type: 'textarea', additionalParams: { label: 'Description' } },
+      { name: 'vehicleId', type: 'text', additionalParams: { label: 'Vehicle' } },
+      { name: 'request-type', type:'select', additionalParams: { label: 'Email', options: Object.entries(REQUEST_TAGS), multiple: 'multiple' } },
+      { name: 'request-category', type:'select', additionalParams: { label: 'Phone', options: Object.entries(REQUEST_CATEGORY) } },
     ]
   },
   // ... other form types and DTOs

@@ -16,6 +16,7 @@ export class RequestTemplateDto {
     isArray: true,
     enum: Object.keys(REQUEST_TAGS),
     enumName: 'REQUEST_TAGS',
+    required: false,
   })
   tags?: REQUEST_TAGS[];
   @ApiProperty({
@@ -23,6 +24,7 @@ export class RequestTemplateDto {
     isArray: true,
     enum: Object.keys(REQUEST_CATEGORY),
     enumName: 'REQUEST_CATEGORY',
+    required: false,
   })
   category?: REQUEST_CATEGORY;
 
