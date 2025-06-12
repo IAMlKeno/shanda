@@ -19,7 +19,7 @@ export class UserDto {
       username: row.username,
       status: row?.status ? convertStrToEnum<UserStatus>(UserStatus, row.status) : UserStatus.pending,
       contactInfoId: row.contactInfoId,
-    }; // convert to enum val
+    };
   }
 }
 
@@ -55,7 +55,7 @@ export class UserAndProfileIdsDto {
   providerId?: string;
   @ApiProperty({ description: API_DESCRIPTION_OWNER_ID })
   ownerId?: string;
-  @ApiProperty()
+  @ApiProperty({ enum: Object.keys(UserStatus), description: 'User\'s status', enumName: 'USER_STATUS' })
   status: string;
 
   constructor(row: any) {
