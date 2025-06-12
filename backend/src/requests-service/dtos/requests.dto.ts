@@ -1,5 +1,6 @@
 import { requestAttributes } from "src/mvc/models";
 import { ApiProperty } from "@nestjs/swagger";
+import { convertStrToEnum, REQUEST_STATUS } from "src/mvc/enums/enum";
 
 export class RequestDto {
   info: requestAttributes;
@@ -13,6 +14,8 @@ export class RequestDto {
   vehicleId?: string;
   @ApiProperty()
   requesterId?: string;
+  @ApiProperty({ enum: Object.keys(REQUEST_STATUS), description: 'Request status', enumName: 'REQUEST_STATUS' })
+  status?: REQUEST_STATUS;
 
   constructor(row: any) {
     this.info = {
@@ -21,6 +24,7 @@ export class RequestDto {
       description: row.description,
       vehicleId: row.vehicleId,
       requesterId: row.requesterId,
+      status: convertStrToEnum<REQUEST_STATUS>(REQUEST_STATUS, row.status),
     };
   }
 }

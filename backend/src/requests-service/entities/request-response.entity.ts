@@ -19,6 +19,6 @@ export class RequestListReponse extends ListResponse<RequestDto> {
   data: Array<RequestDto>;
 
   static mapToListResponse(list: any[], total?: number): RequestListReponse {
-    return new RequestListReponse(list.map((item) => item.request), total);
+    return new RequestListReponse(list.map((item: RequestDto) => item.info), total);
   }
 }

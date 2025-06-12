@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { MakeNullishOptional } from 'sequelize/types/utils';
 // FindOptions: https://sequelize.org/api/v7/interfaces/_sequelize_core.index.findoptions
 import { FindOptions } from 'sequelize';
+import { DEFAULT_RESULT_PAGE, DEFAULT_RESULT_SIZE } from 'src/constants';
 
 //https://stackoverflow.com/questions/69051499/typescript-repository-pattern-with-sequelize
 @Injectable()
@@ -48,7 +49,7 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
     return this.mapToDto(row);
   }
 
-  async getAll(page: number, size: number, params: Record<string, any>, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<(DtoType)[]> {
+  async getAll(page: number = DEFAULT_RESULT_PAGE, size: number = DEFAULT_RESULT_SIZE, params: Record<string, any> = {}, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<(DtoType)[]> {
     const results: DtoType[] = [];
     try {
       let where = this.convertToWhere(params);

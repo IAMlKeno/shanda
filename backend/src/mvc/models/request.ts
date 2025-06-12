@@ -12,6 +12,7 @@ import {
 import { requester } from './requester';
 import { bid } from './bid';
 import { booking } from './booking';
+import { REQUEST_STATUS } from '../enums/enum';
 
 export interface requestAttributes {
   id?: string;
@@ -19,6 +20,7 @@ export interface requestAttributes {
   description: string;
   vehicleId: string;
   requesterId: string;
+  status?: REQUEST_STATUS;
 }
 
 @Table({ tableName: 'request', timestamps: false })
@@ -56,4 +58,7 @@ export class request
 
   @BelongsTo(() => booking)
   booking?: booking;
+
+  @Column({ defaultValue: Sequelize.literal("'open'::request_status") })
+  status?: REQUEST_STATUS;
 }

@@ -24,8 +24,8 @@ export class RequesterController {
     private sequelize: Sequelize,
   ) {}
 
-  @Get('/:id')
-  async getRequesterProfileByUserId(@Param('id') userId: string): Promise<any> {}
+  // @Get('/:id')
+  // async getRequesterProfileByUserId(@Param('id') userId: string): Promise<any> {}
 
   @Get('garage')
   async getMyGarage(@Req() req): Promise<any> {
@@ -88,7 +88,7 @@ export class RequesterController {
   }
 
   // @UseGuards(AuthGuard('jwt'))
-  @ApiOperation({ summary: 'Get all requests for the user ', operationId: 'getRequests'})
+  @ApiOperation({ summary: 'Get all requests for the user', operationId: 'getRequests'})
   @ApiResponse({ status: HttpStatus.OK, description: 'Got requests', type: RequestListReponse })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Failed to get list of requests', type: ErrorResponse })
   @ApiTags('requests')
@@ -101,7 +101,9 @@ export class RequesterController {
   ): Promise<RequestListReponse | ErrorResponse> {
     try {
       const requesterId: string = (req?.user as UserAndProfileIdsDto)?.requesterId;
-      const response: RequestDto[] = await this.requestsHandler.getAll(page, size, [query]);
+      const params: Record<string, any> = {};
+      params['requesterId'] = requesterId;
+      const response: RequestDto[] = await this.requestsHandler.getAll(page, size, params);
       return RequestListReponse.mapToListResponse(response);
     } catch (error: any) {
       return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);

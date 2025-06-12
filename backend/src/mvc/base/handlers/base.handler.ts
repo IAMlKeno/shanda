@@ -9,7 +9,7 @@ export abstract class BaseHandler<DbServiceType extends IDbService<DtoType>, Dto
     return await this.dbService.update(request, id, transactionHost);
   }
 
-  async getAll(page: number, size: number, params: any[], orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<Array<DtoType>> {
+  async getAll(page: number, size: number, params: Record<string, any>, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<Array<DtoType>> {
     return await this.dbService.getAll(page, size, params, orderBy);
   }
 
@@ -49,7 +49,7 @@ export interface IDbService<DtoType> {
   update(request: DtoType, id: string, transactionHost?: any): Promise<DtoType>;
   delete(id: string, transactionHost?: any): Promise<void>;
   get(id: string): Promise<DtoType>;
-  getAll(page: number, size: number, params: any[], orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<Array<DtoType>>;
+  getAll(page: number, size: number, params: Record<string, any>, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<Array<DtoType>>;
   deleteMany(conditions: { [key: string]: any }, transactionHost?: any): Promise<void>;
   getCustom<T extends new (item: any) => any>(paramsArray: Record<string, any>[], dtoConstructor?: T): Promise<InstanceType<T>>;
   getAllCustom<T extends DtoType>(
