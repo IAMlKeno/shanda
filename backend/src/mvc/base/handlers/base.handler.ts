@@ -47,6 +47,11 @@ export abstract class BaseHandler<DbServiceType extends IDbService<DtoType>, Dto
 export interface IDbService<DtoType> {
   create(request: DtoType, transactionHost?: any): Promise<DtoType>;
   update(request: DtoType, id: string, transactionHost?: any): Promise<DtoType>;
+  /**
+   * Soft delete the object
+   * @param id
+   * @param transactionHost 
+   */
   delete(id: string, transactionHost?: any): Promise<void>;
   get(id: string): Promise<DtoType>;
   getAll(page: number, size: number, params: Record<string, any>, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<Array<DtoType>>;

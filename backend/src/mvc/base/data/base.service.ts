@@ -41,7 +41,13 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
   }
 
   async delete(id: string, transactionHost?: any): Promise<void> {
-    const rowsRemoved = this.model.destroy(this.convertToWhere({ id: id }));
+    try {
+      const rowToRemove = await this.model.findByPk(id);
+      await rowToRemove.update({'deleted': this.model.sequelize?.fn('to_timestamp', new Date().toLocaleString(), 'M/DD/YYYY, HH12:MI:SS AM, am, PM or pm')});
+      await rowToRemove.save();
+    } catch (error: any) {
+      throw error;
+    }
   }
 
   async get(id: string): Promise<DtoType> {

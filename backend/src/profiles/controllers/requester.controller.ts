@@ -106,7 +106,7 @@ export class RequesterController {
   ): Promise<RequestListReponse | ErrorResponse> {
     try {
       const requesterId: string = (req?.user as UserAndProfileIdsDto)?.requesterId;
-      let params: Record<string, any> = { 'requesterId': requesterId };
+      let params: Record<string, any> = { 'requesterId': requesterId, 'deleted': { [Op.is]: null } };
       params = this.convertQueryToRecord(req.query, params);
 
       const response: RequestDto[] = await this.requestsHandler.getAll(page, size, params);
