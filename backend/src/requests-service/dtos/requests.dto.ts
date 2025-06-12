@@ -16,6 +16,10 @@ export class RequestDto {
   requesterId?: string;
   @ApiProperty({ enum: Object.keys(REQUEST_STATUS), description: 'Request status', enumName: 'REQUEST_STATUS' })
   status?: REQUEST_STATUS;
+  @ApiProperty({ default: 'CURRENT_TIMESTAMP' })
+  created?: Date;
+  @ApiProperty()
+  deleted?: Date;
 
   constructor(row: any) {
     this.info = {
@@ -25,6 +29,8 @@ export class RequestDto {
       vehicleId: row.vehicleId,
       requesterId: row.requesterId,
       status: convertStrToEnum<REQUEST_STATUS>(REQUEST_STATUS, row.status),
+      created: row?.created,
+      deleted: row?.deleted,
     };
   }
 }

@@ -21,6 +21,8 @@ export interface requestAttributes {
   vehicleId: string;
   requesterId: string;
   status?: REQUEST_STATUS;
+  created?: Date;
+  deleted?: Date;
 }
 
 @Table({ tableName: 'request', timestamps: false })
@@ -61,4 +63,13 @@ export class request
 
   @Column({ defaultValue: Sequelize.literal("'open'::request_status") })
   status?: REQUEST_STATUS;
+
+  @Column({
+    type: DataType.DATE(6),
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  })
+  created?: Date;
+
+  @Column({ allowNull: true, type: DataType.DATE(6) })
+  deleted?: Date;
 }

@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS "request" (
 	"description" text NOT NULL,
 	"vehicleId" uuid NOT NULL,
 	"requesterId" uuid NOT NULL,
+	"created" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	"deleted" timestamp,
 	"status" REQUEST_STATUS DEFAULT 'open',
 	PRIMARY KEY ("id")
 );
