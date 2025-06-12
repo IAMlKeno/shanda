@@ -117,7 +117,7 @@ export class RequesterController {
   }
 
   // @UseGuards(AuthGuard('jwt'))
-  @ApiOperation({ summary: 'Delete a request for the user ', operationId: 'deletRequest'})
+  @ApiOperation({ summary: 'Soft delete a request for the user ', operationId: 'deleteRequest'})
   @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Request delete' })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Failed to delete a request', type: ErrorResponse })
   @ApiTags('requests')
