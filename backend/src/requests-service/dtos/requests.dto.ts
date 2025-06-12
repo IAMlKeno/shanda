@@ -1,6 +1,6 @@
 import { requestAttributes } from "src/mvc/models";
 import { ApiProperty } from "@nestjs/swagger";
-import { convertStrToEnum, REQUEST_STATUS } from "src/mvc/enums/enum";
+import { convertStrToEnum, REQUEST_CATEGORY, REQUEST_STATUS, REQUEST_TAGS } from "src/mvc/enums/enum";
 
 export class RequestDto {
   info: requestAttributes;
@@ -20,6 +20,10 @@ export class RequestDto {
   created?: Date;
   @ApiProperty()
   deleted?: Date;
+  @ApiProperty()
+  tags?: REQUEST_TAGS[];
+  @ApiProperty()
+  category?: REQUEST_CATEGORY;
 
   constructor(row: any) {
     this.info = {
@@ -31,6 +35,7 @@ export class RequestDto {
       status: convertStrToEnum<REQUEST_STATUS>(REQUEST_STATUS, row.status),
       created: row?.created,
       deleted: row?.deleted,
+      category: convertStrToEnum<REQUEST_CATEGORY>(REQUEST_CATEGORY, row?.category),
     };
   }
 }

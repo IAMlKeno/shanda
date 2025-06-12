@@ -6,6 +6,16 @@ CREATE TYPE PROFILE_TYPE as enum ('owner', 'provider', 'requester');
 CREATE TYPE REQUEST_STATUS as enum ('open', 'closed', 'pending');
 CREATE TYPE BID_STATUS as enum ('accepted', 'rejected', 'open');
 CREATE TYPE BOOKING_STATUS as enum ('pending', 'complete');
+CREATE TYPE REQUEST_CATEGORY as enum ('service_request', 'part_request');
+CREATE TYPE REQUEST_TAGS as enum ('mvi', 'tires', 'oil_change', 'detailing', 'keys', 'parts', 'maintenance');
+
+CREATE TABLE IF NOT EXISTS "requestTemplates" (
+	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+	"category" REQUEST_CATEGORY NOT NULL,
+	"description" text,
+	"summary" text,
+	"tags" jsonb DEFAULT '{}'
+);
 
 CREATE TABLE IF NOT EXISTS "contactInformation" (
 	"id" uuid NOT NULL UNIQUE DEFAULT gen_random_uuid(),
@@ -75,6 +85,8 @@ CREATE TABLE IF NOT EXISTS "request" (
 	"created" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"deleted" timestamp,
 	"status" REQUEST_STATUS DEFAULT 'open',
+	"category" REQUEST_CATEGORY DEFAULT 'service_request',
+	"tags" jsonb DEFAULT '{}',
 	PRIMARY KEY ("id")
 );
 

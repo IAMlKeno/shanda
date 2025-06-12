@@ -73,3 +73,54 @@ INSERT INTO public."accountMappingId" ("id","userId","ssoid") VALUES
 
 -- Insert more test data as needed for other tables
 -- Following the same pattern and ensuring foreign key constraints are met.
+
+INSERT INTO public."requestTemplates" ( "id","category","description","summary", "tags" ) VALUES
+(
+  '2c651ce2-1902-46e5-8c69-93882dea84ca',
+  'service_request',
+  'Motor vehicle inspection',
+  'Motor vehicle inspection (MVI)',
+  '{ "mvi": "mvi" }'
+),
+(
+  'd866ef30-b3a4-46e8-8b3b-0864b11c347b',
+  'service_request',
+  'Tire change',
+  'Tire change',
+  '{ "tires": "tires" }'
+),
+(
+  '8e7bd5c1-2211-4e73-96fe-ba70cf78c2b6',
+  'service_request',
+  'Tire rotation',
+  'Tire rotation',
+  '{ "tires": "tires" }'
+),
+(
+  '08b1eb71-6f5a-4061-aa08-58d019f1beb1',
+  'service_request',
+  'Oil change',
+  'Oil change',
+  '{ "oil_change": "oil_change", "maintenance": "maintenance" }'
+),
+(
+  'c3e10ad7-72d2-4655-a893-765470dbb9a3',
+  'service_request',
+  'Deep cleaning of interior and exterior',
+  'Detailing',
+  '{ "detailing": "detailing" }'
+),
+(
+  'cd3499ab-6790-4973-a0a3-c62d21bfd820',
+  'service_request',
+  'Key replacement',
+  'Key replacement',
+  '{ "keys": "keys" }'
+),
+(
+  '6721b462-b14a-4268-8f68-a5915c41f341',
+  'part_request',
+  '(placeholder) Enter a description of the part you need, e.g. transmission, motor or door.',
+  'Request parts',
+  '{ "parts": "parts" }'
+);

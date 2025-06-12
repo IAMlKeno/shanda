@@ -12,7 +12,7 @@ import {
 import { requester } from './requester';
 import { bid } from './bid';
 import { booking } from './booking';
-import { REQUEST_STATUS } from '../enums/enum';
+import { REQUEST_CATEGORY, REQUEST_STATUS } from '../enums/enum';
 
 export interface requestAttributes {
   id?: string;
@@ -23,6 +23,8 @@ export interface requestAttributes {
   status?: REQUEST_STATUS;
   created?: Date;
   deleted?: Date;
+  category?: REQUEST_CATEGORY;
+  tags?: object;
 }
 
 @Table({ tableName: 'request', timestamps: false })
@@ -63,6 +65,12 @@ export class request
 
   @Column({ defaultValue: Sequelize.literal("'open'::request_status") })
   status?: REQUEST_STATUS;
+
+  @Column({ defaultValue: Sequelize.literal("'service_request'::request_category") })
+  category?: REQUEST_CATEGORY;
+
+  @Column({ type: DataType.JSONB, defaultValue: Sequelize.literal("'{}'::jsonb") })
+  tags?: object;
 
   @Column({
     type: DataType.DATE(6),

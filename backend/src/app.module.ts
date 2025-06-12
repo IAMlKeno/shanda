@@ -44,6 +44,10 @@ import { accountMapping } from './mvc/models/accountMapping';
 import { RequestsService } from './requests-service/requests.service';
 import { TokenInterceptor } from './interceptors/token/token.interceptor';
 import { JwtService } from '@nestjs/jwt';
+import { requestTemplate } from './mvc/models/requestTemplate';
+import { RequestTemplateController } from './requests-service/request-template/request-template.controller';
+import { RequestTemplateService } from './requests-service/request-template.service';
+import { RequestTemplateHandler } from './requests-service/handlers/request-template.handler';
 
 @Module({
   imports: [
@@ -69,6 +73,7 @@ import { JwtService } from '@nestjs/jwt';
         ratings,
         receipt,
         request,
+        requestTemplate,
         requester,
         serviceProvider,
         user,
@@ -89,7 +94,7 @@ import { JwtService } from '@nestjs/jwt';
     MaintenanceLogModule,
     AuthModule,
   ],
-  controllers: [AppController, FormsControllerController],
+  controllers: [AppController, FormsControllerController, RequestTemplateController],
   providers: [
     AppService,
     UsersService,
@@ -113,6 +118,8 @@ import { JwtService } from '@nestjs/jwt';
     BiddingHandler,
     RequesterService,
     RequestsService,
+    RequestTemplateService,
+    RequestTemplateHandler,
     JwtService,
     {
       provide: APP_GUARD,

@@ -17,6 +17,9 @@ import { VehiclesModule } from 'src/vehicles/vehicles.module';
 import { VehiclesService } from 'src/vehicles/services/vehicles.service';
 import { RequestsHandler } from 'src/requests-service/handlers/requests.handler';
 import { RequestsService } from 'src/requests-service/requests.service';
+import { requestTemplate } from 'src/mvc/models/requestTemplate';
+import { RequestTemplateService } from 'src/requests-service/request-template.service';
+import { RequestTemplateHandler } from 'src/requests-service/handlers/request-template.handler';
 
 @Module({
   controllers: [
@@ -33,11 +36,13 @@ import { RequestsService } from 'src/requests-service/requests.service';
     RequesterGarageService,
     RequestsHandler,
     RequestsService,
+    RequestTemplateService,
+    RequestTemplateHandler,
     VehicleHandler,
     VehiclesService,
     ProfileHandler,
     RequesterController,
-    ProviderController,
+    ProviderController, 
     GarageOwnerController,
   ],
   imports: [
@@ -46,6 +51,7 @@ import { RequestsService } from 'src/requests-service/requests.service';
       garageOwner,
       serviceProvider,
       request,
+      requestTemplate,
     ]),
     forwardRef(() => RequesterGarageModule),
     forwardRef(() => VehiclesModule),
