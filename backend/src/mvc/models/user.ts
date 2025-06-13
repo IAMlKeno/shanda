@@ -13,7 +13,7 @@ import { contactInformation } from './contactInformation';
 import { serviceProvider } from './serviceProvider';
 import { requester } from './requester';
 import { garageOwner } from './garageOwner';
-import { UserStatus } from '../enums/enum';
+import { PROFILE_TYPE, UserStatus } from '../enums/enum';
 
 export interface userAttributes {
   id?: string;
@@ -24,6 +24,7 @@ export interface userAttributes {
   deleted?: Date;
   contactInfoId: string;
   status?: UserStatus;
+  lastprofileloaded?: PROFILE_TYPE;
 }
 
 @Table({ tableName: 'user', timestamps: false })
@@ -63,6 +64,9 @@ export class user
 
   @Column({ defaultValue: Sequelize.literal("'pending'::user_status") })
   status?: UserStatus;
+
+  @Column({ allowNull: true })
+  lastprofileloaded?: PROFILE_TYPE;
 
   @BelongsTo(() => serviceProvider)
   serviceProvider?: serviceProvider;

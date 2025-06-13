@@ -7,18 +7,19 @@ import { API_DESCRIPTION_OWNER_ID, API_DESCRIPTION_PROVIDER_ID, API_DESCRIPTION_
 import { convertStrToEnum, UserStatus } from "src/mvc/enums/enum";
 
 export class UserDto {
-  user: UserType;
+  info: UserType;
 
   constructor(row: any) {
-    this.user = {
+    this.info = {
       id: row.id,
       firstName: row.firstName,
       lastName: row.lastName,
       created: row.created,
       deleted: row.deleted,
       username: row.username,
-      status: row?.status ? convertStrToEnum<UserStatus>(UserStatus, row.status) : UserStatus.pending,
+      status: convertStrToEnum<UserStatus>(UserStatus, row.status),
       contactInfoId: row.contactInfoId,
+      lastprofileloaded: row.lastprofileloaded,
     };
   }
 }

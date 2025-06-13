@@ -18,6 +18,7 @@ import { AccountMappingHandler } from 'src/users/handler/account-mapping.handler
 import { AccountMappingDto } from 'src/users/dto/account-mapping.dto';
 import { Transaction } from 'sequelize';
 import { AUTH_HEADER_TOKEN } from 'src/constants';
+import { UserStatus } from 'src/mvc/enums/enum';
 
 @Controller('register')
 export class RegistrationController {
@@ -55,23 +56,24 @@ export class RegistrationController {
         const contactCreateRequest = new ContactInformationDto(user.contactInfo);
         const contact: ContactInformationDto = await this.contactHandler.create(contactCreateRequest, t);
         let userCreateRequest = this.userController.createDtoFromRequest(user);
-        userCreateRequest.user.contactInfoId = contact.info.id ?? '';
+        userCreateRequest.info.contactInfoId = contact.info.id ?? '';
+        userCreateRequest.info.status = UserStatus.pending;
         const createdUser: UserDto = await this.userHandler.create(userCreateRequest, t);
 
-        await this.accountMappingHandler.create(new AccountMappingDto({ userId: createdUser.user.id, ssoid: authId }), t);
+        await this.accountMappingHandler.create(new AccountMappingDto({ userId: createdUser.info.id, ssoid: authId }), t);
 
         // create profiles
         await this.profileHandler.garageOwnerService.create(new GarageOwnerDto({
-          user: createdUser.user.id,
-          contactInfo: createdUser.user.contactInfoId,
+          user: createdUser.info.id,
+          contactInfo: createdUser.info.contactInfoId,
         }), t);
         await this.profileHandler.providerService.create(new ProviderDto({
-          userId: createdUser.user.id,
-          contactInfoId: createdUser.user.contactInfoId,
+          userId: createdUser.info.id,
+          contactInfoId: createdUser.info.contactInfoId,
         }), t);
         await this.profileHandler.requesterService.create(new RequesterProfileDto({
-          contactInfoId: createdUser.user.contactInfoId,
-          userId: createdUser.user.id,
+          contactInfoId: createdUser.info.contactInfoId,
+          userId: createdUser.info.id,
         }), t);
         return createdUser;
       }).catch((error) => {

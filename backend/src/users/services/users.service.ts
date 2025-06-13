@@ -5,6 +5,7 @@ import { user as User } from 'src/mvc/models';
 import { Optional } from 'sequelize';
 import { NullishPropertiesOf } from 'sequelize/types/utils';
 import { InjectModel } from '@nestjs/sequelize';
+import { PROFILE_TYPE } from 'src/mvc/enums/enum';
 
 @Injectable()
 export class UsersService extends BaseDbService<User, UserDto> {
@@ -36,11 +37,20 @@ export class UsersService extends BaseDbService<User, UserDto> {
     return result?.length > 0 ? this.mapToDto(result[0]) : undefined;
   }
 
+  async updateUserLastProfile(userId: string, profile: PROFILE_TYPE): Promise<boolean> {
+    try {
+      await this.update(new UserDto({ lastprofileloaded: profile }), userId)
+      return true;
+    } catch(error: any) {
+      return false;
+    }
+  }
+
   mapToDto(model: any): UserDto {
     return new UserDto(model);
   }
 
   mapToModel(dto: UserDto): Optional<User, NullishPropertiesOf<User>> {
-    return new User(dto.user);
+    return new User(dto.info);
   }
 }
