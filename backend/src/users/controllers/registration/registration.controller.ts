@@ -10,8 +10,8 @@ import { UserDto } from 'src/users/dto/user.dto';
 import { ContactInformationDto } from 'src/contact-information/dto/contact-information.dto';
 import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
 import { ContactInformationHandler } from 'src/contact-information/handlers/contact-information.handler';
-import { GarageOwnerDto } from 'src/profiles/dto/garage-owner/garage-owner.dto';
-import { ProviderDto } from 'src/profiles/dto/provider/provider.dto';
+import { GarageOwnerProfileDto } from 'src/profiles/dto/garage-owner/garage-owner.dto';
+import { ProviderProfileDto } from 'src/profiles/dto/provider/provider.dto';
 import { RequesterProfileDto } from 'src/profiles/dto/requester/requester.dto';
 import { Sequelize } from 'sequelize-typescript';
 import { AccountMappingHandler } from 'src/users/handler/account-mapping.handler';
@@ -63,11 +63,11 @@ export class RegistrationController {
         await this.accountMappingHandler.create(new AccountMappingDto({ userId: createdUser.info.id, ssoid: authId }), t);
 
         // create profiles
-        await this.profileHandler.garageOwnerService.create(new GarageOwnerDto({
+        await this.profileHandler.garageOwnerService.create(new GarageOwnerProfileDto({
           user: createdUser.info.id,
           contactInfo: createdUser.info.contactInfoId,
         }), t);
-        await this.profileHandler.providerService.create(new ProviderDto({
+        await this.profileHandler.providerService.create(new ProviderProfileDto({
           userId: createdUser.info.id,
           contactInfoId: createdUser.info.contactInfoId,
         }), t);

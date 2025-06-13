@@ -1,7 +1,8 @@
 import { requesterAttributes as Requester } from "src/mvc/models";
 import { ProfileDto } from "../profile.dto";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 
+@ApiSchema()
 export class RequesterProfileDto extends ProfileDto {
   info: Requester;
   @ApiProperty()

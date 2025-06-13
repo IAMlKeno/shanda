@@ -1,9 +1,10 @@
 import { garageOwnerAttributes as GarageOwner } from "src/mvc/models";
 import { ProfileDto } from "../profile.dto";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { API_DESCRIPTION_CONTACT_ID } from "src/api-constants";
 
-export class GarageOwnerDto extends ProfileDto {
+@ApiSchema()
+export class GarageOwnerProfileDto extends ProfileDto {
   info: GarageOwnerType;
   @ApiProperty()
   garage: string;

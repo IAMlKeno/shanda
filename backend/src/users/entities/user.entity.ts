@@ -5,6 +5,7 @@ import { ContactInformationCreateDto } from "src/contact-information/entities/co
 import { ListResponse, Request, Response } from "src/mvc/base/http/entities";
 import { PROFILE_TYPE } from "src/mvc/enums/enum";
 import { userAttributes as User } from "src/mvc/models";
+import { ProfileDto } from "src/profiles/dto/profile.dto";
 
 @ApiSchema({ description: 'Create user data' })
 export class UserRequest extends Request {
@@ -29,6 +30,18 @@ export class UserProfileUpdateRequest extends Request {
 
 @ApiSchema({ name: 'UserResponse' })
 export class UserResponse extends Response<Omit<User, 'contactInfoId'>> {
+  @ApiProperty({
+    type: 'object',
+    properties: {
+      profile: { oneOf: [
+        { $ref: '#/components/schemas/RequesterProfileDto' },
+        { $ref: '#/components/schemas/ProviderProfileDto' },
+        { $ref: '#/components/schemas/GarageOwnerProfileDto' },
+      ] }
+    }
+  })
+  data: any;
+
   constructor(data: any) {
     super(data);
   }

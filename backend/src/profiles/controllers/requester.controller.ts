@@ -29,7 +29,7 @@ export class RequesterController {
 
   // @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Get requester\s profile', operationId: 'getMyRequesterProfile'})
-  @ApiResponse({ status: HttpStatus.FOUND, description: 'Request created', type: RequesterProfileResponse })
+  @ApiResponse({ status: HttpStatus.FOUND, description: 'Profile found', type: RequesterProfileResponse })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Failed to locate requester profile', type: ErrorResponse })
   @ApiTags('profiles/requester')
   @Get('')
