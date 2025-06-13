@@ -11,7 +11,11 @@ export class ContactInformationDto {
   email?: string;
 
   constructor(row: any) {
-    this.info = row as Model;
+    this.info = {
+      id: row.id,
+      phone: row.phone,
+      email: row.email,
+    }
   }
 }
 

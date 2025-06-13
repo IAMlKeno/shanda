@@ -4,7 +4,8 @@ import { InputType } from "src/common/form-map";
 import { Transform } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
 import { API_DESCRIPTION_OWNER_ID, API_DESCRIPTION_PROVIDER_ID, API_DESCRIPTION_REQUESTER_ID } from "src/constants";
-import { convertStrToEnum, UserStatus } from "src/mvc/enums/enum";
+import { convertStrToEnum, PROFILE_TYPE, UserStatus } from "src/mvc/enums/enum";
+import { API_DESCRIPTION_CONTACT_ID, API_DESCRIPTION_LAST_PROFILE } from "src/api-constants";
 
 export class UserDto {
   info: UserType;
@@ -58,6 +59,14 @@ export class UserAndProfileIdsDto {
   ownerId?: string;
   @ApiProperty({ enum: Object.keys(UserStatus), description: 'User\'s status', enumName: 'USER_STATUS' })
   status: string;
+  @ApiProperty({ description: API_DESCRIPTION_CONTACT_ID })
+  contactInfoId?: string;
+  @ApiProperty({
+    enum: Object.keys(PROFILE_TYPE),
+    enumName: 'PROFILE_TYPE',
+    description: API_DESCRIPTION_LAST_PROFILE
+  })
+  lastprofileloaded?: PROFILE_TYPE;
 
   constructor(row: any) {
     this.id = row.id;
@@ -65,6 +74,8 @@ export class UserAndProfileIdsDto {
     this.requesterId = row.requesterid;
     this.providerId = row.providerid;
     this.ownerId = row.ownerid;
-    this.status = row.id;
+    this.status = row.status;
+    this.contactInfoId = row.contactInfoId;
+    this.lastprofileloaded = row?.lastprofileloaded;
   }
 }

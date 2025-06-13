@@ -1,4 +1,5 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
+import { API_DESCRIPTION_LAST_PROFILE } from "src/api-constants";
 import { ContactInfo } from "src/contact-information/dto/contact-information.dto";
 import { ContactInformationCreateDto } from "src/contact-information/entities/contact-information.entity";
 import { ListResponse, Request, Response } from "src/mvc/base/http/entities";
@@ -18,7 +19,11 @@ export class UserRequest extends Request {
 }
 @ApiSchema({ description: 'Update the user default profile' })
 export class UserProfileUpdateRequest extends Request {
-  @ApiProperty({ enum: Object.keys(PROFILE_TYPE), enumName: 'PROFILE_TYPE'})
+  @ApiProperty({
+    enum: Object.keys(PROFILE_TYPE),
+    enumName: 'PROFILE_TYPE',
+    description: API_DESCRIPTION_LAST_PROFILE,
+  })
   profile: PROFILE_TYPE;
 }
 

@@ -20,7 +20,9 @@ export class AccountMappingService extends BaseDbService<accountMapping, Account
   ) { super(model); }
 
   async getUserBySsoid(ssoid: string): Promise<UserAndProfileIdsDto | undefined> {
-    const results = await this.sequelize.query(`select u.id, u.username, r.id requesterId, sp.id providerId, go2.id ownerId, u.status
+    const results = await this.sequelize.query(`select
+        u.id, u.username, r.id requesterId, sp.id providerId, go2.id ownerId, u.status,
+        u."contactInfoId", u.lastprofileloaded
       from public."accountMappingId" ami
       join public."user" u on u.id = ami."userId"
       left join public.requester r on r."userId" = u.id
@@ -35,7 +37,6 @@ export class AccountMappingService extends BaseDbService<accountMapping, Account
         type: QueryTypes.SELECT,
       });
     const result = results.length > 0 ? new UserAndProfileIdsDto(results[0]) : undefined;
-    console.log(JSON.stringify(result));
 
     return result;
   }

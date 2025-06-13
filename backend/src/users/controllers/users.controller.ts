@@ -10,6 +10,7 @@ import { ErrorResponse, Response } from 'src/mvc/base/http/entities';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { PROFILE_TYPE } from 'src/mvc/enums/enum';
+import { ProfileDto } from 'src/profiles/dto/profile.dto';
 
 @Controller('users')
 export class UsersController extends BaseController<UserHandler, UserRequest, UserDto, UserResponse, UserListResponse> {
@@ -39,23 +40,28 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
   @ApiHeader({ name: 'user-token', description: 'User auth token' })
   @Get('/me')
   async getMyUser(@Req() req: Request): Promise<UserResponse | ErrorResponse> {
-    // const token = req.headers['user-token'];
-    const accessToken: string = req.headers['authorization']?.split(' ')[1] ?? '';
-    console.log(accessToken);
-    const parsedToken: any = this.jwtService.decode(accessToken);
-    const token: string = parsedToken['sub'] ?? '';
-    if (!token) {
-      // throw error - no auth0 "sub" user id
-      throw new Error('Invalid user data');
-    }
-    console.log(token);
-    const userInfo = {};
-    userInfo['me'] = await this.handler.getUserByAuthId(token);
-    userInfo['me']['contactInfo'] = await this.contactHandler.get(userInfo['me'].user.contactInfoId);
-    userInfo['profiles'] = [];
-    userInfo['profiles'].push(await this.profileHandler.requesterService.getUserProfile(userInfo['me'].user.id));
+    try {
+      const userInfo = {};
+      const user = (req?.user as UserAndProfileIdsDto);
+      userInfo['me'] = user;
+      userInfo['me']['contactInfo'] = (await this.contactHandler.get(user.contactInfoId)).info;
+      let loadedProfile: ProfileDto;
+      switch(user.lastprofileloaded) {
+        case PROFILE_TYPE.owner:
+          loadedProfile = await this.profileHandler.garageOwnerService.getUserProfile(user.id);
+          break;
+        case PROFILE_TYPE.provider:
+          loadedProfile = await this.profileHandler.providerService.getUserProfile(user.id);
+          break;
+        default:
+          loadedProfile = await this.profileHandler.requesterService.getUserProfile(user.id);
+      }
+      userInfo['profile'] = loadedProfile;
 
-    return this.createResponseFromDto(userInfo);
+      return this.createResponseFromDto(userInfo);
+    } catch(error: any) {
+      return new ErrorResponse(error, HttpStatus.NOT_FOUND);
+    }
   }
 
   @Get('/requester')

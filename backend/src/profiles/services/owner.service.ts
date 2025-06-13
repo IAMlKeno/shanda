@@ -22,6 +22,6 @@ export class GarageOwnerService extends BaseDbService<GarageOwner, GarageOwnerDt
     return new GarageOwnerDto(model);
   }
   mapToModel(dto: GarageOwnerDto): MakeNullishOptional<GarageOwner> {
-    return new GarageOwner(dto.owner);
+    return new GarageOwner(dto.info);
   }
 }
