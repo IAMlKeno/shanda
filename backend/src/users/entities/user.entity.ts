@@ -1,11 +1,9 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { API_DESCRIPTION_LAST_PROFILE } from "src/api-constants";
-import { ContactInfo } from "src/contact-information/dto/contact-information.dto";
 import { ContactInformationCreateDto } from "src/contact-information/entities/contact-information.entity";
 import { ListResponse, Request, Response } from "src/mvc/base/http/entities";
 import { PROFILE_TYPE } from "src/mvc/enums/enum";
 import { userAttributes as User } from "src/mvc/models";
-import { ProfileDto } from "src/profiles/dto/profile.dto";
 
 @ApiSchema({ description: 'Create user data' })
 export class UserRequest extends Request {
@@ -33,11 +31,34 @@ export class UserResponse extends Response<Omit<User, 'contactInfoId'>> {
   @ApiProperty({
     type: 'object',
     properties: {
-      profile: { oneOf: [
-        { $ref: '#/components/schemas/RequesterProfileDto' },
-        { $ref: '#/components/schemas/ProviderProfileDto' },
-        { $ref: '#/components/schemas/GarageOwnerProfileDto' },
-      ] }
+      me: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          username: { type: 'string' },
+          requesterId: { type: 'string' },
+          providerId: { type: 'string' },
+          ownerId: { type: 'string' },
+          status: { type: 'string' },
+          contactInfoId: { type: 'string' },
+          lastprofileloaded: { type: 'string' },
+          contactInfo: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              phone: { type: 'string' },
+              email: { type: 'string' }
+            }
+          }
+        }
+      },
+      profile: {
+        oneOf: [
+          { $ref: '#/components/schemas/RequesterProfileDto' },
+          { $ref: '#/components/schemas/ProviderProfileDto' },
+          { $ref: '#/components/schemas/GarageOwnerProfileDto' },
+        ]
+      }
     }
   })
   data: any;
