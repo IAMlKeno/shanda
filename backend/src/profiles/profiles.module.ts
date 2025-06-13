@@ -20,6 +20,7 @@ import { RequestsService } from 'src/requests-service/requests.service';
 import { requestTemplate } from 'src/mvc/models/requestTemplate';
 import { RequestTemplateService } from 'src/requests-service/request-template.service';
 import { RequestTemplateHandler } from 'src/requests-service/handlers/request-template.handler';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   controllers: [
@@ -42,7 +43,7 @@ import { RequestTemplateHandler } from 'src/requests-service/handlers/request-te
     VehiclesService,
     ProfileHandler,
     RequesterController,
-    ProviderController, 
+    ProviderController,
     GarageOwnerController,
   ],
   imports: [
@@ -55,6 +56,7 @@ import { RequestTemplateHandler } from 'src/requests-service/handlers/request-te
     ]),
     forwardRef(() => RequesterGarageModule),
     forwardRef(() => VehiclesModule),
+    forwardRef(() => UsersModule),
   ],
   exports: [
     SequelizeModule,

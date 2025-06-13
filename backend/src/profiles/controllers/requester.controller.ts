@@ -13,7 +13,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { Transaction } from 'sequelize';
 import { UserAndProfileIdsDto } from 'src/users/dto/user.dto';
 import { Request } from 'express';
-import { REQUEST_STATUS } from 'src/mvc/enums/enum';
+import { PROFILE_TYPE, REQUEST_STATUS } from 'src/mvc/enums/enum';
 import { Op } from 'sequelize';
 import { RequesterProfileResponse } from '../entities/requester-profile.entities';
 
@@ -35,8 +35,14 @@ export class RequesterController {
   @Get('')
   async getRequesterProfileByUserId(@Req() req: Request): Promise<RequesterProfileResponse> {
     try {
-      const requesterId: string = (req?.user as UserAndProfileIdsDto)?.requesterId;
-      const response: RequesterProfileDto = await this.profileHandler.requesterService.get(requesterId);
+      const user: UserAndProfileIdsDto = (req?.user as UserAndProfileIdsDto);
+      const profileId: string = user?.requesterId;
+      const response: RequesterProfileDto = await this.profileHandler.requesterService.get(profileId);
+      this.profileHandler.userService
+        .updateUserLastProfile(user?.id, PROFILE_TYPE.requester)
+        .catch((error: any) => {
+          console.log(`An error occurred while updating the default profile: ${error}`);
+        });
 
       return new RequesterProfileResponse(response.info, HttpStatus.FOUND);
     } catch(error: any) {
