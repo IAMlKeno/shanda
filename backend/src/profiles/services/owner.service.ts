@@ -14,7 +14,7 @@ export class GarageOwnerService extends BaseDbService<GarageOwner, GarageOwnerPr
   }
 
   async getUserProfile(userId: string): Promise<GarageOwnerProfileDto> {
-    const where = this.convertToWhere({ userId: userId })
+    const where = this.convertToWhere({ user: userId })
     return this.mapToDto(await this.model.findOne(where));
   }
 
