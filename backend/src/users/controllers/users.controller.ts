@@ -5,13 +5,13 @@ import { UserListResponse, UserProfileUpdateRequest, UserRequest, UserResponse }
 import { UserAndProfileIdsDto, UserDto } from '../dto/user.dto';
 import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
 import { ContactInformationHandler } from 'src/contact-information/handlers/contact-information.handler';
-import { ApiFoundResponse, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiFoundResponse, ApiHeader, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorResponse, Response } from 'src/mvc/base/http/entities';
-import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { PROFILE_TYPE } from 'src/mvc/enums/enum';
 import { ProfileDto } from 'src/profiles/dto/profile.dto';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController extends BaseController<UserHandler, UserRequest, UserDto, UserResponse, UserListResponse> {
 
@@ -19,7 +19,6 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     userHandler: UserHandler,
     private readonly profileHandler: ProfileHandler,
     private readonly contactHandler: ContactInformationHandler,
-    private readonly jwtService: JwtService,
   ) {
     super(userHandler);
   }
@@ -64,19 +63,8 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     }
   }
 
-  @Get('/requester')
-  async getRequesterProfile(@Req() req: Request): Promise<any> {
-    // probably add some interceptor that can extract user token from the request
-    const token = req.headers['user-token'];
-    const requester = await this.profileHandler.requesterService.getUserProfile('token');
-    const garageId = requester.garageId;
-    const garage = await this.profileHandler.requesterService.getGarageById(garageId);
-
-    return { requester, garage };
-  }
-
   @ApiOperation({ summary: 'Update the last profile the user user.', operationId: 'updateDefaultProfile' })
-  @ApiResponse({ type: UserProfileUpdateRequest, description: 'True or false of whether the account successfully updated.', status: HttpStatus.OK })
+  @ApiResponse({ type: Boolean, description: 'True or false of whether the account successfully updated.', status: HttpStatus.OK })
   @ApiResponse({ type: ErrorResponse, description: 'The account failed to udpate and something went wrong.', status: HttpStatus.INTERNAL_SERVER_ERROR })
   @ApiHeader({ name: 'user-token', description: 'User auth token' })
   @Post('profile')
@@ -89,22 +77,6 @@ export class UsersController extends BaseController<UserHandler, UserRequest, Us
     } catch(error: any) {
       return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
-
-  @Get('/provider')
-  async getProviderProfile(@Req() req: Request): Promise<any> {
-    // probably add some interceptor that can extract user token from the request
-    return 'I\'m a service provider';
-    const validationToken: any = '';
-    this.handler.getUserAndProfiles(validationToken);
-  }
-
-  @Get('/owner')
-  async getOwnerProfile(@Req() req: Request): Promise<any> {
-    // probably add some interceptor that can extract user token from the request
-    return 'I\'m a garage ownder';
-    const validationToken: any = '';
-    this.handler.getUserAndProfiles(validationToken);
   }
 
 }
