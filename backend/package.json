@@ -17,7 +17,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "gen:spec": "npx swagger-cli bundle -o ../build/openapi.yaml http://localhost:4201/api-json",
+    "validate:spec": "npx swagger-cli validate http://localhost:4201/api-json",
+    "build:typescript-node": "rm -f -r ../build/clients/ts-node-client/src && npx openapi-generator-cli generate -i ../build/openapi.yaml -g typescript-axios -o ../build/clients/ts-node-client --additional-properties withInterfaces=true,withNodeImports=true,withSeparateModelsAndApi=true,apiPackage=tags,modelPackage=models,npmName=@shanda/ts-node-client"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -29,6 +32,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/sequelize": "^11.0.0",
     "@nestjs/swagger": "^8.1.1",
+    "@openapitools/openapi-generator-cli": "^2.20.2",
     "@prisma/client": "^5.22.0",
     "@prisma/instrumentation": "^6.5.0",
     "@transactional/prisma": "^1.1.2",

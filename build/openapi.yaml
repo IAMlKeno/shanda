@@ -1,0 +1,1874 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "getHelloApp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/test": {
+      "get": {
+        "operationId": "testApp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/forms/{formType}": {
+      "get": {
+        "operationId": "getFormFields",
+        "parameters": [
+          {
+            "name": "formType",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "A JSON object containing a form's fields and metadata about the information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed to find user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get fields for a form.",
+        "tags": [
+          "Forms"
+        ]
+      }
+    },
+    "/request/templates/{templateId}": {
+      "get": {
+        "operationId": "getRequestTemplate",
+        "parameters": [
+          {
+            "name": "templateId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Got request templates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestTemplateResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get request templates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a requests template",
+        "tags": [
+          "requestTemplates"
+        ]
+      }
+    },
+    "/request/templates": {
+      "get": {
+        "operationId": "getRequestTemplates",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Template type \"service_request\", \"parts_request\"",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Got request templatess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestTemplateListReponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get request templates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all requests template",
+        "tags": [
+          "requestTemplates"
+        ]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "operationId": "loadUser",
+        "parameters": [
+          {
+            "name": "user-token",
+            "in": "header",
+            "description": "User auth token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "A full user object containing references to its profiles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed to find user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get the successfully authenticated user and profiles.",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/requester": {
+      "get": {
+        "operationId": "getRequesterProfileUsers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/provider": {
+      "get": {
+        "operationId": "getProviderProfileUsers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/owner": {
+      "get": {
+        "operationId": "getOwnerProfileUsers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "operationId": "createUsers",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "get": {
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "patch": {
+        "operationId": "updateUsers",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/register": {
+      "post": {
+        "operationId": "registerUser",
+        "parameters": [
+          {
+            "name": "user-token",
+            "in": "header",
+            "description": "auth0 authentation token (jwt)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create user and profiles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Creates a user entry using ssoid from Auth0",
+        "tags": [
+          "Registration"
+        ]
+      }
+    },
+    "/profiles/requester/garage": {
+      "get": {
+        "operationId": "getMyGarageRequester",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/requester/request": {
+      "post": {
+        "operationId": "createRequest",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Request created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create a request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create a request for the user ",
+        "tags": [
+          "profiles",
+          "requests"
+        ]
+      }
+    },
+    "/profiles/requester/request/{id}": {
+      "patch": {
+        "operationId": "updateRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create a request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update a request for the user ",
+        "tags": [
+          "profiles",
+          "requests"
+        ]
+      },
+      "get": {
+        "operationId": "getRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Got request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed to get a request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get a request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a request for the user ",
+        "tags": [
+          "profiles",
+          "requests"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteRequest",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Request delete"
+          },
+          "500": {
+            "description": "Failed to delete a request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Soft delete a request for the user ",
+        "tags": [
+          "profiles",
+          "requests"
+        ]
+      }
+    },
+    "/profiles/requester/requests": {
+      "get": {
+        "operationId": "getRequests",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "One of the statuses \"open\", \"closed\", or \"pending\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "vehicle",
+            "required": false,
+            "in": "query",
+            "description": "The id of the vehicle",
+            "schema": {}
+          },
+          {
+            "name": "query",
+            "required": false,
+            "in": "query",
+            "description": "A text to use to search for a request (fields: description, summary)",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Got requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestListReponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get list of requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all requests for the user",
+        "tags": [
+          "profiles",
+          "requests"
+        ]
+      }
+    },
+    "/profiles/requester/request/{id}/receipt": {
+      "get": {
+        "operationId": "getRequestReceiptRequester",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/requester/request/receipt/{id}": {
+      "get": {
+        "operationId": "getReceiptByIdRequester",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/requester-garage": {
+      "post": {
+        "operationId": "createRequestergarage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RequesterGarage"
+        ]
+      },
+      "get": {
+        "operationId": "getAllRequestergarage",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RequesterGarage"
+        ]
+      }
+    },
+    "/requester-garage/{id}": {
+      "get": {
+        "operationId": "getRequestergarage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RequesterGarage"
+        ]
+      },
+      "patch": {
+        "operationId": "updateRequestergarage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "RequesterGarage"
+        ]
+      }
+    },
+    "/vehicles": {
+      "post": {
+        "operationId": "createVehicles",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      },
+      "get": {
+        "operationId": "getAllVehicles",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      }
+    },
+    "/vehicles/{id}": {
+      "get": {
+        "operationId": "getVehicles",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      },
+      "patch": {
+        "operationId": "updateVehicles",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      }
+    },
+    "/contact-information": {
+      "post": {
+        "operationId": "createContactinformation",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ContactInformation"
+        ]
+      },
+      "get": {
+        "operationId": "getAllContactinformation",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ContactInformation"
+        ]
+      }
+    },
+    "/contact-information/{id}": {
+      "get": {
+        "operationId": "getContactinformation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ContactInformation"
+        ]
+      },
+      "patch": {
+        "operationId": "updateContactinformation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ContactInformation"
+        ]
+      }
+    },
+    "/host-garage": {
+      "post": {
+        "operationId": "createHostgarage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HostGarage"
+        ]
+      },
+      "get": {
+        "operationId": "getAllHostgarage",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HostGarage"
+        ]
+      }
+    },
+    "/host-garage/{id}": {
+      "get": {
+        "operationId": "getHostgarage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HostGarage"
+        ]
+      },
+      "patch": {
+        "operationId": "updateHostgarage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "HostGarage"
+        ]
+      }
+    },
+    "/company": {
+      "post": {
+        "operationId": "createCompany",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Company"
+        ]
+      },
+      "get": {
+        "operationId": "getAllCompany",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Company"
+        ]
+      }
+    },
+    "/company/{id}": {
+      "get": {
+        "operationId": "getCompany",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Company"
+        ]
+      },
+      "patch": {
+        "operationId": "updateCompany",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Company"
+        ]
+      }
+    },
+    "/bookings": {
+      "post": {
+        "operationId": "createBookings",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      },
+      "get": {
+        "operationId": "getAllBookings",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/bookings/{id}": {
+      "get": {
+        "operationId": "getBookings",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      },
+      "patch": {
+        "operationId": "updateBookings",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bookings"
+        ]
+      }
+    },
+    "/bidding": {
+      "post": {
+        "operationId": "createBidding",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bidding"
+        ]
+      },
+      "get": {
+        "operationId": "getAllBidding",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bidding"
+        ]
+      }
+    },
+    "/bidding/{id}": {
+      "get": {
+        "operationId": "getBidding",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bidding"
+        ]
+      },
+      "patch": {
+        "operationId": "updateBidding",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Bidding"
+        ]
+      }
+    },
+    "/maintenance-log": {
+      "post": {
+        "operationId": "createMaintenancelog",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "MaintenanceLog"
+        ]
+      },
+      "get": {
+        "operationId": "getAllMaintenancelog",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "MaintenanceLog"
+        ]
+      }
+    },
+    "/maintenance-log/{id}": {
+      "get": {
+        "operationId": "getMaintenancelog",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "MaintenanceLog"
+        ]
+      },
+      "patch": {
+        "operationId": "updateMaintenancelog",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "MaintenanceLog"
+        ]
+      }
+    },
+    "/auth/login": {
+      "get": {
+        "operationId": "loginAuth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "operationId": "logoutAuth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Shanda API",
+    "description": "Shanda API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "type": "object"
+          },
+          "msg": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data",
+          "msg"
+        ]
+      },
+      "REQUEST_TAGS": {
+        "type": "string",
+        "enum": [
+          "mvi",
+          "tires",
+          "oil_change",
+          "detailing",
+          "keys",
+          "parts",
+          "maintenance"
+        ]
+      },
+      "REQUEST_CATEGORY": {
+        "type": "string",
+        "enum": [
+          "service_request",
+          "part_request"
+        ]
+      },
+      "RequestTemplateDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "description": "A list of tags to help identify requests",
+            "items": {
+              "$ref": "#/components/schemas/REQUEST_TAGS"
+            }
+          },
+          "category": {
+            "type": "array",
+            "description": "A category for requests",
+            "items": {
+              "$ref": "#/components/schemas/REQUEST_CATEGORY"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "description"
+        ]
+      },
+      "RequestTemplateResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RequestTemplateDto"
+          }
+        },
+        "description": "Create user data",
+        "required": [
+          "statusCode",
+          "data"
+        ]
+      },
+      "RequestTemplateListReponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequestTemplateDto"
+            }
+          },
+          "count": {
+            "type": "number"
+          },
+          "totalCount": {
+            "type": "number"
+          }
+        },
+        "description": "Get request templates",
+        "required": [
+          "statusCode",
+          "data",
+          "count",
+          "totalCount"
+        ]
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data"
+        ]
+      },
+      "ContactInformationCreateDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "description": "Phone number"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address"
+          }
+        },
+        "description": "Contact information create data",
+        "required": [
+          "phone",
+          "email"
+        ]
+      },
+      "UserRequest": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "contactInfo": {
+            "description": "phone, email",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContactInformationCreateDto"
+              }
+            ]
+          }
+        },
+        "description": "Create user data",
+        "required": [
+          "firstName",
+          "lastName",
+          "username",
+          "contactInfo"
+        ]
+      },
+      "CreateRequest": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "vehicleId": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "description": "A list of tags to help identify requests",
+            "items": {
+              "$ref": "#/components/schemas/REQUEST_TAGS"
+            }
+          },
+          "category": {
+            "description": "A category for requests",
+            "default": "service_request",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/REQUEST_CATEGORY"
+              }
+            ]
+          }
+        },
+        "description": "Create user data",
+        "required": [
+          "summary",
+          "description",
+          "vehicleId"
+        ]
+      },
+      "REQUEST_STATUS": {
+        "type": "string",
+        "enum": [
+          "open",
+          "closed",
+          "pending"
+        ]
+      },
+      "RequestDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "vehicleId": {
+            "type": "string"
+          },
+          "requesterId": {
+            "type": "string"
+          },
+          "status": {
+            "description": "Request status",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/REQUEST_STATUS"
+              }
+            ]
+          },
+          "created": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "description",
+          "vehicleId",
+          "requesterId",
+          "status",
+          "created",
+          "deleted",
+          "tags",
+          "category"
+        ]
+      },
+      "RequestResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RequestDto"
+          }
+        },
+        "description": "Create user data",
+        "required": [
+          "statusCode",
+          "data"
+        ]
+      },
+      "UpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "vehicleId": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "description": "A list of tags to help identify requests",
+            "items": {
+              "$ref": "#/components/schemas/REQUEST_TAGS"
+            }
+          },
+          "category": {
+            "type": "array",
+            "description": "A category for requests",
+            "items": {
+              "$ref": "#/components/schemas/REQUEST_CATEGORY"
+            }
+          }
+        },
+        "description": "Update request data",
+        "required": [
+          "id",
+          "vehicleId",
+          "tags",
+          "category"
+        ]
+      },
+      "RequestListReponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RequestDto"
+            }
+          },
+          "count": {
+            "type": "number"
+          },
+          "totalCount": {
+            "type": "number"
+          }
+        },
+        "description": "Get list of requests",
+        "required": [
+          "statusCode",
+          "data",
+          "count",
+          "totalCount"
+        ]
+      }
+    }
+  }
+}

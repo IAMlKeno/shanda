@@ -23,7 +23,6 @@ export class CreateRequest extends Request {
   tags?: REQUEST_TAGS[];
   @ApiProperty({
     description: API_DESCRIPTION_REQUEST_CATEGORY,
-    isArray: true,
     enum: Object.keys(REQUEST_CATEGORY),
     enumName: 'REQUEST_CATEGORY',
     required: false,

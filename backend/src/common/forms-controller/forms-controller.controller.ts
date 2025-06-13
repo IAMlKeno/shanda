@@ -1,6 +1,6 @@
-import { Controller, Get, HttpStatus, Param, Response } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
 import { formDtoMap } from '../form-map';
-import { ApiOperation, ApiFoundResponse, ApiNotFoundResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiFoundResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorResponse } from 'src/mvc/base/http/entities';
 
 @Controller('forms')
@@ -8,11 +8,10 @@ import { ErrorResponse } from 'src/mvc/base/http/entities';
 export class FormsControllerController {
 
   @ApiOperation({ summary: 'Get fields for a form.', operationId: 'getFormFields'})
-  @ApiFoundResponse({ type: Response, description: 'A full user object containing references to its profiles.' })
+  @ApiFoundResponse({ type: Object, description: 'A JSON object containing a form\'s fields and metadata about the information.', examples: {} })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Failed to find user.' })
-  @ApiParam({ name: 'formType', })
-  @Get(':formType')
-  async getFormFields(@Param('formType') formType: string): Promise<any | ErrorResponse> {
+  @Get('/:formType')
+  async getFormFields(@Param('formType') formType: string): Promise<object | ErrorResponse> {
     try {
       const dtoClass = formDtoMap[formType];
 

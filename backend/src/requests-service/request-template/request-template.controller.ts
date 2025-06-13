@@ -17,10 +17,10 @@ export class RequestTemplateController {
   @ApiOperation({ summary: 'Get a requests template', operationId: 'getRequestTemplate'})
   @ApiResponse({ status: HttpStatus.OK, description: 'Got request templates', type: RequestTemplateResponse })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Failed to get request templates', type: ErrorResponse })
-  @Get('/:templatId')
-  async getTemplate(@Req() req: Request, @Param('templateId') id: string): Promise<RequestTemplateResponse | ErrorResponse> {
+  @Get('/:templateId')
+  async getTemplate(@Req() req: Request, @Param('templateId') templateId: string): Promise<RequestTemplateResponse | ErrorResponse> {
     try {
-      const response: RequestTemplateDto = await this.requestTemplateHandler.get(id);
+      const response: RequestTemplateDto = await this.requestTemplateHandler.get(templateId);
       return new RequestTemplateResponse(response.info);
     } catch (error: any) {
       return new ErrorResponse(error, HttpStatus.INTERNAL_SERVER_ERROR);

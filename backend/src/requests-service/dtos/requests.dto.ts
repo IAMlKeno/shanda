@@ -16,7 +16,7 @@ export class RequestDto {
   requesterId?: string;
   @ApiProperty({ enum: Object.keys(REQUEST_STATUS), description: 'Request status', enumName: 'REQUEST_STATUS' })
   status?: REQUEST_STATUS;
-  @ApiProperty({ default: 'CURRENT_TIMESTAMP' })
+  @ApiProperty()
   created?: Date;
   @ApiProperty()
   deleted?: Date;
