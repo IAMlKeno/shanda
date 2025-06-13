@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { ProfileHandler } from '../handlers/profiles.handler';
-import { RequesterDto } from '../dto/requester/requester.dto';
+import { RequesterProfileDto } from '../dto/requester/requester.dto';
 import { VehicleRequestDto } from '../dto/requester/request.dto';
 import { RequestsHandler } from 'src/requests-service/handlers/requests.handler';
 import { RequestListReponse, RequestResponse } from 'src/requests-service/entities/request-response.entity';
@@ -15,6 +15,7 @@ import { UserAndProfileIdsDto } from 'src/users/dto/user.dto';
 import { Request } from 'express';
 import { REQUEST_STATUS } from 'src/mvc/enums/enum';
 import { Op } from 'sequelize';
+import { RequesterProfileResponse } from '../entities/requester-profile.entities';
 
 @ApiTags('profiles')
 @Controller('profiles/requester')
@@ -26,8 +27,22 @@ export class RequesterController {
     private sequelize: Sequelize,
   ) {}
 
-  // @Get('/:id')
-  // async getRequesterProfileByUserId(@Param('id') userId: string): Promise<any> {}
+  // @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Get requester\s profile', operationId: 'getMyRequesterProfile'})
+  @ApiResponse({ status: HttpStatus.FOUND, description: 'Request created', type: RequesterProfileResponse })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Failed to locate requester profile', type: ErrorResponse })
+  @ApiTags('profiles/requester')
+  @Get('')
+  async getRequesterProfileByUserId(@Req() req: Request): Promise<RequesterProfileResponse> {
+    try {
+      const requesterId: string = (req?.user as UserAndProfileIdsDto)?.requesterId;
+      const response: RequesterProfileDto = await this.profileHandler.requesterService.get(requesterId);
+
+      return new RequesterProfileResponse(response.info, HttpStatus.FOUND);
+    } catch(error: any) {
+      return new ErrorResponse(error, HttpStatus.NOT_FOUND);
+    }
+  }
 
   @Get('garage')
   async getMyGarage(@Req() req): Promise<any> {

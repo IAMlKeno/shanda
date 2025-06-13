@@ -1,21 +1,21 @@
 import { requesterAttributes as Requester } from "src/mvc/models";
+import { ProfileDto } from "../profile.dto";
+import { ApiProperty } from "@nestjs/swagger";
 
-export class RequesterDto implements Requester {
-
+export class RequesterProfileDto extends ProfileDto {
   info: Requester;
+  @ApiProperty()
+  contactInfoId?: string;
+  @ApiProperty()
+  garageId?: string;
 
   constructor(row: any) {
-    this.id = row?.id;
-    this.userId = row?.userId;
-    this.garageId = row?.garageId;
-    this.contactInfoId = row?.contactInfoId;
+    super(row);
     this.info = {
+      id: row.id,
+      garageId: row.garageId,
       userId: row?.userId,
       contactInfoId: row?.contactInfoId,
     }
   }
-  id?: string;
-  userId: string;
-  contactInfoId?: string;
-  garageId?: string;
 }

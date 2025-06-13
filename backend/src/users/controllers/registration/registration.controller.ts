@@ -12,7 +12,7 @@ import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
 import { ContactInformationHandler } from 'src/contact-information/handlers/contact-information.handler';
 import { GarageOwnerDto } from 'src/profiles/dto/garage-owner/garage-owner.dto';
 import { ProviderDto } from 'src/profiles/dto/provider/provider.dto';
-import { RequesterDto } from 'src/profiles/dto/requester/requester.dto';
+import { RequesterProfileDto } from 'src/profiles/dto/requester/requester.dto';
 import { Sequelize } from 'sequelize-typescript';
 import { AccountMappingHandler } from 'src/users/handler/account-mapping.handler';
 import { AccountMappingDto } from 'src/users/dto/account-mapping.dto';
@@ -69,7 +69,7 @@ export class RegistrationController {
           userId: createdUser.user.id,
           contactInfoId: createdUser.user.contactInfoId,
         }), t);
-        await this.profileHandler.requesterService.create(new RequesterDto({
+        await this.profileHandler.requesterService.create(new RequesterProfileDto({
           contactInfoId: createdUser.user.contactInfoId,
           userId: createdUser.user.id,
         }), t);
