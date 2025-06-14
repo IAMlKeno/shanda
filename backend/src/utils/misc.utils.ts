@@ -1,5 +1,7 @@
+import { Request } from "express";
 import { Op } from "sequelize";
 import { DEFAULT_QUERY_SKIP } from "src/constants";
+import { UserAndProfileIdsDto } from "src/users/dto/user.dto";
 import { v4 as guid } from "uuid";
 
 export function getRandomUuid(): string {
@@ -32,3 +34,5 @@ export function convertQueryToRecord(url: any, params: Record<string | symbol, a
 
   return params;
 }
+
+export const extractUserFromRequest = (req: Request) => ( (req?.user as UserAndProfileIdsDto) )

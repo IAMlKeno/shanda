@@ -15,7 +15,7 @@ export class Response<T> implements Partial<ExpressResponse> {
 }
 export class ErrorResponse extends Response<any> {
 
-  constructor(message: string, statusCode: HttpStatus) {
+  constructor(message: string, statusCode: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR) {
     super(message);
     this.statusCode = Number(statusCode.toFixed(0));
   }

@@ -1,15 +1,16 @@
 import { Controller } from '@nestjs/common';
 import { BaseController } from 'src/mvc/base/base.controller';
 import { RequesterGarageHandler } from '../handlers/requester-garage.handler';
-import { RequesterGarageListResponse, RequesterGarageRequest, RequesterGarageResponse } from '../entities/requester-garage.entity';
 import { RequesterGarageDto } from '../dto/requester-garage.dto';
+import { RequesterGarageListResponse, RequesterGarageResponse } from '../entities/requester-garage-response.entities';
+import { AddVehicleToGarageRequest } from '../entities/requester-garage.entities';
 
 @Controller('requester-garage')
-export class RequesterGarageController extends BaseController<RequesterGarageHandler, RequesterGarageRequest, RequesterGarageDto, RequesterGarageResponse, RequesterGarageListResponse> {
+export class RequesterGarageController extends BaseController<RequesterGarageHandler, AddVehicleToGarageRequest, RequesterGarageDto, RequesterGarageResponse, RequesterGarageListResponse> {
 
   constructor(handler: RequesterGarageHandler) { super(handler); }
 
-  createDtoFromRequest(request: RequesterGarageRequest): RequesterGarageDto {
+  createDtoFromRequest(request: AddVehicleToGarageRequest): RequesterGarageDto {
     throw new Error('Method not implemented.');
   }
   createResponseFromDto(dto: RequesterGarageDto): RequesterGarageResponse {

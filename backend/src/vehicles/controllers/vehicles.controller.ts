@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { VehicleDto, VehicleRequest } from '../dto/vehicle.dto';
 import { BaseController } from 'src/mvc/base/base.controller';
 import { VehicleHandler } from '../handlers/vehicle.handler';
-import { VehicleListResponse, VehicleResponse } from '../entities/vehicle.entity';
+import { VehicleResponse, VehicleListResponse } from '../entities/vehicle-response.entities';
 
 @Controller('vehicles')
 export class VehiclesController extends BaseController<VehicleHandler, VehicleRequest, VehicleDto, VehicleResponse, VehicleListResponse> {

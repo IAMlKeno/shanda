@@ -6,7 +6,6 @@ import { MvcModule } from './mvc/mvc.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { bid, bidRevision, booking, companyInformation, contactInformation, garage, garageOwner, job, maintenanceLog, ratings, receipt, request, requester, serviceProvider, user, vehicle, vehicleGarage } from './mvc/models';
 import { ConfigModule } from '@nestjs/config';
-import { ProfilesController } from './profiles/controllers/profiles.controller';
 import { ProfilesModule } from './profiles/profiles.module';
 import { MaintenanceLogModule } from './maintenance-log/maintenance-log.module';
 import { BiddingModule } from './bidding/bidding.module';
@@ -59,6 +58,9 @@ import { RequestTemplateHandler } from './requests-service/handlers/request-temp
       username: process.env.NODE_DB_USERNAME,
       password: process.env.NODE_DB_PASSWORD,
       database: process.env.NODE_DB,
+      retry: {
+        max: process.env.NODE_DB_RETRIES ? Number(process.env.NODE_DB_RETRIES) : 3,
+      },
       models: [
         accountMapping,
         bid,

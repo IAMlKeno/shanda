@@ -16,6 +16,10 @@ import { Request } from 'express';
 import { PROFILE_TYPE, REQUEST_STATUS } from 'src/mvc/enums/enum';
 import { Op } from 'sequelize';
 import { RequesterProfileResponse } from '../entities/requester-profile.entities';
+import { RequesterGarageHandler } from 'src/requester-garage/handlers/requester-garage.handler';
+import { RequesterGarageDto } from 'src/requester-garage/dto/requester-garage.dto';
+import { RequesterGarageResponse } from 'src/requester-garage/entities/requester-garage-response.entities';
+import { extractUserFromRequest } from 'src/utils/misc.utils';
 
 @ApiTags('profiles')
 @Controller('profiles/requester')
@@ -24,6 +28,7 @@ export class RequesterController {
   constructor(
     private readonly profileHandler: ProfileHandler,
     private readonly requestsHandler: RequestsHandler,
+    private readonly garageHandler: RequesterGarageHandler,
     private sequelize: Sequelize,
   ) {}
 
@@ -43,6 +48,20 @@ export class RequesterController {
         .catch((error: any) => {
           console.log(`An error occurred while updating the default profile: ${error}`);
         });
+        // If garageId is null, create a garage for the user
+      if (!response?.info?.garageId) {
+        response.info.garageId = await this.sequelize.transaction(async (t: Transaction) => {
+            const id = (await this.createGarage(t)).info.id;
+            this.profileHandler.requesterService.update(new RequesterProfileDto({ garageId: id }), profileId);
+
+            return id;
+          })
+          .catch((error: any) => {
+            console.log(`Failed to create garage for user: ${error}`);
+            return undefined;
+          }
+        );
+      }
 
       return new RequesterProfileResponse(response.info, HttpStatus.FOUND);
     } catch(error: any) {
@@ -50,10 +69,20 @@ export class RequesterController {
     }
   }
 
+  private async createGarage(transactionHost?: Transaction): Promise<RequesterGarageDto> {
+    return this.garageHandler.create(new RequesterGarageDto({ id: undefined }), transactionHost);
+  }
+
   @Get('garage')
-  async getMyGarage(@Req() req): Promise<any> {
-    const userId = 'from-a-token';
-    this.profileHandler.requesterService.getMyGarage(userId);
+  async getMyGarage(@Req() req: Request): Promise<RequesterGarageResponse> {
+    try {
+      const user: UserAndProfileIdsDto = extractUserFromRequest(req);
+      const response = await this.profileHandler.requesterService.getMyGarage(user.id);
+
+      return new RequesterGarageResponse(new RequesterGarageDto(response.info));
+    } catch (error: any) {
+      return new ErrorResponse(error);
+    }
   }
 
   // @UseGuards(AuthGuard('jwt'))

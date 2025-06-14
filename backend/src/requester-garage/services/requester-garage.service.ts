@@ -10,7 +10,10 @@ import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
 @Injectable()
 export class RequesterGarageService extends BaseDbService<Garage, RequesterGarageDto> {
 
-  constructor(@InjectModel(Garage) model: typeof Garage, private readonly vehicleHandler: VehicleHandler) { super(model); }
+  constructor(
+    @InjectModel(Garage) model: typeof Garage,
+    private readonly vehicleHandler: VehicleHandler
+  ) { super(model); }
 
   async getGarageAndVehiclesByGarageId(id: string) {
     const garage = await this.model.findByPk(id);

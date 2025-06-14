@@ -14,6 +14,6 @@ export class VehiclesService extends BaseDbService<vehicle, VehicleDto> {
     return new VehicleDto(model);
   }
   mapToModel(dto: VehicleDto): Optional<vehicle, NullishPropertiesOf<vehicle>> {
-    return new vehicle(dto.vehicle);
+    return new vehicle(dto.info);
   }
 }

@@ -11,7 +11,10 @@ import { InjectModel } from '@nestjs/sequelize';
 @Injectable()
 export class RequesterService extends BaseDbService<Requester, RequesterProfileDto> implements ProfilesService<Requester, RequesterProfileDto> {
 
-  constructor(@InjectModel(Requester) model: typeof Requester, private readonly garageHandler: RequesterGarageHandler) {
+  constructor(
+    @InjectModel(Requester) model: typeof Requester,
+    private readonly garageHandler: RequesterGarageHandler,
+  ) {
     super(model);
   }
 
@@ -20,19 +23,21 @@ export class RequesterService extends BaseDbService<Requester, RequesterProfileD
     return this.mapToDto(await this.model.findOne(where));
   }
 
+  async getMyGarage(userId: string): Promise<RequesterGarageDto> {
+    const garageId = (await this.getUserProfile(userId)).info.garageId;
+    const garage = await this.getGarageById(garageId);
+    return garage;
+  }
+
+  async getGarageById(id: string): Promise<RequesterGarageDto> {
+    return this.garageHandler.getGarageById(id);
+  }
+
 
   async getRequest(id: string) {}
   async deleteRequest(id: string) {}
   async getRequestReceipt(id: string) {}
   async getReceiptById(id: string) {}
-  async getMyGarage(userId: string) {
-    return this.garageHandler.getGarageByUserId(userId);
-  }
-  async getGarageById(id: string) {
-    return this.garageHandler.getGarageById(id);
-  }
-
-
 
   mapToDto(model: Requester): RequesterProfileDto {
     return new RequesterProfileDto(model);
