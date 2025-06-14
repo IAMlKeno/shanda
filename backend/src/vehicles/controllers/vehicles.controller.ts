@@ -21,10 +21,18 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
   @ApiParam({ name: 'vin', example: 'WP1AA2A25DLA12497' })
   @ApiTags('garage')
   @Get('/vin/:vin')
-  async vinLookup(@Param('vin') vin: string): Promise<VehicleInformationResponse | ErrorResponse> {
+  async vinLookup(@Param('vin') vin: string): Promise<any | VehicleInformationResponse | ErrorResponse> {
     try {
-      const dto: VehicleDto = await this.handler.getCustom([{vin: vin}]);
-      const infoDto: VehicleInfoDto = this.maptoVehicleInfoDto(dto)
+      if (!this.handler.isVinValid(vin)) {
+        throw new BadRequestException();
+      }
+
+      let infoDto: VehicleInfoDto | any;
+      let dto: any = await this.handler.getCustom([{vin: vin}]) ?? await this.handler.externalVinLookup(vin);
+      if (!dto) {
+        throw new Error('not found');
+      }
+      infoDto = this.maptoVehicleInfoDto(dto)
       return new VehicleInformationResponse(infoDto);
     } catch (error: any) {
       if (error instanceof BadRequestException) {

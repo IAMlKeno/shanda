@@ -3,6 +3,7 @@ import { ErrorResponse, ListResponse, Response } from "src/mvc/base/http/entitie
 import { VehicleDto } from "../dto/vehicle.dto";
 import { VehicleInfoDto } from "../dto/vehicle-info.dto";
 import { INVALID_VIN } from "src/constants";
+import { HttpStatus } from "@nestjs/common";
 
 @ApiSchema()
 export class VehicleResponse extends Response<VehicleDto> {
@@ -23,7 +24,7 @@ export class VehicleInformationResponse extends Response<VehicleInfoDto> {
 @ApiSchema()
 export class InvalidVehicleVinResponse extends ErrorResponse {
   constructor() {
-    super(INVALID_VIN);
+    super(INVALID_VIN, HttpStatus.BAD_REQUEST);
   }
 }
 

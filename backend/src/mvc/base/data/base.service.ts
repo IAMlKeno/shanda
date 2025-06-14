@@ -77,11 +77,11 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
   deleteMany(conditions: { [key: string]: any; }, transactionHost?: any): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  async getCustom(paramsArray: Record<string, any>[]): Promise<DtoType> {
+  async getCustom(paramsArray: Record<string, any>[]): Promise<DtoType | undefined> {
     const where = this.convertToWhere(paramsArray);
     const row = await this.model.findOne(where);
 
-    return this.mapToDto(row);
+    return !row ? undefined : this.mapToDto(row);
   }
   getAllCustom<T>(page: number, size: number, params: Record<string, any>[], dtoConstructor: new (item: any) => T, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<any> {
     const result = new Promise(() => [])

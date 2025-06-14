@@ -6,6 +6,7 @@ Docker implementation of the Shanda organization. The current tech stack is:
 * React
 * Postgresql
 * OpenAPI
+* [NHTSA API Wrapper](https://www.npmjs.com/package/@shaggytools/nhtsa-api-wrapper)
 
 #### Roadmap
 * React Native for mobile look and feel.

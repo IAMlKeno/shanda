@@ -6,4 +6,12 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class VehicleHandler extends BaseHandler<VehiclesService, VehicleDto> {
   constructor(dbService: VehiclesService) { super(dbService); }
+
+  async externalVinLookup(vin: string) {
+    return await this.dbService.externalVinLookup(vin);
+  }
+
+  isVinValid(vin: string) {
+    return this.dbService.isVinValid(vin);
+  }
 }
