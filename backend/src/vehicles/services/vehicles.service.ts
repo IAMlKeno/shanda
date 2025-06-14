@@ -5,7 +5,6 @@ import { VehicleDto } from '../dto/vehicle.dto';
 import { Optional } from 'sequelize';
 import { NullishPropertiesOf } from 'sequelize/types/utils';
 import { InjectModel } from '@nestjs/sequelize';
-/// @ts-ignore
 import { DecodeVinValues, DecodeVinValuesResults, isValidVin, NhtsaResponse } from '@shaggytools/nhtsa-api-wrapper';
 
 @Injectable()
@@ -25,9 +24,11 @@ export class VehiclesService extends BaseDbService<vehicle, VehicleDto> {
     }
     return row;
   }
+
   isVinValid(vin: string): boolean {
     return isValidVin(vin)
   }
+
   mapToDto(model: vehicle): VehicleDto {
     return new VehicleDto(model);
   }

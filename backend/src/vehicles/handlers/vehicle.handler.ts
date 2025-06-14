@@ -7,11 +7,11 @@ import { Injectable } from "@nestjs/common";
 export class VehicleHandler extends BaseHandler<VehiclesService, VehicleDto> {
   constructor(dbService: VehiclesService) { super(dbService); }
 
-  async externalVinLookup(vin: string) {
+  async externalVinLookup(vin: string): Promise<any> {
     return await this.dbService.externalVinLookup(vin);
   }
 
-  isVinValid(vin: string) {
+  isVinValid(vin: string): boolean {
     return this.dbService.isVinValid(vin);
   }
 }

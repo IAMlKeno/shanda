@@ -6,7 +6,8 @@ import { VehicleResponse, VehicleListResponse, VehicleInformationResponse, Inval
 import { ErrorResponse } from 'src/mvc/base/http/entities';
 import { VehicleInfoDto } from '../dto/vehicle-info.dto';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { INVALID_VIN } from 'src/constants';
+import { INVALID_VIN, VIN_NOT_FOUND } from 'src/constants';
+import { API_DESCRIPTION_VIN_LOOKUP } from 'src/api-constants';
 
 @ApiTags('Vehicles')
 @Controller('vehicles')
@@ -14,7 +15,7 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
 
   constructor(handler: VehicleHandler) { super(handler); }
 
-  @ApiOperation({ summary: 'Create a request for the user ', operationId: 'vinLookup'})
+  @ApiOperation({ summary: API_DESCRIPTION_VIN_LOOKUP, operationId: 'vinLookup'})
   @ApiResponse({ status: HttpStatus.FOUND, description: 'Vehicle Information', type: VehicleInformationResponse })
   @ApiBadRequestResponse({ description: INVALID_VIN, type: ErrorResponse })
   @ApiNotFoundResponse({ description: 'Failed to find any vehicle information', type: ErrorResponse })
@@ -38,7 +39,7 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
       if (error instanceof BadRequestException) {
         return new InvalidVehicleVinResponse();
       }
-      return new ErrorResponse('VIN information not found', HttpStatus.NOT_FOUND);
+      return new ErrorResponse(VIN_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
   }
 
