@@ -47,6 +47,7 @@ import { requestTemplate } from './mvc/models/requestTemplate';
 import { RequestTemplateController } from './requests-service/request-template/request-template.controller';
 import { RequestTemplateService } from './requests-service/request-template.service';
 import { RequestTemplateHandler } from './requests-service/handlers/request-template.handler';
+import { VehiclesController } from './vehicles/controllers/vehicles.controller';
 
 @Module({
   imports: [
@@ -96,7 +97,12 @@ import { RequestTemplateHandler } from './requests-service/handlers/request-temp
     MaintenanceLogModule,
     AuthModule,
   ],
-  controllers: [AppController, FormsControllerController, RequestTemplateController],
+  controllers: [
+    AppController,
+    FormsControllerController,
+    RequestTemplateController,
+    VehiclesController,
+  ],
   providers: [
     AppService,
     UsersService,

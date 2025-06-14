@@ -6,6 +6,7 @@ import { MakeNullishOptional } from 'sequelize/types/utils';
 // FindOptions: https://sequelize.org/api/v7/interfaces/_sequelize_core.index.findoptions
 import { FindOptions } from 'sequelize';
 import { DEFAULT_RESULT_PAGE, DEFAULT_RESULT_SIZE } from 'src/constants';
+import { isArray } from 'class-validator';
 
 //https://stackoverflow.com/questions/69051499/typescript-repository-pattern-with-sequelize
 @Injectable()
@@ -76,11 +77,16 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
   deleteMany(conditions: { [key: string]: any; }, transactionHost?: any): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  getCustom<T extends new (item: any) => any>(paramsArray: Record<string, any>[], dtoConstructor?: T): Promise<InstanceType<T>> {
-    throw new Error("Method not implemented.");
+  async getCustom(paramsArray: Record<string, any>[]): Promise<DtoType> {
+    const where = this.convertToWhere(paramsArray);
+    const row = await this.model.findOne(where);
+
+    return this.mapToDto(row);
   }
-  getAllCustom<T>(page: number, size: number, params: Record<string, any>[], dtoConstructor: new (item: any) => T, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<T[]> {
-    throw new Error("Method not implemented.");
+  getAllCustom<T>(page: number, size: number, params: Record<string, any>[], dtoConstructor: new (item: any) => T, orderBy?: Record<string, 'ASC' | 'DESC'>): Promise<any> {
+    const result = new Promise(() => [])
+
+    return result;
   }
   deleteCustom(params: Record<string, any>[], transactionHost?: any): Promise<void> {
     throw new Error("Method not implemented.");
@@ -98,8 +104,17 @@ export abstract class BaseDbService<M extends Model, DtoType> implements IDbServ
    * @param params 
    * @returns 
    */
-  convertToWhere(params: Record<string, any>): FindOptions<M> {
-    return { where: params };
+  convertToWhere(params: Record<string, any> | Array<Record<string, any>>): FindOptions<M> {
+    if (isArray(params)) {
+      const joinedParams: Record<string, any> = {};
+      params.forEach((param: any) => Object.entries(param).forEach(
+        ([key, value]) => joinedParams[key] = value
+      ));
+      return { where: joinedParams };
+
+    } else {
+      return { where: params };
+    }
   }
 
 }

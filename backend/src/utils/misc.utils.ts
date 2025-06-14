@@ -36,3 +36,22 @@ export function convertQueryToRecord(url: any, params: Record<string | symbol, a
 }
 
 export const extractUserFromRequest = (req: Request) => ( (req?.user as UserAndProfileIdsDto) )
+
+export const extractAdditionalProperties = (obj1: Object, obj2: Object) => {
+    const differences = {};
+
+    // Check for properties in obj1 that don't exist in obj2
+    for (const key in obj1) {
+        if (!(key in obj2)) {
+            differences[key] = obj1[key];
+        }
+    }
+    // Check for properties in obj2 that don't exist in obj1
+    for (const key in obj2) {
+        if (!(key in obj1)) {
+            differences[key] = obj2[key];
+        }
+    }
+
+    return differences;
+}

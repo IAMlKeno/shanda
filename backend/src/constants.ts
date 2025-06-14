@@ -5,6 +5,7 @@ export const API_DESCRIPTION_REQUESTER_ID = 'The id of the user\'s Requester pro
 export const API_DESCRIPTION_PROVIDER_ID = 'The id of the user\'s Provider profile';
 export const API_DESCRIPTION_OWNER_ID = 'The id of the user\'s Garage Owner profile';
 export const NOT_IMPLEMENTED = 'NOT IMPLEMENTED';
+export const INVALID_VIN = 'The entered VIN is invalid';
 
 export const AUTH_HEADER_TOKEN: string = 'user-token';
 export const DEFAULT_RESULT_SIZE = 15;
