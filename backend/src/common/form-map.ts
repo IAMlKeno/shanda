@@ -27,5 +27,16 @@ export const formDtoMap: Record<string, { formProperties?: {}, formFields: formA
       { name: 'request-category', type:'select', additionalParams: { label: 'Phone', options: Object.entries(REQUEST_CATEGORY) } },
     ]
   },
+  'vehicle': {
+    formProperties: {},
+    formFields: [
+      { name: 'make', type: 'select', additionalParams: { label: 'Make', options: [ ['honda', 'Honda'], [ 'toyota', 'Toyota']] } },
+      { name: 'trim', type: 'input', additionalParams: { label: 'Trim' } },
+      { name: 'year', type: 'text', additionalParams: { label: 'Year' } },
+      { name: 'color', type:'select', additionalParams: { label: 'Color', options: [ ['black', 'Black'], ['red', 'Red'] ] } },
+      { name: 'model', type:'select', additionalParams: { label: 'Model' } },
+      { name: 'mileage', type:'input', additionalParams: { label: 'Mileage' } },
+    ]
+  },
   // ... other form types and DTOs
 };
