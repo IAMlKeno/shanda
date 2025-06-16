@@ -1,5 +1,5 @@
-import { BadRequestException, Controller, Get, HttpStatus, Param, Query } from '@nestjs/common';
-import { VehicleDto, VehicleRequest } from '../dto/vehicle.dto';
+import { BadRequestException, Controller, Get, HttpStatus, Param } from '@nestjs/common';
+import { VehicleDto } from '../dto/vehicle.dto';
 import { BaseController } from 'src/mvc/base/base.controller';
 import { VehicleHandler } from '../handlers/vehicle.handler';
 import { VehicleResponse, VehicleListResponse, VehicleInformationResponse, InvalidVehicleVinResponse } from '../entities/vehicle-response.entities';
@@ -8,9 +8,12 @@ import { VehicleInfoDto } from '../dto/vehicle-info.dto';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { INVALID_VIN, VIN_NOT_FOUND } from 'src/constants';
 import { API_DESCRIPTION_VIN_LOOKUP } from 'src/api-constants';
+import { ApplyCrudApiResponses } from 'src/utils/misc.utils';
+import { UpdateVehicleRequest, VehicleRequest } from '../entities/vehicle-request.entities';
 
-@ApiTags('Vehicles')
 @Controller('vehicles')
+@ApiTags('Vehicles')
+@ApplyCrudApiResponses<VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse>(VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse)
 export class VehiclesController extends BaseController<VehicleHandler, VehicleRequest, VehicleDto, VehicleResponse, VehicleListResponse> {
 
   constructor(handler: VehicleHandler) { super(handler); }
@@ -22,7 +25,7 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
   @ApiParam({ name: 'vin', example: 'WP1AA2A25DLA12497' })
   @ApiTags('garage')
   @Get('/vin/:vin')
-  async vinLookup(@Param('vin') vin: string): Promise<any | VehicleInformationResponse | ErrorResponse> {
+  async vinLookup(@Param('vin') vin: string): Promise<VehicleInformationResponse | ErrorResponse> {
     try {
       if (!this.handler.isVinValid(vin)) {
         throw new BadRequestException();
@@ -50,13 +53,14 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
       return new VehicleInfoDto(dto);
     }
   }
+
   createDtoFromRequest(request: VehicleRequest): VehicleDto {
-    throw new Error('Method not implemented.');
+    return new VehicleDto(request);
   }
-  createResponseFromDto(dto: VehicleDto): VehicleResponse {
-    throw new Error('Method not implemented.');
+  createResponseFromDto(dto: any): VehicleResponse {
+    return new VehicleResponse(dto);
   }
   createResponseList(list: VehicleDto[], total: number): VehicleListResponse {
-    throw new Error('Method not implemented.');
+    return new VehicleListResponse(list.map((item) => item.info), total);
   }
 }

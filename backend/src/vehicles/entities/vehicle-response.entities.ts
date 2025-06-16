@@ -7,6 +7,9 @@ import { HttpStatus } from "@nestjs/common";
 
 @ApiSchema()
 export class VehicleResponse extends Response<VehicleDto> {
+  @ApiProperty({ type: VehicleDto })
+  data;
+
   constructor(data: VehicleDto) {
     super(data);
   }
