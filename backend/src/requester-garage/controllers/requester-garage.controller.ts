@@ -13,8 +13,10 @@ import { ErrorResponse, Response } from 'src/mvc/base/http/entities';
 import { VehicleExistsInAnotherGarageResponse } from 'src/vehicles/entities/vehicle-response.entities';
 import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
 import { DEFAULT_RESULT_PAGE, DEFAULT_RESULT_SIZE } from 'src/constants';
+import { ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('requester-garage')
+@Controller('requester/garage')
+@ApiTags('garage')
 export class RequesterGarageController extends BaseController<RequesterGarageHandler, AddVehicleToGarageRequest, RequesterGarageDto, RequesterGarageResponse, RequesterGarageListResponse> {
 
   constructor(
@@ -23,7 +25,15 @@ export class RequesterGarageController extends BaseController<RequesterGarageHan
     private readonly requesterHandler: ProfileHandler,
   ) { super(handler); }
 
-  // create a controller method "addToMyGarage" that accepts the AddVehicleToGarageRequest, checks if the vehicle currently belongs in another garage and if it does not exist in another user's garage, add the vehicle to the current user's garage
+  @ApiOperation({
+    summary: 'Adds a vehicle to your garage if it\'s available',
+    description: 'Add a vehicle to your garage. It will not be added if it exists in another garage.',
+    operationId: 'addVehicleToMyGarage'
+  })
+  @ApiBody({ type: AddVehicleToGarageRequest, description: 'Add vehicle to garage request' })
+  @ApiOkResponse({ description: 'A boolean response if the operation was a success.' })
+  @ApiBadRequestResponse({ description: 'Specifies that the vehicle exists.' })
+  @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Specifies that the vehicle exists.' })
   @Post('/addVehicle')
   async addToMyGarage(@Body() vehicleReq: AddVehicleToGarageRequest, @Req() req: Request): Promise<Response<boolean> | ErrorResponse> {
     try {
@@ -48,7 +58,13 @@ export class RequesterGarageController extends BaseController<RequesterGarageHan
     }
   }
 
-  @Get('')
+  @ApiOperation({ summary: 'Get your garage and the vehicles in it.', description: 'Get your garage and the vehicles in it.', operationId: 'getMyGarage'
+  })
+  @ApiResponse({ type: RequesterGarageResponse, description: 'Get your garage.' })
+  @ApiNotFoundResponse({ description: 'Something occurred and could not find garage.' })
+  @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Something failed along the way.' })
+  @Get('/')
+  @ApiTags('something')
   async getMyGarage(@Req() req: Request): Promise<RequesterGarageResponse | ErrorResponse> {
     try {
       const user: UserAndProfileIdsDto = extractUserFromRequest(req);

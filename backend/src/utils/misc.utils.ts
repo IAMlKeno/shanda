@@ -91,7 +91,7 @@ export function ApplyApiUpdateDecorators<T, R>(entityType: Type<T>, responseType
   );
 }
 export function ApplyApiListDecorators<T>(entityType: Type<T>) {
-  console.log(`APPLY LIST DECORATORS: ${entityType}`);
+  // console.log(`APPLY LIST DECORATORS: ${entityType}`);
   return applyDecorators(
     ApiOkResponse({
       type: entityType,
@@ -100,7 +100,7 @@ export function ApplyApiListDecorators<T>(entityType: Type<T>) {
   );
 }
 export function ApplyApiFoundDecorators<T>(entityType: Type<T>) {
-  console.log(`APPLY LIST DECORATORS: ${entityType}`);
+  // console.log(`APPLY LIST DECORATORS: ${entityType}`);
   return applyDecorators(
     ApiFoundResponse({
       type: entityType,
@@ -131,7 +131,7 @@ export function ApplyCrudApiResponses<RequestBodyType, UpdateRequestBodyType, Re
 
       const descriptor = Object.getOwnPropertyDescriptor(BaseController.prototype, key);
       if (descriptor && typeof descriptor.value === 'function') {
-        console.log(key);
+        // console.log(key);
         switch (key) {
           case 'create':
             ApplyApiCreateDecorators<RequestBodyType, ResponseType>(requestType, responseType)(target.prototype, key, descriptor);

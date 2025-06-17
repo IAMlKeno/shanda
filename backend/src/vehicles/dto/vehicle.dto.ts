@@ -8,7 +8,16 @@ export class VehicleDto {
   id?: string;
   @ApiProperty()
   vin: string;
-  @ApiProperty()
+  @ApiProperty({
+    example: {
+      make: "Toyotya",
+      trim: "LE",
+      year: 2020,
+      color: "red",
+      model: "Corolla",
+      mileage: 50000
+    }
+  })
   vehicleInformation: object;
   @ApiProperty()
   garageId?: string;

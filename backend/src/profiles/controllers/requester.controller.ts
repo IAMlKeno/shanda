@@ -73,18 +73,6 @@ export class RequesterController {
     return this.garageHandler.create(new RequesterGarageDto({ id: undefined }), transactionHost);
   }
 
-  @Get('garage')
-  async getMyGarage(@Req() req: Request): Promise<RequesterGarageResponse> {
-    try {
-      const user: UserAndProfileIdsDto = extractUserFromRequest(req);
-      const response = await this.profileHandler.requesterService.getMyGarage(user.id);
-
-      return new RequesterGarageResponse(new RequesterGarageDto(response.info));
-    } catch (error: any) {
-      return new ErrorResponse(error);
-    }
-  }
-
   // @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Create a request for the user ', operationId: 'createRequest'})
   @ApiResponse({ status: HttpStatus.CREATED, description: 'Request created', type: RequestResponse })

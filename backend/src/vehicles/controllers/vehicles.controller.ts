@@ -5,7 +5,7 @@ import { VehicleHandler } from '../handlers/vehicle.handler';
 import { VehicleResponse, VehicleListResponse, VehicleInformationResponse, InvalidVehicleVinResponse } from '../entities/vehicle-response.entities';
 import { ErrorResponse, Response } from 'src/mvc/base/http/entities';
 import { VehicleInfoDto } from '../dto/vehicle-info.dto';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { INVALID_VIN, OPERATION_NOT_ALLOWED, VIN_NOT_FOUND } from 'src/constants';
 import { API_DESCRIPTION_VIN_LOOKUP } from 'src/api-constants';
 import { ApplyCrudApiResponses, extractUserFromRequest, isUserAdmin } from 'src/utils/misc.utils';
@@ -15,11 +15,19 @@ import { Request } from 'express';
 
 @Controller('vehicles')
 @ApiTags('Vehicles')
-@ApplyCrudApiResponses<VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse>(VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse)
+// @ApplyCrudApiResponses<VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse>(VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse)
 export class VehiclesController extends BaseController<VehicleHandler, VehicleRequest, VehicleDto, VehicleResponse, VehicleListResponse> {
 
   constructor(handler: VehicleHandler) { super(handler); }
 
+  @ApiOperation({ summary: 'Creates a new vehicle.', description: 'Creates a new vehicle.', operationId: 'addVehicleToMyGarage' })
+  @ApiBody({
+    type: VehicleRequest,
+    description: 'Adds a new vehicle',
+  })
+  @ApiCreatedResponse({ type: VehicleResponse, description: 'Successfully created the vehicle.' })
+  @ApiBadRequestResponse({ description: 'Unable to complete the request, the vehicle may exist.' })
+  @ApiInternalServerErrorResponse({ description: 'Failed to create the vehicle.' })
   @Post('/')
   async create(@Body() body: VehicleRequest): Promise<VehicleResponse | ErrorResponse> {
     try {
@@ -66,7 +74,11 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
     }
   }
 
+  @ApiOperation({ summary: 'Remove a vehicle from your garage', description: 'Remove a vehicle from your garage', operationId: 'removeFromGarage' })
+  @ApiOkResponse({ description: 'A boolean response if the operation was a success.' })
+  @ApiInternalServerErrorResponse({ description: 'Failed to remove the vehicle.' })
   @Patch('/removeFromGarage/:vin')
+  @ApiTags('garage')
   async removeFromGarage(@Param('vin') vin: string, @Req() req: Request): Promise<Response<boolean> | ErrorResponse> {
     try {
       const user: UserAndProfileIdsDto = extractUserFromRequest(req);
