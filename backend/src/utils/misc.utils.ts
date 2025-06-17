@@ -150,3 +150,7 @@ export function ApplyCrudApiResponses<RequestBodyType, UpdateRequestBodyType, Re
     }
   };
 }
+
+export function isUserAdmin(userId: string): boolean {
+  return true;
+}

@@ -2,7 +2,7 @@ import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { ErrorResponse, ListResponse, Response } from "src/mvc/base/http/entities";
 import { VehicleDto } from "../dto/vehicle.dto";
 import { VehicleInfoDto } from "../dto/vehicle-info.dto";
-import { INVALID_VIN } from "src/constants";
+import { EXISTS_IN_ANOTHER_GARAGE, INVALID_VIN } from "src/constants";
 import { HttpStatus } from "@nestjs/common";
 
 @ApiSchema()
@@ -28,6 +28,12 @@ export class VehicleInformationResponse extends Response<VehicleInfoDto> {
 export class InvalidVehicleVinResponse extends ErrorResponse {
   constructor() {
     super(INVALID_VIN, HttpStatus.BAD_REQUEST);
+  }
+}
+@ApiSchema()
+export class VehicleExistsInAnotherGarageResponse extends ErrorResponse {
+  constructor() {
+    super(EXISTS_IN_ANOTHER_GARAGE, HttpStatus.BAD_REQUEST);
   }
 }
 

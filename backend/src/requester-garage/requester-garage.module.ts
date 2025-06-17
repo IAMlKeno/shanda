@@ -7,6 +7,7 @@ import { RequesterGarageHandler } from './handlers/requester-garage.handler';
 import { VehicleHandler } from 'src/vehicles/handlers/vehicle.handler';
 import { VehiclesModule } from 'src/vehicles/vehicles.module';
 import { VehiclesService } from 'src/vehicles/services/vehicles.service';
+import { ProfilesModule } from 'src/profiles/profiles.module';
 
 @Module({
   controllers: [RequesterGarageController],
@@ -19,6 +20,7 @@ import { VehiclesService } from 'src/vehicles/services/vehicles.service';
   imports: [
     SequelizeModule.forFeature([vehicleGarage]),
     forwardRef(() => VehiclesModule),
+    forwardRef(() => ProfilesModule),
   ],
   exports: [
     SequelizeModule,

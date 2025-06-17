@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { BaseDbService } from 'src/mvc/base/data/base.service';
 import { vehicleGarage as Garage } from 'src/mvc/models';
 import { RequesterGarageDto } from '../dto/requester-garage.dto';
@@ -24,6 +24,14 @@ export class RequesterGarageService extends BaseDbService<Garage, RequesterGarag
 
   async getVehiclesByGarageId(id: string) {
     return this.vehicleHandler.getAll(1, 20, [{ garageId: id }]);
+  }
+
+  async addToGarage(userId: string, vehicle: string): Promise<boolean> {
+    throw new NotImplementedException();
+  }
+
+  async getGarageByUserId(userId: string): Promise<string> {
+    throw new NotImplementedException();
   }
 
   mapToDto(model: Garage): RequesterGarageDto {

@@ -14,5 +14,6 @@ export class RequesterGarageDto {
     this.info = {
       id: row.id,
     };
+    this.vehicles = row.vehicles;
   }
 }

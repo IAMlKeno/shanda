@@ -25,4 +25,4 @@ export class VehicleDto {
     };
   }
 }
-export interface VehicleRequest extends Vehicle {}
+// export interface VehicleRequest extends Vehicle {}

@@ -4,7 +4,6 @@ import { RequesterGarageDto } from "../dto/requester-garage.dto";
 import { RequesterGarageService } from "../services/requester-garage.service";
 import { Injectable } from "@nestjs/common";
 import { VehicleDto } from "src/vehicles/dto/vehicle.dto";
-import { NOT_IMPLEMENTED } from "src/constants";
 
 @Injectable()
 export class RequesterGarageHandler extends BaseHandler<RequesterGarageService, RequesterGarageDto> implements IBaseHandler<RequesterGarageDto> {
@@ -13,8 +12,12 @@ export class RequesterGarageHandler extends BaseHandler<RequesterGarageService, 
     super(dbService);
   }
 
-  async getGarageByUserId(userId: string) {
-    throw new Error(NOT_IMPLEMENTED);
+  async addToGarage(garageId: string, vehicle: VehicleDto): Promise<boolean> {
+    return await this.dbService.addToGarage(garageId, vehicle.vin)
+  }
+
+  async getGarageByUserId(userId: string): Promise<string | undefined> {
+    return await this.dbService.getGarageByUserId(userId);
   }
 
   async getGarageById(id: string): Promise<RequesterGarageDto> {

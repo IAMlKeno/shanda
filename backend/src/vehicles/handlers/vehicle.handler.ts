@@ -11,6 +11,10 @@ export class VehicleHandler extends BaseHandler<VehiclesService, VehicleDto> {
     return await this.dbService.externalVinLookup(vin);
   }
 
+  async getShandaVehicleByVin(vin: string): Promise<VehicleDto> {
+    return await this.dbService.getCustom([{ "vin": vin }]);
+  }
+
   isVinValid(vin: string): boolean {
     return this.dbService.isVinValid(vin);
   }
