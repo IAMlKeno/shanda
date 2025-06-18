@@ -13,6 +13,8 @@ import { MaintenanceLogHandler } from './handlers/maintenance-log.handler';
   ],
   exports: [
     SequelizeModule,
+    MaintenanceLogHandler,
+    MaintenanceLogService,
   ],
 })
 export class MaintenanceLogModule {}

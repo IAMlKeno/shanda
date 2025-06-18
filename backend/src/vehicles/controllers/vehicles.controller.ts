@@ -12,13 +12,21 @@ import { ApplyCrudApiResponses, extractUserFromRequest, isUserAdmin } from 'src/
 import { UpdateVehicleRequest, VehicleRequest } from '../entities/vehicle-request.entities';
 import { UserAndProfileIdsDto } from 'src/users/dto/user.dto';
 import { Request } from 'express';
+import { MaintenanceLogHandler } from 'src/maintenance-log/handlers/maintenance-log.handler';
+import { Sequelize } from 'sequelize-typescript';
+import { Transaction } from 'sequelize';
+import { VehicleLogDto } from 'src/maintenance-log/dto/maintenance-log.dto';
 
 @Controller('vehicles')
 @ApiTags('Vehicles')
 // @ApplyCrudApiResponses<VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse>(VehicleRequest, UpdateVehicleRequest, VehicleResponse, VehicleListResponse)
 export class VehiclesController extends BaseController<VehicleHandler, VehicleRequest, VehicleDto, VehicleResponse, VehicleListResponse> {
 
-  constructor(handler: VehicleHandler) { super(handler); }
+  constructor(
+    handler: VehicleHandler,
+    private readonly maintenanceLogHandler: MaintenanceLogHandler,
+    private sequelize: Sequelize,
+  ) { super(handler); }
 
   @ApiOperation({ summary: 'Creates a new vehicle.', description: 'Creates a new vehicle.', operationId: 'addVehicleToMyGarage' })
   @ApiBody({
@@ -32,13 +40,19 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
   async create(@Body() body: VehicleRequest): Promise<VehicleResponse | ErrorResponse> {
     try {
       const dto: VehicleDto = this.createDtoFromRequest(body);
-      const isAlreadyExists: boolean = Boolean(this.handler.getShandaVehicleByVin(dto.info.vin));
+      const isAlreadyExists: boolean = Boolean(await this.handler.getShandaVehicleByVin(dto.info.vin));
       if (isAlreadyExists) {
         return new ErrorResponse('Already exists', HttpStatus.BAD_REQUEST);
       }
 
-      const item: VehicleDto = await this.handler.create(dto);
-      const response: VehicleResponse = this.createResponseFromDto(item);
+
+      // get user, if its not admin, add garageid
+      const response = await this.sequelize.transaction(async (t: Transaction) => {
+        const createdLog: VehicleLogDto = await this.maintenanceLogHandler.create(new VehicleLogDto({}))
+        dto.info.vehicleLog = createdLog.info.id;
+        const item: VehicleDto = await this.handler.create(dto, t);
+        return this.createResponseFromDto(item);
+      })
       response.statusCode = HttpStatus.CREATED;
       return response;
     } catch (error: any) {

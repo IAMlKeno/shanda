@@ -1,10 +1,13 @@
 import { maintenanceLogAttributes as Log } from "src/mvc/models";
 
 export class VehicleLogDto {
-  request: VehicleLogType;
+  info: VehicleLogType;
 
   constructor(row: any) {
-    this.request = row as Log;
+    this.info = {
+      id: row.id,
+      details: row.details,
+    }
   }
 }
 export interface VehicleLogType extends Log {}

@@ -16,7 +16,7 @@ export class MaintenanceLogController extends BaseController<MaintenanceLogHandl
     return new MaintenanceLogResponse(dto);
   }
   createResponseList(list: VehicleLogDto[], total: number): MaintenanceLogListResponse {
-    return new MaintenanceLogListResponse(list.map((log) => log.request), total);
+    return new MaintenanceLogListResponse(list.map((log) => log.info), total);
   }
   
 }
