@@ -36,6 +36,7 @@ export const formDtoMap: Record<string, { formProperties?: {}, formFields: formA
       { name: 'color', type:'select', additionalParams: { label: 'Color', options: [ ['black', 'Black'], ['red', 'Red'] ] } },
       { name: 'model', type:'select', additionalParams: { label: 'Model' } },
       { name: 'mileage', type:'input', additionalParams: { label: 'Mileage' } },
+      { name: 'vin', type:'input', additionalParams: { label: 'VIN' } },
     ]
   },
   // ... other form types and DTOs
