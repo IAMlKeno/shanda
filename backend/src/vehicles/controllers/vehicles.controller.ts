@@ -16,6 +16,7 @@ import { MaintenanceLogHandler } from 'src/maintenance-log/handlers/maintenance-
 import { Sequelize } from 'sequelize-typescript';
 import { Transaction } from 'sequelize';
 import { VehicleLogDto } from 'src/maintenance-log/dto/maintenance-log.dto';
+import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
 
 @Controller('vehicles')
 @ApiTags('Vehicles')
@@ -25,6 +26,7 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
   constructor(
     handler: VehicleHandler,
     private readonly maintenanceLogHandler: MaintenanceLogHandler,
+    private readonly profileHandler: ProfileHandler,
     private sequelize: Sequelize,
   ) { super(handler); }
 
@@ -37,8 +39,9 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
   @ApiBadRequestResponse({ description: 'Unable to complete the request, the vehicle may exist.' })
   @ApiInternalServerErrorResponse({ description: 'Failed to create the vehicle.' })
   @Post('/')
-  async create(@Body() body: VehicleRequest): Promise<VehicleResponse | ErrorResponse> {
+  async create(@Body() body: VehicleRequest, @Req() req: Request): Promise<VehicleResponse | ErrorResponse> {
     try {
+      const user: UserAndProfileIdsDto = extractUserFromRequest(req);
       const dto: VehicleDto = this.createDtoFromRequest(body);
       const isAlreadyExists: boolean = Boolean(await this.handler.getShandaVehicleByVin(dto.info.vin));
       if (isAlreadyExists) {
@@ -46,7 +49,8 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
       }
 
 
-      // get user, if its not admin, add garageid
+      // Get user, if its not admin, add garageid
+      dto.info.garageId = (await this.profileHandler.requesterService.getMyGarage(user.id)).info.id;
       const response = await this.sequelize.transaction(async (t: Transaction) => {
         const createdLog: VehicleLogDto = await this.maintenanceLogHandler.create(new VehicleLogDto({}))
         dto.info.vehicleLog = createdLog.info.id;

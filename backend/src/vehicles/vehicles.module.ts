@@ -5,6 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { vehicle } from 'src/mvc/models';
 import { VehicleHandler } from './handlers/vehicle.handler';
 import { MaintenanceLogModule } from 'src/maintenance-log/maintenance-log.module';
+import { ProfilesModule } from 'src/profiles/profiles.module';
 
 @Module({
   controllers: [VehiclesController],
@@ -12,6 +13,7 @@ import { MaintenanceLogModule } from 'src/maintenance-log/maintenance-log.module
   imports: [
     SequelizeModule.forFeature([vehicle]),
     forwardRef(() => MaintenanceLogModule),
+    forwardRef(() => ProfilesModule),
   ],
   exports: [
     SequelizeModule,

@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Query, Req, HttpStatus } from '@nestjs/common';
 import { ErrorResponse } from './http/entities';
+import { Request } from 'express';
 
 @Controller('base')
 export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, RequestType, DtoType extends object, ResponseType, ListResponseType> {
@@ -16,7 +17,7 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
   abstract createResponseList(list: Array<DtoType>, total: number): ListResponseType;
 
   @Post('/')
-  async create(@Body() body: RequestType): Promise<ResponseType | ErrorResponse> {
+  async create(@Body() body: RequestType, @Req() req?: Request): Promise<ResponseType | ErrorResponse> {
     try {
       const dto: DtoType = this.createDtoFromRequest(body);
       const item: DtoType = await this.handler.create(dto);
