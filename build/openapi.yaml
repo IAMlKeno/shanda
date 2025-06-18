@@ -167,6 +167,221 @@
         ]
       }
     },
+    "/vehicles": {
+      "post": {
+        "description": "Creates a new vehicle.",
+        "operationId": "addVehicle",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Adds a new vehicle",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehicleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created the vehicle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to complete the request, the vehicle may exist."
+          },
+          "500": {
+            "description": "Failed to create the vehicle."
+          }
+        },
+        "summary": "Creates a new vehicle.",
+        "tags": [
+          "Vehicles"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteVehicles",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      },
+      "get": {
+        "operationId": "getAllVehicles",
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "size",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      }
+    },
+    "/vehicles/vin/{vin}": {
+      "get": {
+        "operationId": "vinLookup",
+        "parameters": [
+          {
+            "name": "vin",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "WP1AA2A25DLA12497",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Vehicle Information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VehicleInformationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The entered VIN is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidVehicleVinResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed to find any vehicle information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "After validating the entered VIN, it lookup the vehicle in the Shanda DB, before attempting to check external sources.",
+        "tags": [
+          "Vehicles",
+          "garage"
+        ]
+      }
+    },
+    "/vehicles/removeFromGarage/{vin}": {
+      "patch": {
+        "description": "Remove a vehicle from your garage",
+        "operationId": "removeFromGarage",
+        "parameters": [
+          {
+            "name": "vin",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A boolean response if the operation was a success."
+          },
+          "500": {
+            "description": "Failed to remove the vehicle."
+          }
+        },
+        "summary": "Remove a vehicle from your garage",
+        "tags": [
+          "Vehicles",
+          "garage"
+        ]
+      }
+    },
+    "/vehicles/{id}": {
+      "get": {
+        "operationId": "getVehicles",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      },
+      "patch": {
+        "operationId": "updateVehicles",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Vehicles"
+        ]
+      }
+    },
     "/users/me": {
       "get": {
         "operationId": "loadUser",
@@ -204,49 +419,58 @@
         },
         "summary": "Get the successfully authenticated user and profiles.",
         "tags": [
-          "Users"
+          "users"
         ]
       }
     },
-    "/users/requester": {
-      "get": {
-        "operationId": "getRequesterProfileUsers",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
+    "/users/profile": {
+      "post": {
+        "operationId": "updateDefaultProfile",
+        "parameters": [
+          {
+            "name": "user-token",
+            "in": "header",
+            "description": "User auth token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserProfileUpdateRequest"
+              }
+            }
           }
         },
-        "tags": [
-          "Users"
-        ]
-      }
-    },
-    "/users/provider": {
-      "get": {
-        "operationId": "getProviderProfileUsers",
-        "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "True or false of whether the account successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "The account failed to udpate and something went wrong.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
+        "summary": "Update the last profile the user user.",
         "tags": [
-          "Users"
-        ]
-      }
-    },
-    "/users/owner": {
-      "get": {
-        "operationId": "getOwnerProfileUsers",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Users"
+          "users"
         ]
       }
     },
@@ -260,7 +484,7 @@
           }
         },
         "tags": [
-          "Users"
+          "users"
         ]
       },
       "get": {
@@ -297,7 +521,7 @@
           }
         },
         "tags": [
-          "Users"
+          "users"
         ]
       }
     },
@@ -320,7 +544,7 @@
           }
         },
         "tags": [
-          "Users"
+          "users"
         ]
       },
       "patch": {
@@ -341,7 +565,7 @@
           }
         },
         "tags": [
-          "Users"
+          "users"
         ]
       }
     },
@@ -396,17 +620,36 @@
         ]
       }
     },
-    "/profiles/requester/garage": {
+    "/profiles/requester": {
       "get": {
-        "operationId": "getMyGarageRequester",
+        "operationId": "getMyRequesterProfile",
         "parameters": [],
         "responses": {
-          "200": {
-            "description": ""
+          "302": {
+            "description": "Profile found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequesterProfileResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed to locate requester profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
+        "summary": "Get requesters profile",
         "tags": [
-          "profiles"
+          "profiles",
+          "profiles/requester"
         ]
       }
     },
@@ -707,19 +950,106 @@
         ]
       }
     },
-    "/requester-garage": {
-      "post": {
-        "operationId": "createRequestergarage",
+    "/profiles/provider": {
+      "get": {
+        "operationId": "getMyProviderProfile",
         "parameters": [],
         "responses": {
-          "201": {
-            "description": ""
+          "302": {
+            "description": "Profile found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderProfileResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed to locate provider profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         },
+        "summary": "Get provider's profile",
         "tags": [
-          "RequesterGarage"
+          "profiles",
+          "profiles/provider"
         ]
-      },
+      }
+    },
+    "/profiles/owner": {
+      "get": {
+        "operationId": "getMyOwnerProfile",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Profile found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GarageOwnerProfileResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Failed to locate owner profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get garage owners profile",
+        "tags": [
+          "profiles",
+          "profiles/owner"
+        ]
+      }
+    },
+    "/requester/garage/addVehicle": {
+      "post": {
+        "description": "Add a vehicle to your garage. It will not be added if it exists in another garage.",
+        "operationId": "addVehicleToMyGarage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Add vehicle to garage request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddVehicleToGarageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A boolean response if the operation was a success."
+          },
+          "400": {
+            "description": "Specifies that the vehicle exists."
+          },
+          "500": {
+            "description": "Specifies that the vehicle exists."
+          }
+        },
+        "summary": "Adds a vehicle to your garage if it's available",
+        "tags": [
+          "garage"
+        ]
+      }
+    },
+    "/requester/garage": {
       "get": {
         "operationId": "getAllRequestergarage",
         "parameters": [
@@ -754,11 +1084,23 @@
           }
         },
         "tags": [
-          "RequesterGarage"
+          "garage"
+        ]
+      },
+      "post": {
+        "operationId": "createRequestergarage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "garage"
         ]
       }
     },
-    "/requester-garage/{id}": {
+    "/requester/garage/{id}": {
       "get": {
         "operationId": "getRequestergarage",
         "parameters": [
@@ -777,7 +1119,7 @@
           }
         },
         "tags": [
-          "RequesterGarage"
+          "garage"
         ]
       },
       "patch": {
@@ -798,13 +1140,13 @@
           }
         },
         "tags": [
-          "RequesterGarage"
+          "garage"
         ]
       }
     },
-    "/vehicles": {
+    "/maintenance-log": {
       "post": {
-        "operationId": "createVehicles",
+        "operationId": "createMaintenancelog",
         "parameters": [],
         "responses": {
           "201": {
@@ -812,11 +1154,11 @@
           }
         },
         "tags": [
-          "Vehicles"
+          "MaintenanceLog"
         ]
       },
       "get": {
-        "operationId": "getAllVehicles",
+        "operationId": "getAllMaintenancelog",
         "parameters": [
           {
             "name": "page",
@@ -849,13 +1191,13 @@
           }
         },
         "tags": [
-          "Vehicles"
+          "MaintenanceLog"
         ]
       }
     },
-    "/vehicles/{id}": {
+    "/maintenance-log/{id}": {
       "get": {
-        "operationId": "getVehicles",
+        "operationId": "getMaintenancelog",
         "parameters": [
           {
             "name": "id",
@@ -872,11 +1214,11 @@
           }
         },
         "tags": [
-          "Vehicles"
+          "MaintenanceLog"
         ]
       },
       "patch": {
-        "operationId": "updateVehicles",
+        "operationId": "updateMaintenancelog",
         "parameters": [
           {
             "name": "id",
@@ -893,7 +1235,7 @@
           }
         },
         "tags": [
-          "Vehicles"
+          "MaintenanceLog"
         ]
       }
     },
@@ -1372,101 +1714,6 @@
         ]
       }
     },
-    "/maintenance-log": {
-      "post": {
-        "operationId": "createMaintenancelog",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "MaintenanceLog"
-        ]
-      },
-      "get": {
-        "operationId": "getAllMaintenancelog",
-        "parameters": [
-          {
-            "name": "page",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "size",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "query",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "MaintenanceLog"
-        ]
-      }
-    },
-    "/maintenance-log/{id}": {
-      "get": {
-        "operationId": "getMaintenancelog",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "MaintenanceLog"
-        ]
-      },
-      "patch": {
-        "operationId": "updateMaintenancelog",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "MaintenanceLog"
-        ]
-      }
-    },
     "/auth/login": {
       "get": {
         "operationId": "loginAuth",
@@ -1625,7 +1872,135 @@
           "totalCount"
         ]
       },
-      "UserResponse": {
+      "VehicleRequest": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string"
+          },
+          "vehicleInformation": {
+            "type": "object",
+            "example": {
+              "make": "Toyotya",
+              "trim": "LE",
+              "year": 2020,
+              "color": "red",
+              "model": "Corolla",
+              "mileage": 50000
+            }
+          }
+        },
+        "description": "Vehicle request",
+        "required": [
+          "vin",
+          "vehicleInformation"
+        ]
+      },
+      "VehicleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "vin": {
+            "type": "string"
+          },
+          "vehicleInformation": {
+            "type": "object",
+            "example": {
+              "make": "Toyotya",
+              "trim": "LE",
+              "year": 2020,
+              "color": "red",
+              "model": "Corolla",
+              "mileage": 50000
+            }
+          },
+          "garageId": {
+            "type": "string"
+          },
+          "vehicleLog": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "vin",
+          "vehicleInformation",
+          "garageId",
+          "vehicleLog"
+        ]
+      },
+      "VehicleResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/VehicleDto"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data"
+        ]
+      },
+      "VehicleInfoDto": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string"
+          },
+          "make": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "trim": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          },
+          "additionalInformation": {
+            "type": "object"
+          },
+          "vehicleLog": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "vin",
+          "make",
+          "model",
+          "color",
+          "trim",
+          "year",
+          "additionalInformation",
+          "vehicleLog"
+        ]
+      },
+      "VehicleInformationResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/VehicleInfoDto"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data"
+        ]
+      },
+      "InvalidVehicleVinResponse": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -1633,11 +2008,113 @@
           },
           "data": {
             "type": "object"
+          },
+          "msg": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data",
+          "msg"
+        ]
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "me": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "requesterId": {
+                    "type": "string"
+                  },
+                  "providerId": {
+                    "type": "string"
+                  },
+                  "ownerId": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "contactInfoId": {
+                    "type": "string"
+                  },
+                  "lastprofileloaded": {
+                    "type": "string"
+                  },
+                  "contactInfo": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "profile": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/RequesterProfileDto"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ProviderProfileDto"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GarageOwnerProfileDto"
+                  }
+                ]
+              }
+            }
           }
         },
         "required": [
           "statusCode",
           "data"
+        ]
+      },
+      "PROFILE_TYPE": {
+        "type": "string",
+        "enum": [
+          "owner",
+          "provider",
+          "requester"
+        ]
+      },
+      "UserProfileUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "description": "The last profile type the user accessed. Can be undefined",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PROFILE_TYPE"
+              }
+            ]
+          }
+        },
+        "description": "Update the user default profile",
+        "required": [
+          "profile"
         ]
       },
       "ContactInformationCreateDto": {
@@ -1685,6 +2162,45 @@
           "lastName",
           "username",
           "contactInfo"
+        ]
+      },
+      "RequesterProfileDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The id of the user's Garage Owner profile"
+          },
+          "contactInfoId": {
+            "type": "string"
+          },
+          "garageId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "contactInfoId",
+          "garageId"
+        ]
+      },
+      "RequesterProfileResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RequesterProfileDto"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data"
         ]
       },
       "CreateRequest": {
@@ -1867,6 +2383,132 @@
           "data",
           "count",
           "totalCount"
+        ]
+      },
+      "ProviderProfileDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The id of the user's Garage Owner profile"
+          },
+          "companyId": {
+            "type": "string"
+          },
+          "contactInfoId": {
+            "type": "string",
+            "description": "The id for contact information"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "companyId",
+          "contactInfoId"
+        ]
+      },
+      "ProviderProfileResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProviderProfileDto"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data"
+        ]
+      },
+      "GarageOwnerProfileDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The id of the user's Garage Owner profile"
+          },
+          "garage": {
+            "type": "string"
+          },
+          "contactInfo": {
+            "type": "string",
+            "description": "The id for contact information"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "garage",
+          "contactInfo"
+        ]
+      },
+      "GarageOwnerProfileResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GarageOwnerProfileDto"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data"
+        ]
+      },
+      "AddVehicleToGarageRequest": {
+        "type": "object",
+        "properties": {
+          "vin": {
+            "type": "string"
+          }
+        },
+        "description": "Add vehicle by vin.",
+        "required": [
+          "vin"
+        ]
+      },
+      "RequesterGarageDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "vehicles": {
+            "description": "A group of vehicles in the garage.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "vehicles"
+        ]
+      },
+      "RequesterGarageResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RequesterGarageDto"
+          }
+        },
+        "required": [
+          "statusCode",
+          "data"
         ]
       }
     }
