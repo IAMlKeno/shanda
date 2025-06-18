@@ -64,7 +64,6 @@ export class RequesterGarageController extends BaseController<RequesterGarageHan
   @ApiNotFoundResponse({ description: 'Something occurred and could not find garage.' })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Something failed along the way.' })
   @Get('/')
-  @ApiTags('something')
   async getMyGarage(@Req() req: Request): Promise<RequesterGarageResponse | ErrorResponse> {
     try {
       const user: UserAndProfileIdsDto = extractUserFromRequest(req);

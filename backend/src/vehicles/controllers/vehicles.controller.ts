@@ -30,7 +30,7 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
     private sequelize: Sequelize,
   ) { super(handler); }
 
-  @ApiOperation({ summary: 'Creates a new vehicle.', description: 'Creates a new vehicle.', operationId: 'addVehicleToMyGarage' })
+  @ApiOperation({ summary: 'Creates a new vehicle.', description: 'Creates a new vehicle.', operationId: 'addVehicle' })
   @ApiBody({
     type: VehicleRequest,
     description: 'Adds a new vehicle',
