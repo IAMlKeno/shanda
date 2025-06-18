@@ -18,8 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "gen:spec": "npx swagger-cli bundle -o ../build/openapi.yaml http://localhost:4201/api-json",
-    "validate:spec": "npx swagger-cli validate http://localhost:4201/api-json",
+    "gen:spec": "npx swagger-cli bundle -o ../build/openapi.yaml http://localhost:4201/api-yaml",
+    "validate:spec": "npx swagger-cli validate http://localhost:4201/api-yaml",
     "build:typescript-node": "rm -f -r ../build/clients/ts-node-client/src && npx openapi-generator-cli generate -i ../build/openapi.yaml -g typescript-axios -o ../build/clients/ts-node-client --additional-properties withInterfaces=true,withNodeImports=true,withSeparateModelsAndApi=true,apiPackage=tags,modelPackage=models,npmName=@shanda/ts-node-client"
   },
   "dependencies": {
