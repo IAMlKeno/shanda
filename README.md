@@ -121,7 +121,8 @@ services:
 ## Local Development
 ### Running the application with docker compose
 
-1. In the root directory, use `docker compose up -d` to run the application. The `-d` flag prompts the services to run in detached mode.
+1. In the root directory, when first running the application use `docker compose build --build-arg BUILDPLATFORM=windows/amd64`
+2. After the build is complete, use `docker compose up -d` to run the application. The `-d` flag prompts the services to run in detached mode.
 
 ## Expected result
 
@@ -155,6 +156,6 @@ $ docker compose down
 3. Test registration
 
 
-docker compose up --build --build-arg BUILDPLATFORM=windows/amd64 --build-arg LOCAL=true
-docker compose up --build --build-arg BUILDPLATFORM=linux/arm64 --build-arg LOCAL=true
-docker compose up --build --build-arg BUILDPLATFORM=linux/amd64 --build-arg LOCAL=true
+docker compose build --build-arg BUILDPLATFORM=windows/amd64 --build-arg LOCAL=true
+docker compose build --build-arg BUILDPLATFORM=linux/arm64 --build-arg LOCAL=true
+docker compose build --build-arg BUILDPLATFORM=linux/amd64 --build-arg LOCAL=true
