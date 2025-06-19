@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Patch, Post, Req } from '@nestjs/common';
 import { BaseController } from 'src/mvc/base/base.controller';
 import { RequesterGarageHandler } from '../handlers/requester-garage.handler';
 import { RequesterGarageDto } from '../dto/requester-garage.dto';
@@ -12,8 +12,8 @@ import { VehicleDto } from 'src/vehicles/dto/vehicle.dto';
 import { ErrorResponse, Response } from 'src/mvc/base/http/entities';
 import { VehicleExistsInAnotherGarageResponse } from 'src/vehicles/entities/vehicle-response.entities';
 import { ProfileHandler } from 'src/profiles/handlers/profiles.handler';
-import { DEFAULT_RESULT_PAGE, DEFAULT_RESULT_SIZE } from 'src/constants';
-import { ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { DEFAULT_RESULT_PAGE, DEFAULT_RESULT_SIZE, OPERATION_NOT_ALLOWED } from 'src/constants';
+import { ApiBadRequestResponse, ApiBody, ApiExcludeEndpoint, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('requester/garage')
 @ApiTags('garage')
@@ -63,7 +63,7 @@ export class RequesterGarageController extends BaseController<RequesterGarageHan
   @ApiResponse({ type: RequesterGarageResponse, description: 'Get your garage.' })
   @ApiNotFoundResponse({ description: 'Something occurred and could not find garage.' })
   @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Something failed along the way.' })
-  @Get('/')
+  @Get('')
   async getMyGarage(@Req() req: Request): Promise<RequesterGarageResponse | ErrorResponse> {
     try {
       const user: UserAndProfileIdsDto = extractUserFromRequest(req);
@@ -74,6 +74,36 @@ export class RequesterGarageController extends BaseController<RequesterGarageHan
     } catch(error: any) {
       return new ErrorResponse('Failed to find garage', HttpStatus.NOT_FOUND);
     }
+  }
+
+  @ApiExcludeEndpoint()
+  @Post('')
+  async create() {
+    return new ErrorResponse(OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  @ApiExcludeEndpoint()
+  @Patch('')
+  async update(id: string, body: any) {
+    return new ErrorResponse(OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  @ApiExcludeEndpoint()
+  @Delete('')
+  delete() {
+    return new ErrorResponse(OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  @ApiExcludeEndpoint()
+  @Get('')
+  async get() {
+    return new ErrorResponse(OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  @ApiExcludeEndpoint()
+  @Get('')
+  async getAll(page: number, size: number, query: string, req: any) {
+    return new ErrorResponse(OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
   }
 
   private isAlreadyInAnotherGarage(vehicle: VehicleDto): boolean {

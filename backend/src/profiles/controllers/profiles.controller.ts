@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { ProfileHandler } from '../handlers/profiles.handler';
 
-@Controller('profiles')
+// @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profileHandler: ProfileHandler) {}
 

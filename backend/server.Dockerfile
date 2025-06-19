@@ -1,5 +1,6 @@
 FROM --platform=$BUILDPLATFORM node:22-bookworm-slim
 
+ENV ENV=local
 RUN apt-get update && apt-get install procps -y
 
 WORKDIR /app

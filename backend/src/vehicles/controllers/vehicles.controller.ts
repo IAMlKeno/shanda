@@ -5,7 +5,7 @@ import { VehicleHandler } from '../handlers/vehicle.handler';
 import { VehicleResponse, VehicleListResponse, VehicleInformationResponse, InvalidVehicleVinResponse } from '../entities/vehicle-response.entities';
 import { ErrorResponse, Response } from 'src/mvc/base/http/entities';
 import { VehicleInfoDto } from '../dto/vehicle-info.dto';
-import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiExcludeEndpoint, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { INVALID_VIN, OPERATION_NOT_ALLOWED, VIN_NOT_FOUND } from 'src/constants';
 import { API_DESCRIPTION_VIN_LOOKUP } from 'src/api-constants';
 import { ApplyCrudApiResponses, extractUserFromRequest, isUserAdmin } from 'src/utils/misc.utils';
@@ -105,7 +105,8 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
 
       if (!isUserAdmin(user.id)) {
         // is user current owner of the vehicle
-        if (!this.doesUserOwnVehicle(user.id, vin)) {
+        const garageId: string = (await this.profileHandler.requesterService.getMyGarage(user.id)).info.id;
+        if (!this.doesUserOwnVehicle(garageId, vin)) {
           return new Response<boolean>(false);
         }
       }
@@ -120,13 +121,26 @@ export class VehiclesController extends BaseController<VehicleHandler, VehicleRe
     }
   }
 
+  @ApiExcludeEndpoint()
   @Delete('')
   delete() {
     return new ErrorResponse(OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
   }
 
-  private async doesUserOwnVehicle(userId: string, vin: string): Promise<boolean> {
-    const v: any = await this.handler.getCustom([{ vin: vin, userId: userId}])
+  @ApiExcludeEndpoint()
+  @Get('')
+  async getAll(page: number, size: number, query: string, req: any) {
+    return new ErrorResponse(OPERATION_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED);
+  }
+
+  /**
+   * TODO: verify this works
+   * @param userId 
+   * @param vin 
+   * @returns 
+   */
+  private async doesUserOwnVehicle(garageId: string, vin: string): Promise<boolean> {
+    const v: any = await this.handler.getCustom([{ vin: vin, garageId: garageId }])
     return Boolean(v);
   }
 

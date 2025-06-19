@@ -29,14 +29,14 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
   }
 
   @Get('/:id')
-  async get(@Param('id') id: string): Promise<ResponseType | Error> {
+  async get(@Param('id') id: string): Promise<ResponseType | ErrorResponse> {
     try {
       const item: DtoType = await this.handler.get(id);
       const response: ResponseType = this.createResponseFromDto(item);
 
       return response;
     } catch (error) {
-      return new Error(error);
+      return new ErrorResponse(error);
     }
   }
 
@@ -46,7 +46,7 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
     @Query('size') size: number,
     @Query('query') query: string,
     @Req() req,
-  ): Promise<ListResponseType | Error> {
+  ): Promise<ListResponseType | ErrorResponse> {
     try {
       const params: any[] = this.convertQueryToArray(req.url);
       // probably need that second query to get all results?
@@ -55,7 +55,7 @@ export abstract class BaseController<HandlerType extends IBaseHandler<DtoType>, 
 
       return response;
     } catch (error) {
-      return new Error(error);
+      return new ErrorResponse(error);
     }
   }
 

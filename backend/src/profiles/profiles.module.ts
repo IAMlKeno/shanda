@@ -24,7 +24,7 @@ import { UsersModule } from 'src/users/users.module';
 
 @Module({
   controllers: [
-    ProfilesController,
+    // ProfilesController,
     RequesterController,
     ProviderController,
     GarageOwnerController,
@@ -61,9 +61,9 @@ import { UsersModule } from 'src/users/users.module';
   exports: [
     SequelizeModule,
     ProfileHandler,
-    RequesterController,
-    GarageOwnerController,
-    ProviderController,
+    // RequesterController,
+    // GarageOwnerController,
+    // ProviderController,
   ],
 })
 export class ProfilesModule {}

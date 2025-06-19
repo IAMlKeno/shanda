@@ -153,3 +153,8 @@ $ docker compose down
   a. Use with the /me endpoint
 2. Create acount mapping table for the ssoid
 3. Test registration
+
+
+docker compose up --build --build-arg BUILDPLATFORM=windows/amd64 --build-arg LOCAL=true
+docker compose up --build --build-arg BUILDPLATFORM=linux/arm64 --build-arg LOCAL=true
+docker compose up --build --build-arg BUILDPLATFORM=linux/amd64 --build-arg LOCAL=true
