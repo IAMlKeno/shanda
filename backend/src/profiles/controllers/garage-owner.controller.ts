@@ -8,7 +8,7 @@ import { ProfileHandler } from '../handlers/profiles.handler';
 import { Request } from 'express';
 import { PROFILE_TYPE } from 'src/mvc/enums/enum';
 
-@ApiTags('profiles')
+@ApiTags('Profiles')
 @Controller('profiles/owner')
 export class GarageOwnerController {
   constructor(

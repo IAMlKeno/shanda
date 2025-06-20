@@ -21,7 +21,7 @@ import { RequesterGarageDto } from 'src/requester-garage/dto/requester-garage.dt
 import { RequesterGarageResponse } from 'src/requester-garage/entities/requester-garage-response.entities';
 import { extractUserFromRequest } from 'src/utils/misc.utils';
 
-@ApiTags('profiles')
+@ApiTags('Profiles')
 @Controller('profiles/requester')
 export class RequesterController {
 

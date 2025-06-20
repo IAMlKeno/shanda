@@ -8,7 +8,7 @@ import { ProviderProfileDto } from '../dto/provider/provider.dto';
 import { Request } from 'express';
 import { PROFILE_TYPE } from 'src/mvc/enums/enum';
 
-@ApiTags('profiles')
+@ApiTags('Profiles')
 @Controller('profiles/provider')
 export class ProviderController {
   constructor(
