@@ -24,7 +24,7 @@ import { UsersModule } from 'src/users/users.module';
 
 @Module({
   controllers: [
-    // ProfilesController,
+    ProfilesController,
     RequesterController,
     ProviderController,
     GarageOwnerController,
