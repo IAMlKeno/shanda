@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiExcludeController } from "@nestjs/swagger";
 
+@ApiExcludeController()
 @Controller()
 export class AuthController {
   @UseGuards(AuthGuard('jwt'))

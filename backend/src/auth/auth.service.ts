@@ -22,7 +22,7 @@ export class AuthService extends PassportStrategy(Strategy) {
         jwksRequestsPerMinute: 5,
         jwksUri: `${process.env.AUTH0_ISSUER_URL}.well-known/jwks.json`,
       }),
-
+      ignoreExpiration: true,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       audience: process.env.AUTH0_AUDIENCE,
       issuer: `${process.env.AUTH0_ISSUER_URL}`,
@@ -30,16 +30,7 @@ export class AuthService extends PassportStrategy(Strategy) {
     });
   }
 
-  // async validateUser(username: string, pass: string): Promise<any> {
-  //   const user = await this.usersService.getUserByUsername(username);
-  //   if (user && user.password === pass) {
-  //     const { password, ...result } = user;
-  //     return result;
-  //   }
-  //   return null;
-  // }
-
-  validate(payload: unknown): unknown {
+  async validate(payload: unknown): Promise<unknown> {
     return payload;
   }
 }
